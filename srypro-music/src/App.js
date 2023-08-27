@@ -1,10 +1,11 @@
+
 import './App.css'
-import { AudioPlayer } from './components/AudioPlayer'
-import { NavMenu } from './components/NavMenu'
-import { SideBar } from './components/SideBar'
-import { TrackList } from './components/TrackList'
-import { Filter } from './components/Filter'
-import { Search } from './components/Search'
+import { AudioPlayer } from './components/AudioPlayer/AudioPlayer'
+import { NavMenu } from './components/NavMenu/NavMenu'
+import { SideBar } from './components/SideBar/SideBar'
+import { TrackList } from './components/TrackList/TrackList'
+import { Filter } from './components/Filter/Filter'
+import { Search } from './components/Search/Search'
 function App() {
   return (
         <div className="Wrapper">

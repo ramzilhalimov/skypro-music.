@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import './NavMenu.css'
 export function NavMenu(){
+
+  const [isOpen, setOpen] = useState();
   return(
     <nav className="Main__nav nav">
     <div className="Nav__logo logo">
@@ -9,12 +12,12 @@ export function NavMenu(){
         alt="logo"
       ></img>
     </div>
-    <div className="Nav__burger burger">
+    <div className="Nav__burger burger" onClick={()=> setOpen(!isOpen)}>
       <span className="Burger__line"></span>
       <span className="Burger__line"></span>
       <span className="Burger__line"></span>
     </div>
-    <div className="Nav__menu menu">
+    <div className={`Nav__menu menu" ${ isOpen ? "active" : ""}`}>
       <ul className="Menu__list">
         <li className="Menu__item">
           <a href="#" className="Menu__link">
