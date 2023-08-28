@@ -2,40 +2,77 @@ import { useState } from 'react'
 import './Filter.css'
 import { Tracks } from '../Tracks/Tracks'
 
- const genres = [ 'Рок', 'Хип-Хоп', 'Поп-музыка', 'Техно', 'Инди', 'Электроника',]
-export function Filter() {
-  // const [isOpen, setOpen] = useState()
- 
+export const Filter = () =>  {
+
+  const [isOpen, setOpen] = useState(false)
   const [value, setValue] = useState('');
 
-  // function handleMoreClick() {
-  //   setOpen(!isOpen)
-  // }
-const track = Tracks.map((track) => {
-   return <option key={track.index} value={track.author}>{track.author}</option>;
-});
+  const toggleOpen= () => setOpen(!isOpen);
 
-const genreTrack = genres.map((text, index) => {
-  return <option key={index} value={text}>{text}</option>;
-});
+
   return (
     <div className="Centerblock__filter filter">
       <div className="Filter__title">Искать по:</div>
-     <select name="исполнителю"className="Filter__button button-author _btn-text" value={value} onChange={(event) => setValue(event.target.value)}>
-     {track}
-     </select>
-      <select className="Filter__button button-year _btn-text">году выпуска
-      <option>1994</option>
-      <option>1989</option>
-      <option>1991</option>
-      <option>2001</option>
-      </select>
-      <select className="Filter__button button-genre _btn-text">жанру
-      value={value} onChange={(event) => setValue(event.target.value)}
-     {genreTrack}
-      </select>
+      <div
+        className="Filter__button button-author _btn-text"
+        onClick={() => {
+          toggleOpen();
+          setValue("author");
+        }}
+      >
+        исполнителю
+      </div>
+      {isOpen && value === "author" && (
+        <div className="Button_author">
+          <ul className="Button_filter">
+            {Tracks.map((track) => (
+              <li className="Button_filter_title" key={track.id}>
+                {track.author}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div
+        className="Filter__button button-year _btn-text"
+        onClick={() => {
+          toggleOpen();
+          setValue("year");
+        }}
+      >
+        году выпуска
+      </div>
+      {isOpen && value === "year" && (
+        <div className="Button_year">
+          <ul className="Button_filter">
+            {Tracks.map((track) => (
+              <li className="Button_filter_title" key={track.id}>
+                {track.year}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div
+        className="Filter__button button-genre _btn-text"
+        onClick={() => {
+          toggleOpen();
+          setValue("genre");
+        }}
+      >
+        жанру
+      </div>
+      {isOpen && value === "genre" && (
+        <div className="Button_genre">
+          <ul className="Button_filter">
+            {Tracks.map((track) => (
+              <li className="Button_filter_title" key={track.id}>
+                {track.genre}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
-    
-  )
-
-}
+  );
+};

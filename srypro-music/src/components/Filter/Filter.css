@@ -33,27 +33,85 @@
 .Filter__button:not(:last-child) {
   margin-right: 10px;
 }
+._btn-text:hover {
+  border-color: #d9b6ff;
+  color: #d9b6ff;
+  cursor: pointer;
+}
 
-.dropdown-content {
-  /* display: none; */
-  box-sizing: border-box;
-  position: absolute;
-  min-width: 300px;
-  border-bottom: 300px solid #383838;;
-  margin-top: 350px;
-  border-radius: 10px;
-  margin-left: 94px;
-  overflow: auto
+._btn-text:active {
+  border-color: #ad61ff;
+  color: #ad61ff;
+  cursor: pointer;
 }
-.dropdown-content.active {
-  transform: translateY(-350px);
+
+.Button_author {
+  width: 248px;
+  height: 305px;
+  position: fixed; top: 280px; left: 500px;
+  background-color: #313131;
+  padding: 34px;
+  border-radius: 12px;
 }
-.dropdown-content-year{
-   box-sizing: border-box;
-  position: absolute;
-  min-width: 300px;
-  border-bottom: 300px solid #383838;;
-  margin-top: 350px;
-  border-radius: 10px;
-  margin-left: 94px;
+.Button_year {
+  width: 248px;
+  height: 305px;
+  position: fixed; top: 280px; left: 650px;
+  background-color: #313131;
+  padding: 34px;
+  border-radius: 12px;
 }
+.Button_genre {
+  width: 248px;
+  height: 305px;
+  position: fixed; top: 280px; left: 800px;
+  background-color: #313131;
+  padding: 34px;
+  border-radius: 12px;
+}
+.Button_filter {
+  width: 180px;
+  height: 237px;
+  background-color: #313131;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: scroll;
+}
+
+.Button_filter::-webkit-scrollbar {
+  width: 5px;
+}
+
+.Button_filter::-webkit-scrollbar-track {
+  background-color: rgb(138, 133, 133);
+}
+
+.Button_filter::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.Button_filter_title {
+  display: inline-block;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+.Button_filter_title:after {
+  background-color: #9A48F1;
+  display: block;
+  content: "";
+  height: 2px;
+  width: 0%;
+}
+.Button_filter_title:hover:after,
+.Button_filter_title:focus:after {
+  width: 100%;
+}
+
+.Button_filter_title:hover {
+  border-color: #d9b6ff;
+  color: #d9b6ff;
+}
+
+
