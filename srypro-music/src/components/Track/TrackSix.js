@@ -1,7 +1,6 @@
 import './Track.css'
-export function Track(){
-  return(
-    <div className="Playlist__item">
+export function TrackSix() {
+  return (
     <div className="Playlist__track track">
       <div className="Track__title">
         <div className="Track__title-image">
@@ -11,27 +10,27 @@ export function Track(){
         </div>
         <div className="Track__title-text">
           <a className="Track__title-link" href="http://">
-            Guilt <span className="Track__title-span"></span>
+            Mucho Bien
+            <span className="Track__title-span">(Hi Profile Remix)</span>
           </a>
         </div>
       </div>
       <div className="Track__author">
         <a className="Track__author-link" href="http://">
-          Nero
+          HYBIT, Mr. Black, Offer Nissim, Hi Profile
         </a>
       </div>
       <div className="Track__album">
         <a className="Track__album-link" href="http://">
-          Welcome Reality
+          Mucho Bien
         </a>
       </div>
       <div className="Track__time">
         <svg className="Track__time-svg" alt="time">
           <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
         </svg>
-        <span className="Track__time-text">4:44</span>
+        <span className="Track__time-text">3:41</span>
       </div>
     </div>
-  </div>
   )
 }

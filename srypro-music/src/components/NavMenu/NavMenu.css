@@ -25,13 +25,18 @@
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .Nav__menu {
   display: block;
   visibility: visible;
+  margin-top: -270px;
+ 
 }
-
+.Nav__menu.active {
+  transform: translateY(270px);
+}
 .Logo__image {
   width: 113.33px;
   height: 17px;

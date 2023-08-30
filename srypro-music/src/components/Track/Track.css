@@ -1,8 +1,4 @@
-.Playlist__item {
-  width: 100%;
-  display: block;
-  margin-bottom: 12px;
-}
+
 
 .Playlist__track {
   display:-webkit-box;
