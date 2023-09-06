@@ -1,40 +1,124 @@
-import './App.css'
 import { AudioPlayer } from './components/AudioPlayer/AudioPlayer'
 import { NavMenu } from './components/NavMenu/NavMenu'
 import { SideBar } from './components/SideBar/SideBar'
 import { TrackList } from './components/TrackList/TrackList'
 import { Filter } from './components/Filter/Filter'
 import { Search } from './components/Search/Search'
+import * as S from './AppStyle'
+import { createGlobalStyle } from 'styled-components'
+
+const GlobalStyle = createGlobalStyle`
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  font-family: 'StratosSkyeng', sans-serif;
+  cursor: pointer;
+}
+
+button,
+._btn {
+  cursor: pointer;
+}
+
+ul li {
+  list-style: none;
+}
+
+@font-face {
+  font-family: 'StratosSkyeng';
+  src:
+    local('StratosSkyeng'),
+    local('StratosSkyeng'),
+    url('/public/fonts/StratosSkyeng.woff2') format('woff2'),
+    url('/public/fonts/StratosSkyeng.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+body {
+  width: 100%;
+  height: 100%;
+  font-family: 'StratosSkyeng', sans-serif;
+  color: #ffffff;
+}
+._btn-text:hover {
+  border-color: #d9b6ff;
+  color: #d9b6ff;
+  cursor: pointer;
+}
+
+._btn-icon:hover svg {
+  fill: transparent;
+  stroke: #acacac;
+  cursor: pointer;
+}
+
+._btn-text:active {
+  border-color: #ad61ff;
+  color: #ad61ff;
+  cursor: pointer;
+}
+
+._btn-icon:active svg {
+  fill: transparent;
+  stroke: #ffffff;
+  cursor: pointer;
+}
+
+._btn-icon:active .track-play__like-svg,
+._btn-icon:active .track-play__dislike-svg {
+  fill: #696969;
+  stroke: #ffffff;
+  cursor: pointer;
+}
+  }
+`
+
 function App() {
   return (
-    <div className="Wrapper">
-      <div className="Container">
-        <main className="Main">
+    <S.Wrapper>
+      <GlobalStyle />
+      <S.Container>
+        <S.Main>
           <NavMenu />
-          <div className="Main__centerblock centerblock">
+          <S.MainCenterblock>
             <Search />
-            <h2 className="Centerblock__h2">Треки</h2>
+            <S.CenterblockH2>Треки</S.CenterblockH2>
             <Filter />
-            <div className="Centerblock__content">
-              <div className="Content__title playlist-title">
-                <div className="Playlist-title__col col01">Трек</div>
-                <div className="Playlist-title__col col02">ИСПОЛНИТЕЛЬ</div>
-                <div className="Playlist-title__col col03">АЛЬБОМ</div>
-                <div className="Playlist-title__col col04">
-                  <svg className="Playlist-title__svg" alt="time">
+            <S.CenterblockContent>
+              <S.ContentTitle>
+                <S.PlaylistTitleCol01>Трек</S.PlaylistTitleCol01>
+                <S.PlaylistTitleCol02>ИСПОЛНИТЕЛЬ</S.PlaylistTitleCol02>
+                <S.PlaylistTitleCol03>АЛЬБОМ</S.PlaylistTitleCol03>
+                <S.PlaylistTitleCol04>
+                  <S.PlaylistTitleSvg alt="time">
                     <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
-                  </svg>
-                </div>
-              </div>
+                  </S.PlaylistTitleSvg>
+                </S.PlaylistTitleCol04>
+              </S.ContentTitle>
               <TrackList />
-            </div>
-          </div>
+            </S.CenterblockContent>
+          </S.MainCenterblock>
           <SideBar />
-        </main>
+        </S.Main>
         <AudioPlayer />
-        <footer className="Footer"></footer>
-      </div>
-    </div>
+        <S.Footer></S.Footer>
+      </S.Container>
+    </S.Wrapper>
   )
 }
 
