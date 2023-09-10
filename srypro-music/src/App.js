@@ -1,97 +1,102 @@
-import { AudioPlayer } from './components/AudioPlayer/AudioPlayer'
-import { NavMenu } from './components/NavMenu/NavMenu'
-import { SideBar } from './components/SideBar/SideBar'
-import { TrackList } from './components/TrackList/TrackList'
-import { Filter } from './components/Filter/Filter'
-import { Search } from './components/Search/Search'
-import * as S from './AppStyle'
-import { createGlobalStyle } from 'styled-components'
+// import { AudioPlayer } from './components/AudioPlayer/AudioPlayer'
+// import { NavMenu } from './components/NavMenu/NavMenu'
+// import { SideBar } from './components/SideBar/SideBar'
+// import { TrackList } from './components/TrackList/TrackList'
+// import { Filter } from './components/Filter/Filter'
+// import { Search } from './components/Search/Search'
+// import * as S from './AppStyle'
+// import { createGlobalStyle } from 'styled-components'
+// import { useState } from 'react'
+import { AppRoutes } from './routes'
+// const GlobalStyle = createGlobalStyle`
+// * {
+//   margin: 0;
+//   padding: 0;
+//   -webkit-box-sizing: border-box;
+//   box-sizing: border-box;
+// }
 
-const GlobalStyle = createGlobalStyle`
-* {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
+// *:before,
+// *:after {
+//   -webkit-box-sizing: border-box;
+//   box-sizing: border-box;
+// }
 
-*:before,
-*:after {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
+// a,
+// a:visited {
+//   text-decoration: none;
+//   font-family: 'StratosSkyeng', sans-serif;
+//   cursor: pointer;
+// }
 
-a,
-a:visited {
-  text-decoration: none;
-  font-family: 'StratosSkyeng', sans-serif;
-  cursor: pointer;
-}
+// button,
+// ._btn {
+//   cursor: pointer;
+// }
 
-button,
-._btn {
-  cursor: pointer;
-}
+// ul li {
+//   list-style: none;
+// }
 
-ul li {
-  list-style: none;
-}
+// @font-face {
+//   font-family: 'StratosSkyeng';
+//   src:
+//     local('StratosSkyeng'),
+//     local('StratosSkyeng'),
+//     url('/public/fonts/StratosSkyeng.woff2') format('woff2'),
+//     url('/public/fonts/StratosSkyeng.woff') format('woff');
+//   font-weight: 400;
+//   font-style: normal;
+// }
 
-@font-face {
-  font-family: 'StratosSkyeng';
-  src:
-    local('StratosSkyeng'),
-    local('StratosSkyeng'),
-    url('/public/fonts/StratosSkyeng.woff2') format('woff2'),
-    url('/public/fonts/StratosSkyeng.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-}
+// body {
+//   width: 100%;
+//   height: 100%;
+//   font-family: 'StratosSkyeng', sans-serif;
+//   color: #ffffff;
+// }
+// ._btn-text:hover {
+//   border-color: #d9b6ff;
+//   color: #d9b6ff;
+//   cursor: pointer;
+// }
 
+// ._btn-icon:hover svg {
+//   fill: transparent;
+//   stroke: #acacac;
+//   cursor: pointer;
+// }
 
-body {
-  width: 100%;
-  height: 100%;
-  font-family: 'StratosSkyeng', sans-serif;
-  color: #ffffff;
-}
-._btn-text:hover {
-  border-color: #d9b6ff;
-  color: #d9b6ff;
-  cursor: pointer;
-}
+// ._btn-text:active {
+//   border-color: #ad61ff;
+//   color: #ad61ff;
+//   cursor: pointer;
+// }
 
-._btn-icon:hover svg {
-  fill: transparent;
-  stroke: #acacac;
-  cursor: pointer;
-}
+// ._btn-icon:active svg {
+//   fill: transparent;
+//   stroke: #ffffff;
+//   cursor: pointer;
+// }
 
-._btn-text:active {
-  border-color: #ad61ff;
-  color: #ad61ff;
-  cursor: pointer;
-}
-
-._btn-icon:active svg {
-  fill: transparent;
-  stroke: #ffffff;
-  cursor: pointer;
-}
-
-._btn-icon:active .track-play__like-svg,
-._btn-icon:active .track-play__dislike-svg {
-  fill: #696969;
-  stroke: #ffffff;
-  cursor: pointer;
-}
-  }
-`
+// ._btn-icon:active .track-play__like-svg,
+// ._btn-icon:active .track-play__dislike-svg {
+//   fill: #696969;
+//   stroke: #ffffff;
+//   cursor: pointer;
+// }
+//   }
+// `
 
 function App() {
+  // const [user, setUser] = useState(null)
+  // const handleLogin = () => setUser({ login: 'taradam' })
+  // const handleLogout = () => setUser(null)
+
   return (
-    <S.Wrapper>
-      <GlobalStyle />
+    // <S.Wrapper>
+    <AppRoutes />
+    /* <GlobalStyle />
       <S.Container>
         <S.Main>
           <NavMenu />
@@ -118,7 +123,7 @@ function App() {
         <AudioPlayer />
         <S.Footer></S.Footer>
       </S.Container>
-    </S.Wrapper>
+    </S.Wrapper> */
   )
 }
 

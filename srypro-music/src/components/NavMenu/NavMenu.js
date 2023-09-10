@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import * as S from './NavMenuStyle'
+import { Link } from 'react-router-dom'
 
 export function NavMenu() {
   const [open, setOpen] = useState(false)
@@ -18,10 +19,14 @@ export function NavMenu() {
         <S.NavMenu>
           <S.MenuList>
             <S.MenuItem>
+            <Link to={'/'}>
               <S.MenuLink href="#">Главное</S.MenuLink>
+              </Link>
             </S.MenuItem>
             <S.MenuItem>
+            <Link to={'/favorite'}>
               <S.MenuLink href="#">Мой плейлист</S.MenuLink>
+              </Link>
             </S.MenuItem>
             <S.MenuItem>
               <S.MenuLink href="../signin.html">Войти</S.MenuLink>

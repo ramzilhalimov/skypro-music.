@@ -8,7 +8,8 @@ export const Tracks = [
     like: "img/icon/sprite.svg#icon-like",
     time: '4:44',
     year: '2011',
-    genre: 'Electro'
+    genre: 'Electro',
+    
 },
 {
     id: 2,
@@ -38,7 +39,8 @@ export const Tracks = [
     like: "img/icon/sprite.svg#icon-like",
     time: '4:12',
     year: '2019',
-    genre: 'Dubstep'
+    genre: 'Dubstep',
+    feat:'(Remix)'
 },
 {
     id: 5,
@@ -48,17 +50,19 @@ export const Tracks = [
     like: "img/icon/sprite.svg#icon-like",
     time: '2:54',
     year: '2021',
-    genre: 'Dance'
+    genre: 'Dance',
+    feat:'(feat. AR/CO)'
 },
 {
     id: 6,
-    track: 'Eyes on Fire (Zeds Dead Remix)',
+    track: 'Eyes on Fire',
     author: 'Blue Foundation, Zeds Dead',
     album: 'Eyes on Fire',
     like: "img/icon/sprite.svg#icon-like",
     time: '5:20',
     year: '2021',
-    genre: 'Remix'
+    genre: 'Remix',
+    feat:'(Zeds Dead Remix)'
 },
 {
     id: 7,
@@ -68,7 +72,8 @@ export const Tracks = [
     like: "img/icon/sprite.svg#icon-like",
     time: '3:41',
     year: '2021',
-    genre: 'Dance'
+    genre: 'Dance',
+    feat:'(Hi Profile Remix)'
 },
 {
     id: 8,

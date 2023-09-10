@@ -11,8 +11,3 @@ export const ContentPlaylist = styled.div`
   overflow-y: auto;
 `
 
-export const PlaylistItem = styled.div`
-  width: 100%;
-  display: block;
-  margin-bottom: 12px;
-`
