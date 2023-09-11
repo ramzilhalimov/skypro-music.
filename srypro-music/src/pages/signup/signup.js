@@ -1,7 +1,7 @@
 import * as S from './signupStyle'
 import { createGlobalStyle } from 'styled-components'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useContext, createContext } from 'react'
+import { Link } from 'react-router-dom'
+// import { useState } from 'react'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -49,21 +49,15 @@ body {
 
 `
 
-// type  AuthContextType = {
-//   isAuthenticated: boolean; // флаг, показывающий, аутентифицирован ли пользователь
-//   setAuth: (auth: boolean) => void; // функция для изменения значения isAuthenticated
-// };
-
-const AuthContext = createContext({
-  isAuthenticated: false,
-  setAuth: () => {},
-})
-
 export const Signup = () => {
-  const { setAuth } = useContext(AuthContext) // используем контекст для получения значений isAuthenticated и setAuth
-  const navigate = useNavigate() // используем хук useNavigate для навигации по маршрутам
-  const location = useLocation() // используем хук useLocation для получения текущего маршрута
-  const from = location.state?.from?.pathname || '/'
+  // const [user, setUser] = useState(null)
+
+  // const handleLogin = () => {
+  //   const token = 'token'
+  //   localStorage.setItem('token', token)
+  //   setUser({ login: 'taradam' })
+  // }
+  // const handleLogout = () => setUser(null)
 
   return (
     <S.Wrapper>
@@ -88,14 +82,13 @@ export const Signup = () => {
               placeholder="Повторите пароль"
             />
             <S.ModalBtnSignupEnt class="modal__btn-signup-ent">
-              <S.ModalBtnSignupEntA
-                onClick={() => {
-                  setAuth(true) // устанавливаем флаг isAuthenticated в true
-                  navigate(from, { replace: true }) // перенаправляем пользователя на страницу, которую он запрашивал до авторизации
-                }}
-              >
-                Зарегистрироваться
-              </S.ModalBtnSignupEntA>
+              <Link to="/">
+                <S.ModalBtnSignupEntA
+                // onClick={user ? handleLogout : handleLogin}
+                >
+                  Зарегистрироваться
+                </S.ModalBtnSignupEntA>
+              </Link>
             </S.ModalBtnSignupEnt>
           </S.ModalFormLogin>
         </S.ModalBlock>

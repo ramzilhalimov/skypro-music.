@@ -4,7 +4,7 @@ import { SideBar } from '../../components/SideBar/SideBar'
 import { TrackList } from '../../components/TrackList/TrackList'
 import { Filter } from '../../components/Filter/Filter'
 import { Search } from '../../components/Search/Search'
-import * as S from '../../AppStyle'
+import * as S from './AppStyle'
 import { createGlobalStyle } from 'styled-components'
 import { useState, useEffect } from 'react'
 import SkeletonTrack from '../../components/SkeletonBar/SkeletonTrack'
@@ -92,17 +92,10 @@ body {
 `
 
 function MainPage() {
-  // const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loading, setLoading] = useState(true)
   const [tracks, setTracks] = useState([])
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token')
-  //   if (token) {
-  //     setIsAuthenticated(true)
-  //   }
-  // }, [])
-
+  
   useEffect(() => {
     setLoading(true)
     const timer = setTimeout(() => {
@@ -112,38 +105,36 @@ function MainPage() {
     return () => clearTimeout(timer)
   }, [])
   return (
-  
-      <S.Wrapper>
-        <GlobalStyle />
-        <S.Container>
-          <S.Main>
-            <NavMenu />
-            <S.MainCenterblock>
-              <Search />
-              <S.CenterblockH2>Треки</S.CenterblockH2>
-              <Filter />
-              <S.CenterblockContent>
-                <S.ContentTitle>
-                  <S.PlaylistTitleCol01>Трек</S.PlaylistTitleCol01>
-                  <S.PlaylistTitleCol02>ИСПОЛНИТЕЛЬ</S.PlaylistTitleCol02>
-                  <S.PlaylistTitleCol03>АЛЬБОМ</S.PlaylistTitleCol03>
-                  <S.PlaylistTitleCol04>
-                    <S.PlaylistTitleSvg alt="time">
-                      <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
-                    </S.PlaylistTitleSvg>
-                  </S.PlaylistTitleCol04>
-                </S.ContentTitle>
-                {loading && <SkeletonTrack />}
-                {!loading && <TrackList tracks={tracks} />}
-              </S.CenterblockContent>
-            </S.MainCenterblock>
-            <SideBar />
-          </S.Main>
-          <AudioPlayer />
-          <S.Footer></S.Footer>
-        </S.Container>
-      </S.Wrapper>
-   
+    <S.Wrapper>
+      <GlobalStyle />
+      <S.Container>
+        <S.Main>
+          <NavMenu />
+          <S.MainCenterblock>
+            <Search />
+            <S.CenterblockH2>Треки</S.CenterblockH2>
+            <Filter />
+            <S.CenterblockContent>
+              <S.ContentTitle>
+                <S.PlaylistTitleCol01>Трек</S.PlaylistTitleCol01>
+                <S.PlaylistTitleCol02>ИСПОЛНИТЕЛЬ</S.PlaylistTitleCol02>
+                <S.PlaylistTitleCol03>АЛЬБОМ</S.PlaylistTitleCol03>
+                <S.PlaylistTitleCol04>
+                  <S.PlaylistTitleSvg alt="time">
+                    <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
+                  </S.PlaylistTitleSvg>
+                </S.PlaylistTitleCol04>
+              </S.ContentTitle>
+              {loading && <SkeletonTrack />}
+              {!loading && <TrackList tracks={tracks} />}
+            </S.CenterblockContent>
+          </S.MainCenterblock>
+          <SideBar />
+        </S.Main>
+        <AudioPlayer />
+        <S.Footer></S.Footer>
+      </S.Container>
+    </S.Wrapper>
   )
 }
 

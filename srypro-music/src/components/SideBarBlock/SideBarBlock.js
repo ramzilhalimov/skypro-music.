@@ -6,7 +6,7 @@ export function SideBarBlock() {
     <S.SidebarBlock>
       <S.SidebarList>
         <S.SidebarItem>
-          <Link to={'/category1/${track.id}'}>
+          <Link to={'/category/${track.id}'}>
             <S.SidebarLink href="#">
               <S.SidebarImg src="img/playlist01.png" alt="day's playlist" />
             </S.SidebarLink>
@@ -14,14 +14,14 @@ export function SideBarBlock() {
         </S.SidebarItem>
 
         <S.SidebarItem>
-        <Link to={'/category2/${track.id'}>
+        <Link to={'/category/${track.id'}>
           <S.SidebarLink href="#">
             <S.SidebarImg src="img/playlist02.png" alt="day's playlist" />
           </S.SidebarLink>
           </Link>
         </S.SidebarItem>
         <S.SidebarItem>
-        <Link to={'/category3/:${track.id'}>
+        <Link to={'/category/${track.id'}>
           <S.SidebarLink href="#">
             <S.SidebarImg src="img/playlist03.png" alt="day's playlist" />
           </S.SidebarLink>
