@@ -8,22 +8,17 @@ import { NotFound } from './pages/not-found/NotFound'
 import { Signin } from './pages/signin/signin'
 import { Signup } from './pages/signup/signup'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
-import {setUser} from 'react'
+// import {setUser} from 'react'
 
-export const AppRoutes = () => {
+export const AppRoutes = (user) => {
 
-  const handleLogin = () => {
-    const token = 'token'
-    localStorage.setItem('token', token)
-    setUser({ login: 'taradam' })
-  }
 
   return (
     <Routes>
       <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
 
-      <Route element={<ProtectedRoute  isAuthenticated={Boolean(handleLogin)} />}>
+      <Route element={<ProtectedRoute  isAuthenticated={Boolean(user)} />}>
         <Route path="/" element={<MainPage />} />
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/category/:id" element={<CategoryOne />} />
