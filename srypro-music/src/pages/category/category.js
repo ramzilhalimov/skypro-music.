@@ -4,7 +4,7 @@ import * as S from '../../components/TrackList/TrackListStyle'
 // import { TrackList } from '../../components/TrackList/TrackList'
 
 
-export const CategoryOne = ({tracks}) => {
+export const Category = ({tracks}) => {
   // const params = useParams()
   // const tracks = Tracks.find((track) => track.id === Number(params.id))
 

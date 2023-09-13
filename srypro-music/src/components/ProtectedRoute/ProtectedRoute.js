@@ -3,9 +3,9 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 export const ProtectedRoute = ({
   redirectPath = '/signup',
-  isAuthenticated,
+  isAllowed,
 }) => {
-  if (!isAuthenticated) {
+  if (!isAllowed) {
     return <Navigate to={redirectPath} replace={true} />
   }
 

@@ -1,17 +1,16 @@
 // import { user } from './components/handleLogin'
-
 import { useState } from 'react'
 import { AppRoutes } from './routes'
 
 function App() {
-  const [ setUser] = useState()
+  const [user, setUser] = useState(localStorage.getItem('token'))
 
   const token = () => {
     const token = 'token'
-    localStorage.setItem('token', token)
+    localStorage.setItem('token', JSON.stringify(token))
     setUser({ login: 'taradam' })
   }
 
-  return <AppRoutes user={token} setUser={setUser} />
+  return <AppRoutes user={(user, token)} setUser={setUser} />
 }
 export default App
