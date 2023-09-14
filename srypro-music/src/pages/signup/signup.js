@@ -1,7 +1,6 @@
 import * as S from './signupStyle'
 import { createGlobalStyle } from 'styled-components'
 import { Link } from 'react-router-dom'
-// import { useState } from 'react'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -50,17 +49,6 @@ body {
 `
 
 export const Signup = () => {
-
-  // const [user, setUser] = useState()
-
-  //  const handleLogin = () => {
-  //   const token = 'token'
-  //   localStorage.setItem('token', token)
-  //   setUser({ login: 'taradam' })
-  // }
-
-  // const handleLogout = () => setUser()
-
   return (
     <S.Wrapper>
       <GlobalStyle />
@@ -85,11 +73,7 @@ export const Signup = () => {
             />
             <S.ModalBtnSignupEnt class="modal__btn-signup-ent">
               <Link to="/">
-                <S.ModalBtnSignupEntA
-                  // onClick={user ? handleLogout : handleLogin}
-                >
-                  Зарегистрироваться
-                </S.ModalBtnSignupEntA>
+                <S.ModalBtnSignupEntA>Зарегистрироваться</S.ModalBtnSignupEntA>
               </Link>
             </S.ModalBtnSignupEnt>
           </S.ModalFormLogin>
