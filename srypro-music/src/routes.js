@@ -6,38 +6,49 @@ import { NotFound } from './pages/not-found/NotFound'
 import { Signin } from './pages/signin/signin'
 import { Signup } from './pages/signup/signup'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
+import { useEffect } from 'react'
 
 export const AppRoutes = ({ user, setUser }) => {
+ 
+  useEffect(() => {
+    const registeredUser = localStorage.getItem('user')
+    if (registeredUser) {
+      setUser(JSON.parse(JSON.stringify(registeredUser)))  
+    }
+  }, [])
+
   const handleLogin = () => {
-    localStorage.setItem('token', 'exampleToken123')
-    setUser(true)
+    const newUser = { login: 'taradam' }
+    setUser(newUser)
+    localStorage.setItem('user', JSON.stringify(newUser))
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    setUser(false)
+    setUser(null)
+    localStorage.removeItem('user')
   }
-
+console.log(user);
+  
   return (
     <Routes>
       <Route
         path="/signin"
         element={
           <Signin
-            user={user}
-            onAuthButtonClick={user ? handleLogout : handleLogin}
+          user={user}
+          onAuthButtonClick={user ? handleLogout : handleLogin}
           />
         }
       />
-
       <Route path="/signup" element={<Signup />} />
+
       <Route element={<ProtectedRoute isAllowed={Boolean(user)} />}>
         <Route
           path="/"
           element={
             <MainPage
-              user={user}
-              onAuthButtonClick={user ? handleLogout : handleLogin}
+            user={user}
+            onAuthButtonClick={user ? handleLogout : handleLogin}
             />
           }
         />
