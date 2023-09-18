@@ -3,8 +3,8 @@ import { Tracks } from '../../components/Tracks/Tracks'
 
 export const Favorite = () => {
   return (
-    <div>
-      <h1> My favorite song</h1>
+    <div className='div'>
+      <h1 className='h1'> My favorite song</h1>
       <TrackList tracks={Tracks} />
     </div>
   )

@@ -1,6 +1,6 @@
 import * as S from './signinStyle'
 import { createGlobalStyle } from 'styled-components'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -50,18 +50,26 @@ body {
 }
 `
 
-export const Signin = () => {
+export const Signin = ({ setUser }) => {
+  const navigate = useNavigate()
+  const handleLogin = () => {
+    const newUser = { login: 'taradam' }
+    setUser(newUser)
+    localStorage.setItem('user', JSON.stringify(newUser))
+
+    navigate('/')
+  }
+
   return (
     <S.Wrapper>
       <GlobalStyle />
       <S.ContainerEnter>
         <S.ModalBlock>
           <S.ModalFormLogin action="#">
-            <a href="../">
-              <S.ModalLogo>
-                <S.ModalLogoImg src="../img/logo_modal.png" alt="logo" />
-              </S.ModalLogo>
-            </a>
+            <S.ModalLogo>
+              <S.ModalLogoImg src="../img/logo_modal.png" alt="logo" />
+            </S.ModalLogo>
+
             <S.ModalInputLogin type="text" name="login" placeholder="Почта" />
             <S.ModalInputPassword
               type="password"
@@ -69,14 +77,10 @@ export const Signin = () => {
               placeholder="Пароль"
             />
             <S.ModalBtnEnter>
-              <Link to={'/'}>
-                <S.ModalBtnEnterA>Войти</S.ModalBtnEnterA>
-              </Link>
+              <S.ModalBtnEnterA onClick={handleLogin}>Войти</S.ModalBtnEnterA>
             </S.ModalBtnEnter>
             <S.ModalBtnSignup>
-              <Link to={'/signup'}>
-                <S.ModalBtnSignupA>Зарегистрироваться</S.ModalBtnSignupA>
-              </Link>
+              <S.ModalBtnSignupA>Зарегистрироваться</S.ModalBtnSignupA>
             </S.ModalBtnSignup>
           </S.ModalFormLogin>
         </S.ModalBlock>

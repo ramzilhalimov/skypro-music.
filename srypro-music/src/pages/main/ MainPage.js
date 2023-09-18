@@ -91,7 +91,8 @@ body {
   }
 `
 
-function MainPage() {
+function MainPage({setUser}) {
+
   const [loading, setLoading] = useState(true)
   const [tracks, setTracks] = useState([])
 
@@ -109,7 +110,7 @@ function MainPage() {
       <GlobalStyle />
       <S.Container>
         <S.Main>
-          <NavMenu />
+          <NavMenu setUser={setUser} />
           <S.MainCenterblock>
             <Search />
             <S.CenterblockH2>Треки</S.CenterblockH2>

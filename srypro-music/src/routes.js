@@ -9,49 +9,20 @@ import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { useEffect } from 'react'
 
 export const AppRoutes = ({ user, setUser }) => {
- 
   useEffect(() => {
     const registeredUser = localStorage.getItem('user')
     if (registeredUser) {
-      setUser(JSON.parse(JSON.stringify(registeredUser)))  
+      setUser(JSON.parse(JSON.stringify(registeredUser)))
     }
   }, [])
 
-  const handleLogin = () => {
-    const newUser = { login: 'taradam' }
-    setUser(newUser)
-    localStorage.setItem('user', JSON.stringify(newUser))
-  }
-
-  const handleLogout = () => {
-    setUser(null)
-    localStorage.removeItem('user')
-  }
-console.log(user);
-  
   return (
     <Routes>
-      <Route
-        path="/signin"
-        element={
-          <Signin
-          user={user}
-          onAuthButtonClick={user ? handleLogout : handleLogin}
-          />
-        }
-      />
+      <Route path="/signin" element={<Signin setUser={setUser} />} />
       <Route path="/signup" element={<Signup />} />
 
       <Route element={<ProtectedRoute isAllowed={Boolean(user)} />}>
-        <Route
-          path="/"
-          element={
-            <MainPage
-            user={user}
-            onAuthButtonClick={user ? handleLogout : handleLogin}
-            />
-          }
-        />
+        <Route path="/" element={<MainPage setUser={setUser} />} />
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/category/:id" element={<Category />} />
       </Route>

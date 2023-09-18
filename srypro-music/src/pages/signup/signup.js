@@ -55,11 +55,10 @@ export const Signup = () => {
       <S.ContainerSignup>
         <S.ModalBlock>
           <S.ModalFormLogin>
-            <a href="../">
-              <S.ModalLogo>
-                <S.ModalLogoImg src="../img/logo_modal.png" alt="logo" />
-              </S.ModalLogo>
-            </a>
+            <S.ModalLogo>
+              <S.ModalLogoImg src="../img/logo_modal.png" alt="logo" />
+            </S.ModalLogo>
+
             <S.ModalInput type="text" name="login" placeholder="Почта" />
             <S.ModalInput
               type="password"
@@ -71,8 +70,8 @@ export const Signup = () => {
               name="password"
               placeholder="Повторите пароль"
             />
-            <S.ModalBtnSignupEnt class="modal__btn-signup-ent">
-              <Link to="/">
+            <S.ModalBtnSignupEnt className="modal__btn-signup-ent">
+              <Link  to="/">
                 <S.ModalBtnSignupEntA>Зарегистрироваться</S.ModalBtnSignupEntA>
               </Link>
             </S.ModalBtnSignupEnt>
