@@ -48,7 +48,7 @@ export function AudioPlayer() {
                   </S.TrackPlayAuthorLink>
                 </S.TrackPlayAuthor>
                 <S.TrackPlayAlbum>
-                  <S.TrackPlayAlbumLink href="http://">
+                  <S.TrackPlayAlbumLink>
                     Баста
                   </S.TrackPlayAlbumLink>
                 </S.TrackPlayAlbum>

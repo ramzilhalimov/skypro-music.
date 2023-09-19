@@ -1,8 +1,14 @@
 import { useState } from 'react'
 import * as S from './NavMenuStyle'
+import { Link } from 'react-router-dom'
 
-export function NavMenu() {
+export function NavMenu({ setUser }) {
   const [open, setOpen] = useState(false)
+
+  const handleLogout = () => {
+    setUser(null)
+    localStorage.removeItem('user')
+  }
 
   return (
     <S.MainNav>
@@ -18,13 +24,17 @@ export function NavMenu() {
         <S.NavMenu>
           <S.MenuList>
             <S.MenuItem>
-              <S.MenuLink href="#">Главное</S.MenuLink>
+              <Link  to={'/'}>
+                <S.MenuLink>Главное</S.MenuLink>
+              </Link>
             </S.MenuItem>
             <S.MenuItem>
-              <S.MenuLink href="#">Мой плейлист</S.MenuLink>
+              <Link to={'/favorite'}>
+                <S.MenuLink>Мой плейлист</S.MenuLink>
+              </Link>
             </S.MenuItem>
             <S.MenuItem>
-              <S.MenuLink href="../signin.html">Войти</S.MenuLink>
+              <S.MenuLink onClick={handleLogout}>Выйти</S.MenuLink>
             </S.MenuItem>
           </S.MenuList>
         </S.NavMenu>

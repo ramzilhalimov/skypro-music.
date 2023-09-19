@@ -41,8 +41,8 @@ export const ButtonAuthor = styled.div`
   width: 248px;
   height: 305px;
   position: fixed;
-  top: 280px;
-  left: 500px;
+  top: 240px;
+  left: 450px;
   background-color: #313131;
   padding: 34px;
   border-radius: 12px;
@@ -89,8 +89,8 @@ export const ButtonYear = styled.div`
   width: 248px;
   height: 305px;
   position: fixed;
-  top: 280px;
-  left: 650px;
+  top: 240px;
+  left: 600px;
   background-color: #313131;
   padding: 34px;
   border-radius: 12px;
@@ -100,8 +100,8 @@ export const ButtonGenre = styled.div`
   width: 248px;
   height: 305px;
   position: fixed;
-  top: 280px;
-  left: 800px;
+  top: 240px;
+  left: 750px;
   background-color: #313131;
   padding: 34px;
   border-radius: 12px;
