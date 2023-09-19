@@ -221,7 +221,7 @@ export const TrackPlayAlbum = styled.div`
   grid-row: 2;
   grid-column: 2;
   grid-area: album;
-  min-width: 49px;
+  min-width: 120px;
 `
 export const TrackPlayAlbumLink = styled.a`
   font-style: normal;

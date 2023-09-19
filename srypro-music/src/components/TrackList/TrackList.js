@@ -2,12 +2,12 @@
 import { Track } from '../Track/Track'
 import * as S from './TrackListStyle'
 
-export function TrackList(props) {
-  
+export function TrackList({ tracks, turnOnTrack, addTracksError }) {
   return (
     <S.ContentPlaylist>
-      {props.tracks.map((track) => {  
-        return <Track key={track.id} track={track} />
+      <p>{addTracksError}</p>
+      {tracks.map((track) => {
+        return <Track turnOnTrack={turnOnTrack} key={track.id} track={track} />
       })}
     </S.ContentPlaylist>
   )

@@ -2,7 +2,7 @@
 export const Tracks = [
   {
     id: 1,
-    track: 'Guilt',
+    name: 'Guilt',
     author: 'Nero',
     album: 'Welcome Reality',
     like: "img/icon/sprite.svg#icon-like",
@@ -13,7 +13,7 @@ export const Tracks = [
 },
 {
     id: 2,
-    track: 'Elektro',
+    name: 'Elektro',
     author: 'Dynoro, Outwork, Mr. Gee',
     album: 'Elektro',
     like: "img/icon/sprite.svg#icon-like",
@@ -23,7 +23,7 @@ export const Tracks = [
 },
 {
     id: 3,
-    track: 'I’m Fire',
+    name: 'I’m Fire',
     author: 'Ali Bakgor',
     album: 'I’m Fire',
     like: "img/icon/sprite.svg#icon-like",
@@ -33,7 +33,7 @@ export const Tracks = [
 },
 {
     id: 4,
-    track: 'Non Stop',
+    name: 'Non Stop',
     author: 'Стоункат, Psychopath',
     album: 'Non Stop',
     like: "img/icon/sprite.svg#icon-like",
@@ -44,7 +44,7 @@ export const Tracks = [
 },
 {
     id: 5,
-    track: 'Run Run',
+    name: 'Run Run',
     author: 'Jaded, Will Clarke, AR/CO',
     album: 'Run Run',
     like: "img/icon/sprite.svg#icon-like",
@@ -55,7 +55,7 @@ export const Tracks = [
 },
 {
     id: 6,
-    track: 'Eyes on Fire',
+    name: 'Eyes on Fire',
     author: 'Blue Foundation, Zeds Dead',
     album: 'Eyes on Fire',
     like: "img/icon/sprite.svg#icon-like",
@@ -66,7 +66,7 @@ export const Tracks = [
 },
 {
     id: 7,
-    track: 'Mucho Bie',
+    name: 'Mucho Bie',
     author: 'HYBIT, Mr. Black, Offer Nissim, Hi Profile',
     album: 'Mucho Bie',
     like: "img/icon/sprite.svg#icon-like",
@@ -77,7 +77,7 @@ export const Tracks = [
 },
 {
     id: 8,
-    track: 'Knives n Cherries',
+    name: 'Knives n Cherries',
     author: 'minthaze',
     album: 'Captivating',
     like: "img/icon/sprite.svg#icon-like",
@@ -87,7 +87,7 @@ export const Tracks = [
 },
 {
     id: 9,
-    track: 'How Deep Is Your Love',
+    name: 'How Deep Is Your Love',
     author: 'Calvin Harris, Disciples',
     album: 'How Deep Is Your Love',
     like: "img/icon/sprite.svg#icon-like",
@@ -97,7 +97,7 @@ export const Tracks = [
 },
 {
     id: 10,
-    track: 'Morena',
+    name: 'Morena',
     author: 'Tom Boxer',
     album: 'Soundz Made in Romania',
     like: "img/icon/sprite.svg#icon-like",
@@ -107,7 +107,7 @@ export const Tracks = [
 },
 {
     id: 11,
-    track: '',
+    name: '',
     author: '',
     album:'', 
     like: '',

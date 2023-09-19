@@ -1,6 +1,15 @@
 import * as S from './TrackStyle'
 
-export function Track(props) {
+export const Track = (props) => {
+  const formattedDuration = (durationInSeconds) => {
+    const minutes = Math.floor(durationInSeconds / 60)
+    const seconds = durationInSeconds % 60
+    const formattedDuration = `${minutes.toString().padStart(2, '0')}:${seconds
+      .toString()
+      .padStart(2, '0')}`
+    return formattedDuration
+  }
+
   return (
     <S.PlaylistItem>
       <S.PlaylistTrack>
@@ -11,8 +20,8 @@ export function Track(props) {
             </S.TrackTitleSvg>
           </S.TrackTitleImage>
           <S.TrackTitleText>
-            <S.TrackTitleLink>
-              {props.track.track}{' '}
+            <S.TrackTitleLink onClick={() => props.turnOnTrack(props.track.id)}>
+              {props.track.name}
               <S.TrackTitleSpan>{props.track.feat}</S.TrackTitleSpan>
             </S.TrackTitleLink>
           </S.TrackTitleText>
@@ -27,7 +36,9 @@ export function Track(props) {
           <S.TrackTimeSvg alt="time">
             <use xlinkHref={props.track.like}></use>
           </S.TrackTimeSvg>
-          <S.TrackTimeText>{props.track.time}</S.TrackTimeText>
+          <S.TrackTimeText>
+            {formattedDuration(props.track.duration_in_seconds)}
+          </S.TrackTimeText>
         </S.TrackTime>
       </S.PlaylistTrack>
     </S.PlaylistItem>
