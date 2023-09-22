@@ -7,7 +7,6 @@ function App() {
   const [user, setUser] = useState(localStorage.getItem('user'))
   const [loading, setLoading] = useState(true)
   const [tracks, setTracks] = useState([])
-
   const [addTracksError, setAddTracksError] = useState(null)
 
   useEffect(() => {

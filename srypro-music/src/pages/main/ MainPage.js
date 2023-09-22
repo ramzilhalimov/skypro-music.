@@ -122,7 +122,9 @@ function MainPage({ setUser, tracks, loading, turnOnTrack, currentTrack }) {
           <SideBar />
         </S.Main>
         {loading && <AudioBlock />}
-        {!loading && <AudioPlayer currentTrack={currentTrack} />}
+        {!loading && (
+          <AudioPlayer loading={loading} currentTrack={currentTrack} />
+        )}
         <S.Footer></S.Footer>
       </S.Container>
     </S.Wrapper>

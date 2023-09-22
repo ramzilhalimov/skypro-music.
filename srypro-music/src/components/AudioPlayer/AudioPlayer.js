@@ -1,29 +1,110 @@
+import { useRef, useState } from 'react'
+import { PauseTrack } from '../PauseTrack/PauseTrack'
+import { PlayTrack } from '../PlayTrack/PlayTrack'
+import SkeletonTrack from '../SkeletonBar/SkeletonTrack'
+
 import * as S from './AudioPlayerStyle'
 
-export function AudioPlayer({currentTrack}) {
+export function AudioPlayer({ loading, currentTrack }) {
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  const audioRef = useRef(null)
+
+  const [loop, setLoop] = useState(false)
+  const toggleLoop = () => {
+    setLoop(!loop)
+    audioRef.current.loop = !loop
+  }
+
+  const [volume, setVolume] = useState(1)
+  const handleVolumeChange = (event) => {
+    const newVolume = parseFloat(event.target.value)
+    audioRef.current.volume = newVolume
+    setVolume(newVolume)
+  }
+  const [timeProgress, setTimeProgress] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const progressBarRef = useRef()
+  const handleProgressChange = () => {
+    audioRef.current.currentTime = progressBarRef.current.value
+  }
+  const onLoadedMetadata = () => {
+    const seconds = audioRef.current.duration
+    setDuration()
+    progressBarRef.current = seconds
+  }
+  const formatTime = (time) => {
+    if (time && !isNaN(time)) {
+      const minutes = Math.floor(time / 60)
+      const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
+      const seconds = Math.floor(time % 60)
+      const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
+      return `${formatMinutes}:${formatSeconds}`
+    }
+    return '00:00'
+  }
+  const handleTemparary = () => {
+    alert('Временно не работает')
+  }
+  const handleStart = () => {
+    audioRef.volume = 0.1
+    audioRef.current.play()
+    setIsPlaying(true)
+  }
+
+  const handleStop = () => {
+    audioRef.current.pause()
+    setIsPlaying(false)
+  }
+
+  const togglePlay = isPlaying ? handleStop : handleStart
+
   return (
     <S.Bar>
       <S.BarContent>
-        <S.BarPlayerProgress></S.BarPlayerProgress>
+        <S.BarTime>
+          <span>{formatTime(timeProgress)}</span>
+          <span>/</span>
+          <span>{formatTime(currentTrack.duration_in_seconds)}</span>
+        </S.BarTime>
+
+        <S.BarPlayerProgress
+          onLoadedMetadata={onLoadedMetadata}
+          progressBarRef={progressBarRef}
+        >
+          <S.StyledProgressInput
+            type="range"
+            min={0}
+            max={duration}
+            value={timeProgress}
+            step={0.01}
+            $color="#B672FF"
+            ref={progressBarRef}
+            onChange={handleProgressChange}
+          />
+        </S.BarPlayerProgress>
         <S.BarPlayerBlock>
           <S.BarPlayer>
             <S.PlayerControls>
-              <S.PlayerBtnPrev>
+              <S.PlayerBtnPrev onClick={handleTemparary}>
                 <S.PlayerBtnPrevSvg alt="prev">
                   <use xlinkHref="img/icon/sprite.svg#icon-prev"></use>
                 </S.PlayerBtnPrevSvg>
               </S.PlayerBtnPrev>
-              <S.PlayerBtnPlay>
-                <S.PlayerBtnPlaySvg alt="play">
-                  <use xlinkHref="img/icon/sprite.svg#icon-play"></use>
-                </S.PlayerBtnPlaySvg>
+
+              <S.PlayerBtnPlay onClick={togglePlay}>
+                {!isPlaying ? <PlayTrack /> : <PauseTrack />}
               </S.PlayerBtnPlay>
+
               <S.PlayerBtnNext>
                 <S.PlayerBtnNextSvg alt="next">
                   <use xlinkHref="img/icon/sprite.svg#icon-next"></use>
                 </S.PlayerBtnNextSvg>
               </S.PlayerBtnNext>
-              <S.PlayerBtnRepeat className="Player__btn-repeat _btn-icon">
+              <S.PlayerBtnRepeat
+                onClick={toggleLoop}
+                className="Player__btn-repeat _btn-icon"
+              >
                 <S.PlayerBtnRepeatSvg alt="repeat">
                   <use xlinkHref="img/icon/sprite.svg#icon-repeat"></use>
                 </S.PlayerBtnRepeatSvg>
@@ -36,24 +117,36 @@ export function AudioPlayer({currentTrack}) {
             </S.PlayerControls>
 
             <S.PlayerTrackPlay>
-              <S.TrackPlayContain>
-                <S.TrackPlayImage>
-                  <S.TrackPlaySvg alt="music">
-                    <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
-                  </S.TrackPlaySvg>
-                </S.TrackPlayImage>
-                <S.TrackPlayAuthor>
-                  {currentTrack ? (
-                  <S.TrackPlayAuthorLink>{currentTrack.name}</S.TrackPlayAuthorLink>
-                  ) : null}
-                </S.TrackPlayAuthor>
-                <S.TrackPlayAlbum>
-                {currentTrack ? (
-                  <S.TrackPlayAlbumLink>{currentTrack.author}</S.TrackPlayAlbumLink>
-                  ) : null}
-                </S.TrackPlayAlbum>
-              </S.TrackPlayContain>
-
+              {loading && <SkeletonTrack />}
+              {!loading && (
+                <S.TrackPlayContain>
+                  <audio
+                    ref={audioRef}
+                    onLoadedMetadata={onLoadedMetadata}
+                    onTimeUpdate={() =>
+                      setTimeProgress(audioRef.current.currentTime)
+                    }
+                    src={currentTrack.track_file}
+                    autoPlay
+                    style={{ volume: volume }}
+                  ></audio>
+                  <S.TrackPlayImage>
+                    <S.TrackPlaySvg alt="music">
+                      <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
+                    </S.TrackPlaySvg>
+                  </S.TrackPlayImage>
+                  <S.TrackPlayAuthor>
+                    <S.TrackPlayAuthorLink>
+                      {currentTrack.name}
+                    </S.TrackPlayAuthorLink>
+                  </S.TrackPlayAuthor>
+                  <S.TrackPlayAlbum>
+                    <S.TrackPlayAlbumLink>
+                      {currentTrack.author}
+                    </S.TrackPlayAlbumLink>
+                  </S.TrackPlayAlbum>
+                </S.TrackPlayContain>
+              )}
               <S.TrackPlayLikeDis>
                 <S.TrackPlayLike className="Track-play__like _btn-icon">
                   <S.TrackPlayLikeSvg alt="like">
@@ -79,7 +172,11 @@ export function AudioPlayer({currentTrack}) {
                 <S.VolumeProgressLine
                   className="Volume__progress-line _btn"
                   type="range"
-                  name="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={volume}
+                  onChange={handleVolumeChange}
                 />
               </S.VolumeProgress>
             </S.VolumeContent>
