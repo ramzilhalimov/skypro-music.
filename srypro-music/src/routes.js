@@ -15,6 +15,7 @@ export const AppRoutes = ({
   turnOnTrack,
   currentTrack,
   loading,
+  addTracksError,
 }) => {
   useEffect(() => {
     const registeredUser = localStorage.getItem('user')
@@ -38,6 +39,7 @@ export const AppRoutes = ({
               turnOnTrack={turnOnTrack}
               currentTrack={currentTrack}
               loading={loading}
+              addTracksError={addTracksError}
             />
           }
         />

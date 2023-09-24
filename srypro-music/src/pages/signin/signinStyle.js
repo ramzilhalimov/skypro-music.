@@ -60,7 +60,7 @@ export const ModalInputLogin = styled.input`
   border-bottom: 1px solid #d0cece;
   padding: 8px 1px;
   margin-bottom: 30px;
-  &::-webkit-input-placeholder{
+  &::-webkit-input-placeholder {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -68,7 +68,7 @@ export const ModalInputLogin = styled.input`
     letter-spacing: -0.05px;
     color: #d0cece;
   }
-  &:-ms-input-placeholder{
+  &:-ms-input-placeholder {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -92,7 +92,6 @@ export const ModalInputLogin = styled.input`
     letter-spacing: -0.05px;
     color: #d0cece;
   }
-
 `
 export const ModalInputPassword = styled.input`
   width: 100%;
@@ -101,7 +100,7 @@ export const ModalInputPassword = styled.input`
   border-right: none;
   border-bottom: 1px solid #d0cece;
   padding: 8px 1px;
-  &::-webkit-input-placeholder{
+  &::-webkit-input-placeholder {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -109,7 +108,7 @@ export const ModalInputPassword = styled.input`
     letter-spacing: -0.05px;
     color: #d0cece;
   }
-  &:-ms-input-placeholder{
+  &:-ms-input-placeholder {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -133,9 +132,7 @@ export const ModalInputPassword = styled.input`
     letter-spacing: -0.05px;
     color: #d0cece;
   }
-  
 `
-
 
 export const ModalBtnEnter = styled.button`
   width: 278px;
@@ -157,7 +154,7 @@ export const ModalBtnEnter = styled.button`
   &:hover {
     background-color: #3f007d;
   }
-  &:active{
+  &:active {
     background-color: #271a58;
   }
 `
@@ -206,7 +203,7 @@ export const ModalBtnSignup = styled.button`
   &:hover {
     background-color: #f4f5f6;
   }
-  &:active{
+  &:active {
     background-color: #d9d9d9;
   }
 `
@@ -229,4 +226,12 @@ export const ModalBtnSignupA = styled.a`
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+`
+export const Error = styled.div`
+  color: coral;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  margin-top: 20px;
+  text-align: left;
 `

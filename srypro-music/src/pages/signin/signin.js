@@ -1,6 +1,7 @@
 import * as S from './signinStyle'
 import { createGlobalStyle } from 'styled-components'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -50,8 +51,14 @@ body {
 }
 `
 
-export const Signin = ({ setUser }) => {
+export const Signin = ({ setUser, isLoginMode }) => {
+  const [error, setError] = useState(null)
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
   const navigate = useNavigate()
+
   const handleLogin = () => {
     const newUser = { login: 'taradam' }
     setUser(newUser)
@@ -59,6 +66,9 @@ export const Signin = ({ setUser }) => {
 
     navigate('/')
   }
+  useEffect(() => {
+    setError(null)
+  }, [isLoginMode, email, password])
 
   return (
     <S.Wrapper>
@@ -70,17 +80,36 @@ export const Signin = ({ setUser }) => {
               <S.ModalLogoImg src="../img/logo_modal.png" alt="logo" />
             </S.ModalLogo>
 
-            <S.ModalInputLogin type="text" name="login" placeholder="Почта" />
+            <S.ModalInputLogin
+              type="text"
+              name="login"
+              placeholder="Почта"
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value)
+              }}
+            />
             <S.ModalInputPassword
               type="password"
               name="password"
               placeholder="Пароль"
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value)
+              }}
             />
             <S.ModalBtnEnter>
-              <S.ModalBtnEnterA onClick={handleLogin}>Войти</S.ModalBtnEnterA>
+              {error && <S.Error>{error}</S.Error>}
+              <S.ModalBtnEnterA
+                onClick={() => handleLogin({ email, password })}
+              >
+                Войти
+              </S.ModalBtnEnterA>
             </S.ModalBtnEnter>
             <S.ModalBtnSignup>
-              <S.ModalBtnSignupA>Зарегистрироваться</S.ModalBtnSignupA>
+              <Link to="/signup">
+                <S.ModalBtnSignupA>Зарегистрироваться</S.ModalBtnSignupA>
+              </Link>
             </S.ModalBtnSignup>
           </S.ModalFormLogin>
         </S.ModalBlock>

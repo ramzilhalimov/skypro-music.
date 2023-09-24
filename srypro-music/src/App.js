@@ -1,7 +1,11 @@
 // import { user } from './components/handleLogin'
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
+
 import { getTrackById, getTracklist } from './components/api/api'
+import { reducer, UserContext, UserDispatchContext } from './contex'
+import { GlobalStyle } from './pages/main/ MainPage'
 import { AppRoutes } from './routes'
+import * as S from '../src/pages/main/AppStyle'
 
 function App() {
   const [user, setUser] = useState(localStorage.getItem('user'))
@@ -31,17 +35,24 @@ function App() {
       setCurrentTrack(trackData)
     })
   }
-
+  const [state, dispatch] = useReducer(reducer, { userName: '' })
   return (
-    <AppRoutes
-      user={user}
-      setUser={setUser}
-      tracks={tracks}
-      addTracksError={addTracksError}
-      currentTrack={currentTrack}
-      turnOnTrack={turnOnTrack}
-      loading={loading}
-    />
+    <UserContext.Provider value={state}>
+      <UserDispatchContext.Provider value={dispatch}>
+        <S.App>
+          <GlobalStyle />
+          <AppRoutes
+            user={user}
+            setUser={setUser}
+            tracks={tracks}
+            addTracksError={addTracksError}
+            currentTrack={currentTrack}
+            turnOnTrack={turnOnTrack}
+            loading={loading}
+          />
+        </S.App>
+      </UserDispatchContext.Provider>
+    </UserContext.Provider>
   )
 }
 export default App

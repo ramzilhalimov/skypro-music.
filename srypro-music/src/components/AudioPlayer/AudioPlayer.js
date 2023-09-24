@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
 import { PauseTrack } from '../PauseTrack/PauseTrack'
 import { PlayTrack } from '../PlayTrack/PlayTrack'
-import SkeletonTrack from '../SkeletonBar/SkeletonTrack'
 
 import * as S from './AudioPlayerStyle'
 
-export function AudioPlayer({ loading, currentTrack }) {
+ export const AudioPlayer = ({ loading, currentTrack }) => {
   const [isPlaying, setIsPlaying] = useState(false)
 
   const audioRef = useRef(null)
@@ -31,7 +31,7 @@ export function AudioPlayer({ loading, currentTrack }) {
   const onLoadedMetadata = () => {
     const seconds = audioRef.current.duration
     setDuration()
-    progressBarRef.current = seconds
+    progressBarRef.current.max = seconds
   }
   const formatTime = (time) => {
     if (time && !isNaN(time)) {
@@ -106,7 +106,11 @@ export function AudioPlayer({ loading, currentTrack }) {
                 className="Player__btn-repeat _btn-icon"
               >
                 <S.PlayerBtnRepeatSvg alt="repeat">
-                  <use xlinkHref="img/icon/sprite.svg#icon-repeat"></use>
+                  {loop ? (
+                    <use xlinkHref="img/icon/sprite.svg#icon-tworepeat"></use>
+                  ) : (
+                    <use xlinkHref="img/icon/sprite.svg#icon-repeat"></use>
+                  )}
                 </S.PlayerBtnRepeatSvg>
               </S.PlayerBtnRepeat>
               <S.PlayerBtnShuffle className="Player__btn-shuffle _btn-icon">
@@ -117,7 +121,21 @@ export function AudioPlayer({ loading, currentTrack }) {
             </S.PlayerControls>
 
             <S.PlayerTrackPlay>
-              {loading && <SkeletonTrack />}
+              {loading && (
+                <S.TrackPlayContain>
+                  <S.TrackPlayImage>
+                    <S.TrackPlaySvg alt="music">
+                      <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
+                    </S.TrackPlaySvg>
+                  </S.TrackPlayImage>
+                  <S.TrackPlayAuthor className="skeleton-style">
+                    <Skeleton width={100} height={20} />
+                  </S.TrackPlayAuthor>
+                  <S.TrackPlayAlbum className="skeleton-style">
+                    <Skeleton width={100} height={20} />
+                  </S.TrackPlayAlbum>
+                </S.TrackPlayContain>
+              )}
               {!loading && (
                 <S.TrackPlayContain>
                   <audio
@@ -135,11 +153,13 @@ export function AudioPlayer({ loading, currentTrack }) {
                       <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
                     </S.TrackPlaySvg>
                   </S.TrackPlayImage>
+
                   <S.TrackPlayAuthor>
                     <S.TrackPlayAuthorLink>
                       {currentTrack.name}
                     </S.TrackPlayAuthorLink>
                   </S.TrackPlayAuthor>
+
                   <S.TrackPlayAlbum>
                     <S.TrackPlayAlbumLink>
                       {currentTrack.author}
@@ -186,3 +206,4 @@ export function AudioPlayer({ loading, currentTrack }) {
     </S.Bar>
   )
 }
+
