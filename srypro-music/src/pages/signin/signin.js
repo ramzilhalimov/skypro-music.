@@ -3,6 +3,7 @@ import { createGlobalStyle } from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { LoginUser } from '../../components/api/api'
+import { useUserDispatch } from '../../contex'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -52,21 +53,25 @@ body {
 }
 `
 
-export const Signin = ({ setUser, isLoginMode }) => {
+export const Signin = ({ isLoginMode = false }) => {
   const [error, setError] = useState(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const dispatch = useUserDispatch()
   const navigate = useNavigate()
 
-  const handleLogin = async () => {
-    const newUser =  await LoginUser ({ email, password})
-    setUser(newUser)
+  const handleLogin = async (event) => {
+    event.preventDefault()
+
+    const newUser = await LoginUser({ email, password })
+    dispatch({ type: 'setUser', payload: newUser.username })
+
+    setError('Неизвестная ошибка при входе')
     //сохранить в локал
     localStorage.setItem('user', JSON.stringify(newUser))
-
     navigate('/')
   }
+
   useEffect(() => {
     setError(null)
   }, [isLoginMode, email, password])
@@ -101,11 +106,7 @@ export const Signin = ({ setUser, isLoginMode }) => {
             />
             <S.ModalBtnEnter>
               {error && <S.Error>{error}</S.Error>}
-              <S.ModalBtnEnterA
-                onClick={() => handleLogin({ email, password })}
-              >
-                Войти
-              </S.ModalBtnEnterA>
+              <S.ModalBtnEnterA onClick={handleLogin}>Войти</S.ModalBtnEnterA>
             </S.ModalBtnEnter>
             <S.ModalBtnSignup>
               <Link to="/signup">

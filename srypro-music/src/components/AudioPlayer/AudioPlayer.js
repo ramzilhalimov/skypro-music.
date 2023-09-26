@@ -64,7 +64,7 @@ export const AudioPlayer = ({ loading, currentTrack }) => {
         <S.BarTime>
           <span>{formatTime(timeProgress)}</span>
           <span>/</span>
-          <span>{formatTime(currentTrack.duration_in_seconds)}</span>
+          <span>{formatTime(duration)}</span>
         </S.BarTime>
 
         <S.BarPlayerProgress onLoadedMetadata={onLoadedMetadata}>

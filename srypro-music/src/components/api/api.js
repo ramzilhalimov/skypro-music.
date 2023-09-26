@@ -48,6 +48,6 @@ export async function LoginUser({ email, password }) {
       password,
     }),
   });
-    const client = await response.json();
-    return client;
+    const newUser = await response.json();
+    return newUser;
 }
