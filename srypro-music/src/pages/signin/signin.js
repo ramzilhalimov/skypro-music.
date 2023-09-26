@@ -2,6 +2,7 @@ import * as S from './signinStyle'
 import { createGlobalStyle } from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { LoginUser } from '../../components/api/api'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -53,15 +54,15 @@ body {
 
 export const Signin = ({ setUser, isLoginMode }) => {
   const [error, setError] = useState(null)
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
 
-  const handleLogin = () => {
-    const newUser = { login: 'taradam' }
+  const handleLogin = async () => {
+    const newUser =  await LoginUser ({ email, password})
     setUser(newUser)
+    //сохранить в локал
     localStorage.setItem('user', JSON.stringify(newUser))
 
     navigate('/')

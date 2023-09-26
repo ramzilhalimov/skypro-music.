@@ -22,7 +22,7 @@ export const Track = (props) => {
           <S.TrackTitleText>
             <S.TrackTitleLink onClick={() => props.turnOnTrack(props.track.id)}>
               {props.track.name}
-              <S.TrackTitleSpan>{props.track.feat}</S.TrackTitleSpan>
+              <S.TrackTitleSpan></S.TrackTitleSpan>
             </S.TrackTitleLink>
           </S.TrackTitleText>
         </S.TrackTitle>

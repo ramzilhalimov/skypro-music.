@@ -1,14 +1,24 @@
 import { useRef, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import { PauseTrack } from '../PauseTrack/PauseTrack'
-import { PlayTrack } from '../PlayTrack/PlayTrack'
 
 import * as S from './AudioPlayerStyle'
 
- export const AudioPlayer = ({ loading, currentTrack }) => {
+export const AudioPlayer = ({ loading, currentTrack }) => {
   const [isPlaying, setIsPlaying] = useState(false)
 
   const audioRef = useRef(null)
+
+  const handleStart = () => {
+    audioRef.current.play()
+    setIsPlaying(true)
+  }
+
+  const handleStop = () => {
+    audioRef.current.pause()
+    setIsPlaying(false)
+  }
+
+  const togglePlay = isPlaying ? handleStop : handleStart
 
   const [loop, setLoop] = useState(false)
   const toggleLoop = () => {
@@ -25,12 +35,13 @@ import * as S from './AudioPlayerStyle'
   const [timeProgress, setTimeProgress] = useState(0)
   const [duration, setDuration] = useState(0)
   const progressBarRef = useRef()
+
   const handleProgressChange = () => {
     audioRef.current.currentTime = progressBarRef.current.value
   }
   const onLoadedMetadata = () => {
     const seconds = audioRef.current.duration
-    setDuration()
+    setDuration(seconds)
     progressBarRef.current.max = seconds
   }
   const formatTime = (time) => {
@@ -46,18 +57,6 @@ import * as S from './AudioPlayerStyle'
   const handleTemparary = () => {
     alert('Временно не работает')
   }
-  const handleStart = () => {
-    audioRef.volume = 0.1
-    audioRef.current.play()
-    setIsPlaying(true)
-  }
-
-  const handleStop = () => {
-    audioRef.current.pause()
-    setIsPlaying(false)
-  }
-
-  const togglePlay = isPlaying ? handleStop : handleStart
 
   return (
     <S.Bar>
@@ -68,10 +67,7 @@ import * as S from './AudioPlayerStyle'
           <span>{formatTime(currentTrack.duration_in_seconds)}</span>
         </S.BarTime>
 
-        <S.BarPlayerProgress
-          onLoadedMetadata={onLoadedMetadata}
-          progressBarRef={progressBarRef}
-        >
+        <S.BarPlayerProgress onLoadedMetadata={onLoadedMetadata}>
           <S.StyledProgressInput
             type="range"
             min={0}
@@ -93,7 +89,34 @@ import * as S from './AudioPlayerStyle'
               </S.PlayerBtnPrev>
 
               <S.PlayerBtnPlay onClick={togglePlay}>
-                {!isPlaying ? <PlayTrack /> : <PauseTrack />}
+                <S.PlayerBtnPlaySvg alt="play">
+                  {!isPlaying && (
+                    <svg
+                      width="15"
+                      height="19"
+                      viewBox="0 0 15 19"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect width="5" height="19" fill="#D9D9D9" />
+                      <rect x="10" width="5" height="19" fill="#D9D9D9" />
+                    </svg>
+                  )}
+                  {isPlaying && (
+                    <svg
+                      width="15"
+                      height="20"
+                      viewBox="0 0 15 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15 10L-1.01012e-06 0.47372L-1.84293e-06 19.5263L15 10Z"
+                        fill="#D9D9D9"
+                      />
+                    </svg>
+                  )}
+                </S.PlayerBtnPlaySvg>
               </S.PlayerBtnPlay>
 
               <S.PlayerBtnNext>
@@ -101,15 +124,42 @@ import * as S from './AudioPlayerStyle'
                   <use xlinkHref="img/icon/sprite.svg#icon-next"></use>
                 </S.PlayerBtnNextSvg>
               </S.PlayerBtnNext>
-              <S.PlayerBtnRepeat
-                onClick={toggleLoop}
-                className="Player__btn-repeat _btn-icon"
-              >
+              <S.PlayerBtnRepeat onClick={toggleLoop} className=" _btn-icon">
                 <S.PlayerBtnRepeatSvg alt="repeat">
                   {loop ? (
-                    <use xlinkHref="img/icon/sprite.svg#icon-tworepeat"></use>
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 20 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10 3L5 0.113249V5.88675L10 3ZM7 14.5C3.96243 14.5 1.5 12.0376 1.5 9H0.5C0.5 12.5899 3.41015 15.5 7 15.5V14.5ZM1.5 9C1.5 5.96243 3.96243 3.5 7 3.5V2.5C3.41015 2.5 0.5 5.41015 0.5 9H1.5Z"
+                        fill="white"
+                      />
+                      <path
+                        d="M10 15L15 17.8868V12.1132L10 15ZM13 3.5C16.0376 3.5 18.5 5.96243 18.5 9H19.5C19.5 5.41015 16.5899 2.5 13 2.5V3.5ZM18.5 9C18.5 12.0376 16.0376 14.5 13 14.5V15.5C16.5899 15.5 19.5 12.5899 19.5 9H18.5Z"
+                        fill="white"
+                      />
+                    </svg>
                   ) : (
-                    <use xlinkHref="img/icon/sprite.svg#icon-repeat"></use>
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 20 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10 3L5 0.113249V5.88675L10 3ZM7 14.5C3.96243 14.5 1.5 12.0376 1.5 9H0.5C0.5 12.5899 3.41015 15.5 7 15.5V14.5ZM1.5 9C1.5 5.96243 3.96243 3.5 7 3.5V2.5C3.41015 2.5 0.5 5.41015 0.5 9H1.5Z"
+                        fill="#ACACAC"
+                      />
+                      <path
+                        d="M10 15L15 17.8868V12.1132L10 15ZM13 3.5C16.0376 3.5 18.5 5.96243 18.5 9H19.5C19.5 5.41015 16.5899 2.5 13 2.5V3.5ZM18.5 9C18.5 12.0376 16.0376 14.5 13 14.5V15.5C16.5899 15.5 19.5 12.5899 19.5 9H18.5Z"
+                        fill="#ACACAC"
+                      />
+                    </svg>
                   )}
                 </S.PlayerBtnRepeatSvg>
               </S.PlayerBtnRepeat>
@@ -206,4 +256,3 @@ import * as S from './AudioPlayerStyle'
     </S.Bar>
   )
 }
-
