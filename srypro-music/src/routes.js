@@ -34,6 +34,7 @@ export const AppRoutes = ({
           path="/"
           element={
             <MainPage
+              user={user}
               tracks={tracks}
               setUser={setUser}
               turnOnTrack={turnOnTrack}

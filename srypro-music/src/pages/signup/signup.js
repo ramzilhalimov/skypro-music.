@@ -67,7 +67,7 @@ export const Signup = ({ isLoginMode = false }) => {
       const user = await SignupUser({ email, password, username })
       dispatch({ type: 'setUser', payload: user.username })
       setError('Неизвестная ошибка регистрации')
-      navigate('/')
+      navigate('/signin')
     }
   }
 

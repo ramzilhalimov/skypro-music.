@@ -1,4 +1,4 @@
-import {AudioPlayer} from '../../components/AudioPlayer/AudioPlayer'
+import { AudioPlayer } from '../../components/AudioPlayer/AudioPlayer'
 import { NavMenu } from '../../components/NavMenu/NavMenu'
 import { SideBar } from '../../components/SideBar/SideBar'
 import { TrackList } from '../../components/TrackList/TrackList'
@@ -91,6 +91,7 @@ body {
 `
 
 function MainPage({
+  user,
   setUser,
   tracks,
   loading,
@@ -130,7 +131,7 @@ function MainPage({
               )}
             </S.CenterblockContent>
           </S.MainCenterblock>
-          <SideBar />
+          <SideBar user={user} setUser={setUser} />
         </S.Main>
 
         {currentTrack ? (

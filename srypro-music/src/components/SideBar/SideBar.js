@@ -3,7 +3,7 @@ import SkeletonBar from '../SkeletonBar/SkeletonBar'
 import { SideBarBlock } from '../SideBarBlock/SideBarBlock'
 import * as S from './SideBarStyle'
 
-export function SideBar() {
+export function SideBar({ user, setUser }) {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -14,11 +14,15 @@ export function SideBar() {
     return () => clearTimeout(timer)
   }, [])
 
+  const handleLogout = () => {
+    setUser(null)
+    localStorage.removeItem('user')
+  }
   return (
     <S.MainSidebar>
       <S.SidebarPersonal>
-        <S.SidebarPersonalName>Sergey.Ivanov</S.SidebarPersonalName>
-        <S.SidebarIcon>
+        <S.SidebarPersonalName>{user}</S.SidebarPersonalName>
+        <S.SidebarIcon onClick={handleLogout}>
           <svg alt="logout">
             <use xlinkHref="img/icon/sprite.svg#logout"></use>
           </svg>
