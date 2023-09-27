@@ -8,7 +8,7 @@ export const Bar = styled.div`
   background: rgba(28, 28, 28, 0.5);
 `
 export const StyledProgressInput = styled.input`
-  --progress-height: 8px;
+  --progress-height: 14px;
   --progress-color: #b672ff;
   --progress-color: ${(props) => props.$color ?? '#b672ff'};
 
@@ -199,6 +199,7 @@ export const PlayerBtnRepeatSvg = styled.svg`
   height: 12px;
   fill: transparent;
   stroke: #696969;
+  
 `
 export const PlayerBtnShuffle = styled.div`
   display: -webkit-box;
