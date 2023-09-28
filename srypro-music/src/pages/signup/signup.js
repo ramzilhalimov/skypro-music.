@@ -58,16 +58,44 @@ export const Signup = ({ isLoginMode = false }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
+  const [isNewUserLoading, setIsNewUserLoading] = useState(false)
+
   const dispatch = useUserDispatch()
   const navigate = useNavigate()
 
-  const handleRegister = async (event) => {
-    event.preventDefault()
-    if (password === repeatPassword) {
-      const user = await SignupUser({ email, password, username })
-      dispatch({ type: 'setUser', payload: user.username })
-      setError('Неизвестная ошибка регистрации')
-      navigate('/signin')
+  const isValidateFormSignup = async () => {
+    if (email === '' || password === '') {
+      setError('Укажите почту/пароль')
+      return false
+    }
+    if (password != repeatPassword) {
+      setError('Пароли не совпадают')
+      return false
+    }
+    try {
+      await SignupUser({ email, password })
+      return true
+    } catch (error) {
+      setError('Пользователь с таким именем уже существует')
+      return false
+    }
+  }
+
+  const handleRegister = async () => {
+    const isValidForm = await isValidateFormSignup()
+    if (isValidForm()) {
+      try {
+        setIsNewUserLoading(true)
+        const user = await SignupUser({ email, password, username })
+        setIsNewUserLoading(false)
+        navigate('/')
+        dispatch({ type: 'setUser', payload: user.username })
+        localStorage.setItem('user', JSON.stringify(user))
+      } catch (error) {
+        isValidateFormSignup()
+      }
+    } else {
+      isValidateFormSignup()
     }
   }
 
@@ -93,6 +121,7 @@ export const Signup = ({ isLoginMode = false }) => {
                 setName(event.target.value)
               }}
             />
+
             <S.ModalInput
               type="text"
               name="login"
@@ -102,6 +131,8 @@ export const Signup = ({ isLoginMode = false }) => {
                 setEmail(event.target.value)
               }}
             />
+            <p>{error}</p>
+
             <S.ModalInput
               type="password"
               name="password"
@@ -111,6 +142,8 @@ export const Signup = ({ isLoginMode = false }) => {
                 setPassword(event.target.value)
               }}
             />
+            <p>{error}</p>
+
             <S.ModalInput
               type="password"
               name="password"
@@ -120,9 +153,12 @@ export const Signup = ({ isLoginMode = false }) => {
                 setRepeatPassword(event.target.value)
               }}
             />
+            {error && <S.Error>{error}</S.Error>}
             <S.ModalBtnSignupEnt className="modal__btn-signup-ent">
-              {error && <S.Error>{error}</S.Error>}
-              <S.ModalBtnSignupEntA onClick={handleRegister}>
+              <S.ModalBtnSignupEntA
+                disabled={isNewUserLoading}
+                onClick={handleRegister}
+              >
                 Зарегистрироваться
               </S.ModalBtnSignupEntA>
             </S.ModalBtnSignupEnt>

@@ -59,17 +59,41 @@ export const Signin = ({ isLoginMode = false }) => {
   const [password, setPassword] = useState('')
   const dispatch = useUserDispatch()
   const navigate = useNavigate()
+  const [isUserLoading, setIsUserLoading] = useState(false)
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-
-    const newUser = await LoginUser({ email, password })
-    dispatch({ type: 'setUser', payload: newUser.username })
-
-    setError('Неизвестная ошибка при входе')
-    //сохранить в локал
-    localStorage.setItem('user', JSON.stringify(newUser))
-    navigate('/')
+  const isValidateFormLogin = async () => {
+    if (email === '' || password === '') {
+      setError('Укажите почту/пароль')
+      return false
+    }
+    if (email.length < 5) {
+      setError('Слишком короткая почта или имя')
+      return false
+    }
+    try {
+      await LoginUser({ email, password })
+      return true
+    } catch (error) {
+      setError('Пользователь с таким email или паролем не найден')
+      return false
+    }
+  }
+  const handleLogin = async ({ email, password }) => {
+    const isValidLoginForm = await isValidateFormLogin()
+    if (isValidLoginForm) {
+      try {
+        setIsUserLoading(true)
+        const newUser = await LoginUser({ email, password })
+        setIsUserLoading(false)
+        navigate('/')
+        dispatch({ type: 'setUser', payload: newUser.username })
+        localStorage.setItem('user', JSON.stringify(newUser.username))
+      } catch (error) {
+        isValidateFormLogin()
+      }
+    } else {
+      isValidateFormLogin()
+    }
   }
 
   useEffect(() => {
@@ -104,9 +128,14 @@ export const Signin = ({ isLoginMode = false }) => {
                 setPassword(event.target.value)
               }}
             />
+            {error && <S.Error>{error}</S.Error>}
             <S.ModalBtnEnter>
-              {error && <S.Error>{error}</S.Error>}
-              <S.ModalBtnEnterA onClick={handleLogin}>Войти</S.ModalBtnEnterA>
+              <S.ModalBtnEnterA
+                disabled={isUserLoading}
+                onClick={() => handleLogin({ email, password })}
+              >
+                Войти
+              </S.ModalBtnEnterA>
             </S.ModalBtnEnter>
             <S.ModalBtnSignup>
               <Link to="/signup">
