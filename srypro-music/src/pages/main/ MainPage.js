@@ -6,9 +6,9 @@ import { Filter } from '../../components/Filter/Filter'
 import { Search } from '../../components/Search/Search'
 import * as S from './AppStyle'
 import { createGlobalStyle } from 'styled-components'
-import { useState, useEffect } from 'react'
+
 import SkeletonTrack from '../../components/SkeletonBar/SkeletonTrack'
-import { Tracks } from '../../components/Tracks/Tracks'
+import { AudioBlock } from '../../components/AudioBlock/AudioBlock'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -91,20 +91,7 @@ body {
   }
 `
 
-function MainPage({setUser}) {
-
-  const [loading, setLoading] = useState(true)
-  const [tracks, setTracks] = useState([])
-
-  
-  useEffect(() => {
-    setLoading(true)
-    const timer = setTimeout(() => {
-      setLoading(false)
-      setTracks(Tracks)
-    }, 3000)
-    return () => clearTimeout(timer)
-  }, [])
+function MainPage({ setUser, tracks, loading, turnOnTrack, currentTrack }) {
   return (
     <S.Wrapper>
       <GlobalStyle />
@@ -127,12 +114,15 @@ function MainPage({setUser}) {
                 </S.PlaylistTitleCol04>
               </S.ContentTitle>
               {loading && <SkeletonTrack />}
-              {!loading && <TrackList tracks={tracks} />}
+              {!loading && (
+                <TrackList tracks={tracks} turnOnTrack={turnOnTrack} />
+              )}
             </S.CenterblockContent>
           </S.MainCenterblock>
           <SideBar />
         </S.Main>
-        <AudioPlayer />
+        {loading && <AudioBlock />}
+        {!loading && <AudioPlayer currentTrack={currentTrack} />}
         <S.Footer></S.Footer>
       </S.Container>
     </S.Wrapper>

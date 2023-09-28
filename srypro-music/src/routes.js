@@ -8,7 +8,14 @@ import { Signup } from './pages/signup/signup'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { useEffect } from 'react'
 
-export const AppRoutes = ({ user, setUser }) => {
+export const AppRoutes = ({
+  user,
+  setUser,
+  tracks,
+  turnOnTrack,
+  currentTrack,
+  loading,
+}) => {
   useEffect(() => {
     const registeredUser = localStorage.getItem('user')
     if (registeredUser) {
@@ -22,7 +29,18 @@ export const AppRoutes = ({ user, setUser }) => {
       <Route path="/signup" element={<Signup />} />
 
       <Route element={<ProtectedRoute isAllowed={Boolean(user)} />}>
-        <Route path="/" element={<MainPage setUser={setUser} />} />
+        <Route
+          path="/"
+          element={
+            <MainPage
+              tracks={tracks}
+              setUser={setUser}
+              turnOnTrack={turnOnTrack}
+              currentTrack={currentTrack}
+              loading={loading}
+            />
+          }
+        />
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/category/:id" element={<Category />} />
       </Route>

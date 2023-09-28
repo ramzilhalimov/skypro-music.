@@ -1,9 +1,9 @@
-import * as S from './AudioPlayerStyle'
+import * as S from './AudioBlockStyle'
 
-export function AudioPlayer({currentTrack}) {
+export function AudioBlock() {
   return (
     <S.Bar>
-      <S.BarContent>
+      {/* <S.BarContent>
         <S.BarPlayerProgress></S.BarPlayerProgress>
         <S.BarPlayerBlock>
           <S.BarPlayer>
@@ -85,7 +85,7 @@ export function AudioPlayer({currentTrack}) {
             </S.VolumeContent>
           </S.BarVolumeBlock>
         </S.BarPlayerBlock>
-      </S.BarContent>
+      </S.BarContent> */}
     </S.Bar>
   )
 }
