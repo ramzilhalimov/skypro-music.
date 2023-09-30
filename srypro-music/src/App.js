@@ -36,7 +36,12 @@ function App() {
     })
   }
  
-  const [state, dispatch] = useReducer(reducer, { userName: '' })
+const userState = {
+  userName: JSON.parse(localStorage.getItem('user')) || ''
+};
+
+  const [state, dispatch] = useReducer(reducer, userState
+    )
   return (
     <UserContext.Provider value={state}>
       <UserDispatchContext.Provider value={dispatch}>
