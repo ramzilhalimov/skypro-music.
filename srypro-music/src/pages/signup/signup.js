@@ -89,9 +89,9 @@ export const Signup = ({ isLoginMode = false }) => {
         setIsNewUserLoading(true)
         const user = await SignupUser({ email, password, username })
         setIsNewUserLoading(false)
-        navigate('/')
         dispatch({ type: 'setUser', payload: user.username })
-        // localStorage.setItem('user', JSON.stringify(user))
+        localStorage.setItem('user', JSON.stringify(user))
+        navigate('/')
       } catch (error) {
         isValidateFormSignup()
       }

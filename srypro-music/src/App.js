@@ -8,7 +8,7 @@ import { AppRoutes } from './routes'
 import * as S from '../src/pages/main/AppStyle'
 
 function App() {
-  const [user, setUser] = useState(localStorage.getItem('user'))
+  // const [user, setUser] = useState(localStorage.getItem('user'))
   const [loading, setLoading] = useState(true)
   const [tracks, setTracks] = useState([])
   const [addTracksError, setAddTracksError] = useState(null)
@@ -35,6 +35,7 @@ function App() {
       setCurrentTrack(trackData)
     })
   }
+ 
   const [state, dispatch] = useReducer(reducer, { userName: '' })
   return (
     <UserContext.Provider value={state}>
@@ -42,8 +43,7 @@ function App() {
         <S.App>
           <GlobalStyle />
           <AppRoutes
-            user={user}
-            setUser={setUser}
+        
             tracks={tracks}
             addTracksError={addTracksError}
             currentTrack={currentTrack}

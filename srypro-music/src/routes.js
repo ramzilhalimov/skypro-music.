@@ -6,37 +6,36 @@ import { NotFound } from './pages/not-found/NotFound'
 import { Signin } from './pages/signin/signin'
 import { Signup } from './pages/signup/signup'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
-import { useEffect } from 'react'
+import { useUser } from './contex'
+// import { useEffect } from 'react'
 
 export const AppRoutes = ({
-  user,
-  setUser,
   tracks,
   turnOnTrack,
   currentTrack,
   loading,
   addTracksError,
 }) => {
-  useEffect(() => {
-    const registeredUser = localStorage.getItem('user')
-    if (registeredUser) {
-      setUser(JSON.parse(JSON.stringify(registeredUser)))
-    }
-  }, [])
-
+  // useEffect(() => {
+  //   const registeredUser = localStorage.getItem('user')
+  //   if (registeredUser) {
+  //     setUser(JSON.parse(JSON.stringify(registeredUser)))
+  //   }
+  // }, [])
+  const name = useUser()
+  
+  console.log(name);
   return (
     <Routes>
-      <Route path="/signin" element={<Signin setUser={setUser} />} />
+      <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
 
-      <Route element={<ProtectedRoute isAllowed={Boolean(user)} />}>
+      <Route element={<ProtectedRoute isAllowed={Boolean(name)} />}>
         <Route
           path="/"
           element={
             <MainPage
-              user={user}
               tracks={tracks}
-              setUser={setUser}
               turnOnTrack={turnOnTrack}
               currentTrack={currentTrack}
               loading={loading}

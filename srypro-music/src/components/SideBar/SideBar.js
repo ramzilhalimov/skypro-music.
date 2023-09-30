@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react'
 import SkeletonBar from '../SkeletonBar/SkeletonBar'
 import { SideBarBlock } from '../SideBarBlock/SideBarBlock'
 import * as S from './SideBarStyle'
-import { useUser } from '../../contex'
+import { useUser, useUserDispatch } from '../../contex'
 
-export function SideBar({ setUser }) {
+export function SideBar() {
   const [loading, setLoading] = useState(false)
   const name = useUser()
+  const dispatch = useUserDispatch()
+  console.log(name)
+  console.log(localStorage.getItem('user'))
 
   useEffect(() => {
     setLoading(true)
@@ -17,9 +20,10 @@ export function SideBar({ setUser }) {
   }, [])
 
   const handleLogout = () => {
-    setUser(null)
+    dispatch({ payload: null })
     localStorage.removeItem('user')
   }
+
   return (
     <S.MainSidebar>
       <S.SidebarPersonal>
