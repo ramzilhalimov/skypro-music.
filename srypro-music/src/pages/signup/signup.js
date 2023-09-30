@@ -81,16 +81,17 @@ export const Signup = ({ isLoginMode = false }) => {
     }
   }
 
-  const handleRegister = async () => {
+  const handleRegister = async (e) => {
+    e.preventDefault()
     const isValidForm = await isValidateFormSignup()
-    if (isValidForm()) {
+    if (isValidForm) {
       try {
         setIsNewUserLoading(true)
         const user = await SignupUser({ email, password, username })
         setIsNewUserLoading(false)
         navigate('/')
         dispatch({ type: 'setUser', payload: user.username })
-        localStorage.setItem('user', JSON.stringify(user))
+        // localStorage.setItem('user', JSON.stringify(user))
       } catch (error) {
         isValidateFormSignup()
       }
@@ -117,8 +118,8 @@ export const Signup = ({ isLoginMode = false }) => {
               name="name"
               placeholder="Имя пользователя"
               value={username}
-              onChange={(event) => {
-                setName(event.target.value)
+              onChange={(e) => {
+                setName(e.target.value)
               }}
             />
 
@@ -127,8 +128,8 @@ export const Signup = ({ isLoginMode = false }) => {
               name="login"
               placeholder="Почта"
               value={email}
-              onChange={(event) => {
-                setEmail(event.target.value)
+              onChange={(e) => {
+                setEmail(e.target.value)
               }}
             />
             <p>{error}</p>
@@ -138,8 +139,8 @@ export const Signup = ({ isLoginMode = false }) => {
               name="password"
               placeholder="Пароль"
               value={password}
-              onChange={(event) => {
-                setPassword(event.target.value)
+              onChange={(e) => {
+                setPassword(e.target.value)
               }}
             />
             <p>{error}</p>
@@ -149,8 +150,8 @@ export const Signup = ({ isLoginMode = false }) => {
               name="password"
               placeholder="Повторите пароль"
               value={repeatPassword}
-              onChange={(event) => {
-                setRepeatPassword(event.target.value)
+              onChange={(e) => {
+                setRepeatPassword(e.target.value)
               }}
             />
             {error && <S.Error>{error}</S.Error>}

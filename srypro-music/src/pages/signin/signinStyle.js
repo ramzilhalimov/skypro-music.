@@ -60,7 +60,7 @@ export const ModalInputLogin = styled.input`
   border-bottom: 1px solid #d0cece;
   padding: 8px 1px;
   margin-bottom: 30px;
-  &::-webkit-input-placeholder{
+  &::-webkit-input-placeholder {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -68,7 +68,7 @@ export const ModalInputLogin = styled.input`
     letter-spacing: -0.05px;
     color: #d0cece;
   }
-  &:-ms-input-placeholder{
+  &:-ms-input-placeholder {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -92,7 +92,6 @@ export const ModalInputLogin = styled.input`
     letter-spacing: -0.05px;
     color: #d0cece;
   }
-
 `
 export const ModalInputPassword = styled.input`
   width: 100%;
@@ -101,7 +100,7 @@ export const ModalInputPassword = styled.input`
   border-right: none;
   border-bottom: 1px solid #d0cece;
   padding: 8px 1px;
-  &::-webkit-input-placeholder{
+  &::-webkit-input-placeholder {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -109,7 +108,7 @@ export const ModalInputPassword = styled.input`
     letter-spacing: -0.05px;
     color: #d0cece;
   }
-  &:-ms-input-placeholder{
+  &:-ms-input-placeholder {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -133,9 +132,7 @@ export const ModalInputPassword = styled.input`
     letter-spacing: -0.05px;
     color: #d0cece;
   }
-  
 `
-
 
 export const ModalBtnEnter = styled.button`
   width: 278px;
@@ -154,17 +151,6 @@ export const ModalBtnEnter = styled.button`
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  &:hover {
-    background-color: #3f007d;
-  }
-  &:active{
-    background-color: #271a58;
-  }
-`
-
-export const ModalBtnEnterA = styled.a`
-  width: 100%;
-  height: 100%;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -180,7 +166,33 @@ export const ModalBtnEnterA = styled.a`
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+  &:hover {
+    background-color: #3f007d;
+  }
+  &:active {
+    background-color: #271a58;
+  }
 `
+
+// export const ModalBtnEnterA = styled.a`
+//   width: 100%;
+//   height: 100%;
+//   font-style: normal;
+//   font-weight: 400;
+//   font-size: 18px;
+//   line-height: 24px;
+//   letter-spacing: -0.05px;
+//   color: #ffffff;
+//   display: -webkit-box;
+//   display: -ms-flexbox;
+//   display: flex;
+//   -webkit-box-align: center;
+//   -ms-flex-align: center;
+//   align-items: center;
+//   -webkit-box-pack: center;
+//   -ms-flex-pack: center;
+//   justify-content: center;
+// `
 
 export const ModalBtnSignup = styled.button`
   width: 278px;
@@ -203,17 +215,7 @@ export const ModalBtnSignup = styled.button`
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  &:hover {
-    background-color: #f4f5f6;
-  }
-  &:active{
-    background-color: #d9d9d9;
-  }
-`
 
-export const ModalBtnSignupA = styled.a`
-  width: 100%;
-  height: 100%;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -228,8 +230,34 @@ export const ModalBtnSignupA = styled.a`
   align-items: center;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center;
+
+  &:hover {
+    background-color: #f4f5f6;
+  }
+  &:active {
+    background-color: #d9d9d9;
+  }
 `
+
+// export const ModalBtnSignupA = styled.a`
+//   width: 100%;
+//   height: 100%;
+//   font-style: normal;
+//   font-weight: 400;
+//   font-size: 18px;
+//   line-height: 24px;
+//   letter-spacing: -0.05px;
+//   color: #000000;
+//   display: -webkit-box;
+//   display: -ms-flexbox;
+//   display: flex;
+//   -webkit-box-align: center;
+//   -ms-flex-align: center;
+//   align-items: center;
+//   -webkit-box-pack: center;
+//   -ms-flex-pack: center;
+//   justify-content: center;
+// `
 export const Error = styled.div`
   color: coral;
   font-weight: 400;
