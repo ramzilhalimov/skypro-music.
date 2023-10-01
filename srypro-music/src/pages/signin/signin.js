@@ -1,6 +1,9 @@
 import * as S from './signinStyle'
 import { createGlobalStyle } from 'styled-components'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { LoginUser } from '../../components/api/api'
+import { useUserDispatch } from '../../contex'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -50,15 +53,56 @@ body {
 }
 `
 
-export const Signin = ({ setUser }) => {
+export const Signin = ({ isLoginMode = false }) => {
+  // localStorage.clear()
+  const [error, setError] = useState(null)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const dispatch = useUserDispatch()
   const navigate = useNavigate()
-  const handleLogin = () => {
-    const newUser = { login: 'taradam' }
-    setUser(newUser)
-    localStorage.setItem('user', JSON.stringify(newUser))
+  const [isUserLoading, setIsUserLoading] = useState(false)
 
-    navigate('/')
+  const isValidateFormLogin = async () => {
+    if (email === '' || password === '') {
+      setError('Укажите почту/пароль')
+      return false
+    }
+    if (email.length < 5) {
+      setError('Слишком короткая почта или имя')
+      return false
+    }
+    try {
+      await LoginUser({ email, password })
+      return true
+    } catch (error) {
+      console.error(error)
+      setError('Пользователь с таким email или паролем не найден')
+      return false
+    }
   }
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    console.log(localStorage.getItem('user'))
+    const isValidLoginForm = await isValidateFormLogin()
+    if (isValidLoginForm) {
+      try {
+        setIsUserLoading(true)
+        const newUser = await LoginUser({ email, password })
+        setIsUserLoading(false)
+        dispatch({ type: 'setUser', payload: newUser.username })
+        localStorage.setItem('user', JSON.stringify(newUser.username))
+        navigate('/')
+      } catch (error) {
+        isValidateFormLogin()
+      }
+    } else {
+      isValidateFormLogin({ email, password })
+    }
+  }
+
+  useEffect(() => {
+    setError(null)
+  }, [isLoginMode, email, password])
 
   return (
     <S.Wrapper>
@@ -70,18 +114,31 @@ export const Signin = ({ setUser }) => {
               <S.ModalLogoImg src="../img/logo_modal.png" alt="logo" />
             </S.ModalLogo>
 
-            <S.ModalInputLogin type="text" name="login" placeholder="Почта" />
+            <S.ModalInputLogin
+              type="text"
+              name="login"
+              placeholder="Почта"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value)
+              }}
+            />
             <S.ModalInputPassword
               type="password"
               name="password"
               placeholder="Пароль"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value)
+              }}
             />
-            <S.ModalBtnEnter>
-              <S.ModalBtnEnterA onClick={handleLogin}>Войти</S.ModalBtnEnterA>
+            {error && <S.Error>{error}</S.Error>}
+            <S.ModalBtnEnter disabled={isUserLoading} onClick={handleLogin}>
+              Войти
             </S.ModalBtnEnter>
-            <S.ModalBtnSignup>
-              <S.ModalBtnSignupA>Зарегистрироваться</S.ModalBtnSignupA>
-            </S.ModalBtnSignup>
+            <Link to="/signup">
+              <S.ModalBtnSignup>Зарегистрироваться</S.ModalBtnSignup>
+            </Link>
           </S.ModalFormLogin>
         </S.ModalBlock>
       </S.ContainerEnter>

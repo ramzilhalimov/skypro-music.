@@ -1,5 +1,17 @@
 import styled from 'styled-components'
 
+export const App = styled.div`
+  html {
+    width: 100%;
+    height: 100%;
+    font-family: 'StratosSkyeng', sans-serif;
+    color: #ffffff;
+  }
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+`
 export const Wrapper = styled.div`
   width: 100%;
   min-height: 100%;

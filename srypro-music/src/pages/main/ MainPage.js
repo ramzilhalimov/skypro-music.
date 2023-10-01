@@ -8,9 +8,8 @@ import * as S from './AppStyle'
 import { createGlobalStyle } from 'styled-components'
 
 import SkeletonTrack from '../../components/SkeletonBar/SkeletonTrack'
-import { AudioBlock } from '../../components/AudioBlock/AudioBlock'
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
 * {
   margin: 0;
   padding: 0;
@@ -91,7 +90,15 @@ body {
   }
 `
 
-function MainPage({ setUser, tracks, loading, turnOnTrack, currentTrack }) {
+function MainPage({
+  user,
+  setUser,
+  tracks,
+  loading,
+  turnOnTrack,
+  currentTrack,
+  addTracksError,
+}) {
   return (
     <S.Wrapper>
       <GlobalStyle />
@@ -101,7 +108,7 @@ function MainPage({ setUser, tracks, loading, turnOnTrack, currentTrack }) {
           <S.MainCenterblock>
             <Search />
             <S.CenterblockH2>Треки</S.CenterblockH2>
-            <Filter />
+            <Filter tracks={tracks} />
             <S.CenterblockContent>
               <S.ContentTitle>
                 <S.PlaylistTitleCol01>Трек</S.PlaylistTitleCol01>
@@ -115,14 +122,26 @@ function MainPage({ setUser, tracks, loading, turnOnTrack, currentTrack }) {
               </S.ContentTitle>
               {loading && <SkeletonTrack />}
               {!loading && (
-                <TrackList tracks={tracks} turnOnTrack={turnOnTrack} />
+                <TrackList
+                  tracks={tracks}
+                  turnOnTrack={turnOnTrack}
+                  currentTrack={currentTrack}
+                  addTracksError={addTracksError}
+                />
               )}
             </S.CenterblockContent>
           </S.MainCenterblock>
-          <SideBar />
+          <SideBar user={user} setUser={setUser} />
         </S.Main>
-        {loading && <AudioBlock />}
-        {!loading && <AudioPlayer currentTrack={currentTrack} />}
+
+        {currentTrack ? (
+          <AudioPlayer
+            tracks={tracks}
+            loading={loading}
+            currentTrack={currentTrack}
+          />
+        ) : null}
+
         <S.Footer></S.Footer>
       </S.Container>
     </S.Wrapper>

@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import * as S from './NavMenuStyle'
 import { Link } from 'react-router-dom'
+import { useUserDispatch } from '../../contex'
 
-export function NavMenu({ setUser }) {
+export function NavMenu() {
   const [open, setOpen] = useState(false)
-
+  const dispatch = useUserDispatch()
+  
   const handleLogout = () => {
-    setUser(null)
+    dispatch({ payload: null })
     localStorage.removeItem('user')
   }
 

@@ -1,6 +1,10 @@
 import * as S from './signupStyle'
 import { createGlobalStyle } from 'styled-components'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { SignupUser } from '../../components/api/api'
+
+import { useNavigate } from 'react-router-dom'
+import { useUserDispatch } from '../../contex'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -48,7 +52,58 @@ body {
 
 `
 
-export const Signup = () => {
+export const Signup = ({ isLoginMode = false }) => {
+  const [error, setError] = useState(null)
+  const [username, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [repeatPassword, setRepeatPassword] = useState('')
+  const [isNewUserLoading, setIsNewUserLoading] = useState(false)
+
+  const dispatch = useUserDispatch()
+  const navigate = useNavigate()
+
+  const isValidateFormSignup = async () => {
+    if (email === '' || password === '') {
+      setError('Укажите почту/пароль')
+      return false
+    }
+    if (password != repeatPassword) {
+      setError('Пароли не совпадают')
+      return false
+    }
+    try {
+      await SignupUser({ email, password })
+      return true
+    } catch (error) {
+      setError('Пользователь с таким именем уже существует')
+      return false
+    }
+  }
+
+  const handleRegister = async (e) => {
+    e.preventDefault()
+    const isValidForm = await isValidateFormSignup()
+    if (isValidForm) {
+      try {
+        setIsNewUserLoading(true)
+        const user = await SignupUser({ email, password, username })
+        setIsNewUserLoading(false)
+        dispatch({ type: 'setUser', payload: user.username })
+        localStorage.setItem('user', JSON.stringify(user))
+        navigate('/')
+      } catch (error) {
+        isValidateFormSignup()
+      }
+    } else {
+      isValidateFormSignup()
+    }
+  }
+
+  useEffect(() => {
+    setError(null)
+  }, [isLoginMode, username, email, password, repeatPassword])
+
   return (
     <S.Wrapper>
       <GlobalStyle />
@@ -58,22 +113,55 @@ export const Signup = () => {
             <S.ModalLogo>
               <S.ModalLogoImg src="../img/logo_modal.png" alt="logo" />
             </S.ModalLogo>
+            <S.ModalInput
+              type="name"
+              name="name"
+              placeholder="Имя пользователя"
+              value={username}
+              onChange={(e) => {
+                setName(e.target.value)
+              }}
+            />
 
-            <S.ModalInput type="text" name="login" placeholder="Почта" />
+            <S.ModalInput
+              type="text"
+              name="login"
+              placeholder="Почта"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value)
+              }}
+            />
+            <p>{error}</p>
+
             <S.ModalInput
               type="password"
               name="password"
               placeholder="Пароль"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value)
+              }}
             />
+            <p>{error}</p>
+
             <S.ModalInput
               type="password"
               name="password"
               placeholder="Повторите пароль"
+              value={repeatPassword}
+              onChange={(e) => {
+                setRepeatPassword(e.target.value)
+              }}
             />
+            {error && <S.Error>{error}</S.Error>}
             <S.ModalBtnSignupEnt className="modal__btn-signup-ent">
-              <Link  to="/">
-                <S.ModalBtnSignupEntA>Зарегистрироваться</S.ModalBtnSignupEntA>
-              </Link>
+              <S.ModalBtnSignupEntA
+                disabled={isNewUserLoading}
+                onClick={handleRegister}
+              >
+                Зарегистрироваться
+              </S.ModalBtnSignupEntA>
             </S.ModalBtnSignupEnt>
           </S.ModalFormLogin>
         </S.ModalBlock>
