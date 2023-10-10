@@ -31,7 +31,7 @@ export const AudioPlayer = ({ loading }) => {
   }
 
   useEffect(() => {
-    if (isPlaying) togglePlay()
+    if (!isPlaying) togglePlay()
   }, [currentTrack?.track_file])
 
   const formatTime = (time) => {
@@ -44,18 +44,6 @@ export const AudioPlayer = ({ loading }) => {
     }
     return '00:00'
   }
-
-  // const handleStart = () => {
-  //   audioRef.current.play()
-  //   setIsPlaying(true)
-  // }
-
-  // const handleStop = () => {
-  //   audioRef.current.pause()
-  //   setIsPlaying(false)
-  // }
-
-  // const togglePlay = isPlaying ? handleStop : handleStart
 
   const [loop, setLoop] = useState(false)
   const toggleLoop = () => {
@@ -87,17 +75,7 @@ export const AudioPlayer = ({ loading }) => {
     if (+index === trackList.length - 1) return
     index = +index + 1
 
-    dispatch(
-      setCurrentTrack({
-        id: trackList[index].id,
-        author: trackList[index].author,
-        name: trackList[index].name,
-        trackFile: trackList[index].track_file,
-        progress: 0,
-        length: trackList[index].duration_in_seconds,
-        staredUser: trackList[index].stared_user,
-      }),
-    )
+    dispatch(setCurrentTrack(trackList[index].id))
   }
   const handlePrev = () => {
     if (audioRef.current?.currentTime > 5) {
@@ -109,17 +87,7 @@ export const AudioPlayer = ({ loading }) => {
     if (+index === 0) return
     index = +index - 1
 
-    dispatch(
-      setCurrentTrack({
-        id: trackList[index].id,
-        author: trackList[index].author,
-        title: trackList[index].name,
-        trackFile: trackList[index].track_file,
-        progress: 0,
-        length: trackList[index].duration_in_seconds,
-        staredUser: trackList[index].stared_user,
-      }),
-    )
+    dispatch(setCurrentTrack(trackList[index].id))
   }
   const handleShufflePlaylist = () => {
     setShuffle(true)
@@ -143,6 +111,11 @@ export const AudioPlayer = ({ loading }) => {
 
   const toggleShuffle = shuffle ? stopShufflePlaylist : handleShufflePlaylist
 
+  const endTrack = () => {
+    if (!loop) {
+      handleNext()
+    }
+  }
   return (
     <S.Bar>
       <S.BarContent>
@@ -161,6 +134,7 @@ export const AudioPlayer = ({ loading }) => {
             step={0.01}
             $color="#B672FF"
             ref={progressBarRef}
+            timeProgress={timeProgress}
             onChange={handleProgressChange}
           />
         </S.BarPlayerProgress>
@@ -238,6 +212,7 @@ export const AudioPlayer = ({ loading }) => {
                     src={currentTrack.track_file}
                     autoPlay
                     style={{ volume: volume }}
+                    onEnded={endTrack}
                   ></audio>
                   <S.TrackPlayImage>
                     <S.TrackPlaySvg alt="music">

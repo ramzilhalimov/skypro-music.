@@ -11,7 +11,6 @@ import { useUser } from './contex'
 
 export const AppRoutes = ({
   tracks,
-  turnOnTrack,
   currentTrack,
   loading,
   addTracksError,
@@ -29,7 +28,6 @@ export const AppRoutes = ({
           element={
             <MainPage
               tracks={tracks}
-              turnOnTrack={turnOnTrack}
               currentTrack={currentTrack}
               loading={loading}
               addTracksError={addTracksError}

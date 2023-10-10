@@ -33,10 +33,6 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
-  const turnOnTrack = (trackId) => {
-    console.log('трэкай', trackId)
-  }
-
   const userState = {
     userName: JSON.parse(localStorage.getItem('user')) || '',
   }
@@ -51,7 +47,6 @@ function App() {
             tracks={tracks}
             addTracksError={addTracksError}
             currentTrack={currentTrack}
-            turnOnTrack={turnOnTrack}
             loading={loading}
           />
         </S.App>

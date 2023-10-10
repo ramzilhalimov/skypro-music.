@@ -95,7 +95,6 @@ function MainPage({
   setUser,
   tracks,
   loading,
-  turnOnTrack,
   currentTrack,
   addTracksError,
 }) {
@@ -124,7 +123,6 @@ function MainPage({
               {!loading && (
                 <TrackList
                   tracks={tracks}
-                  turnOnTrack={turnOnTrack}
                   currentTrack={currentTrack}
                   addTracksError={addTracksError}
                 />
