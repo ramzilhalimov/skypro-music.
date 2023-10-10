@@ -22,12 +22,12 @@ export const Track = (props) => {
       <S.PlaylistTrack>
         <S.TrackTitle>
           <S.TrackTitleImage>
-             {isPlaying && currentTrack?.id === props.track.id ? ( 
-               <S.TrackSvg alt="music"></S.TrackSvg> 
-             ) : (
-            <S.TrackTitleSvg alt="music">
-              <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
-            </S.TrackTitleSvg>
+            {isPlaying && currentTrack?.id === props.track.id ? (
+              <S.TrackSvg alt="music"></S.TrackSvg>
+            ) : (
+              <S.TrackTitleSvg alt="music">
+                <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
+              </S.TrackTitleSvg>
             )}
           </S.TrackTitleImage>
           <S.TrackTitleText>

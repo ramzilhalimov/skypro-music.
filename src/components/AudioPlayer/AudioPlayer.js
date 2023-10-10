@@ -105,7 +105,7 @@ export const AudioPlayer = ({ loading }) => {
       return
     }
     const trackList = shuffle ? [...isShuffle] : [...playlist]
-    let index = trackList.findIndexOf((track) => track.id === currentTrack.id)
+    let index = trackList.findIndex((track) => track.id === currentTrack.id)
     if (+index === 0) return
     index = +index - 1
 
