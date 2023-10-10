@@ -16,15 +16,8 @@ export const AppRoutes = ({
   loading,
   addTracksError,
 }) => {
-  // useEffect(() => {
-  //   const registeredUser = localStorage.getItem('user')
-  //   if (registeredUser) {
-  //     setUser(JSON.parse(JSON.stringify(registeredUser)))
-  //   }
-  // }, [])
   const name = useUser()
-  
-  console.log(name);
+
   return (
     <Routes>
       <Route path="/signin" element={<Signin />} />

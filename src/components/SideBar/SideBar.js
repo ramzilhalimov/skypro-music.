@@ -8,8 +8,6 @@ export function SideBar() {
   const [loading, setLoading] = useState(false)
   const name = useUser()
   const dispatch = useUserDispatch()
-  console.log(name)
-  console.log(localStorage.getItem('user'))
 
   useEffect(() => {
     setLoading(true)

@@ -1,6 +1,10 @@
 import * as S from './TrackStyle'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { setCurrentTrack } from '../../store/slices/playlistSlice'
 export const Track = (props) => {
+  const dispatch = useDispatch()
+  const isPlaying = useSelector((state) => state.isPlaying)
+  const currentTrack = useSelector((state) => state.track)
   const formattedDuration = (durationInSeconds) => {
     const minutes = Math.floor(durationInSeconds / 60)
     const seconds = durationInSeconds % 60
@@ -10,17 +14,24 @@ export const Track = (props) => {
     return formattedDuration
   }
 
+  const turnOnTrack = (id) => {
+    dispatch(setCurrentTrack(id))
+  }
   return (
     <S.PlaylistItem>
       <S.PlaylistTrack>
         <S.TrackTitle>
           <S.TrackTitleImage>
+             {isPlaying && currentTrack?.id === props.track.id ? ( 
+               <S.TrackSvg alt="music"></S.TrackSvg> 
+             ) : (
             <S.TrackTitleSvg alt="music">
               <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
             </S.TrackTitleSvg>
+            )}
           </S.TrackTitleImage>
           <S.TrackTitleText>
-            <S.TrackTitleLink onClick={() => props.turnOnTrack(props.track.id)}>
+            <S.TrackTitleLink onClick={() => turnOnTrack(props.track.id)}>
               {props.track.name}
               <S.TrackTitleSpan></S.TrackTitleSpan>
             </S.TrackTitleLink>

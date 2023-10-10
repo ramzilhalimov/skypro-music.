@@ -82,7 +82,7 @@ export const Signin = ({ isLoginMode = false }) => {
   }
   const handleLogin = async (e) => {
     e.preventDefault()
-    console.log(localStorage.getItem('user'))
+
     const isValidLoginForm = await isValidateFormLogin()
     if (isValidLoginForm) {
       try {

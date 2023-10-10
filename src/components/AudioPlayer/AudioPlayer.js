@@ -1,23 +1,61 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  setCurrentTrack,
+  setPlaylist,
+  setPlayTrack,
+  setShuffleTracks,
+} from '../../store/slices/playlistSlice'
 
 import * as S from './AudioPlayerStyle'
 
-export const AudioPlayer = ({ loading, currentTrack }) => {
-  const [isPlaying, setIsPlaying] = useState(true)
+export const AudioPlayer = ({ loading }) => {
+  const dispatch = useDispatch()
   const audioRef = useRef(null)
 
-  const handleStart = () => {
-    audioRef.current.play()
-    setIsPlaying(true)
+  // const [isPlaying, setIsPlaying] = useState(true)
+  const [shuffle, setShuffle] = useState(false)
+  const playlist = useSelector((state) => state.playlist)
+  const currentTrack = useSelector((state) => state.track)
+  const isShuffle = useSelector((state) => state.shufflePlaylist)
+  const isPlaying = useSelector((state) => state.isPlaying)
+
+  const togglePlay = () => {
+    if (!isPlaying) {
+      audioRef.current.play()
+    } else {
+      audioRef.current.pause()
+    }
+    dispatch(setPlayTrack(!isPlaying))
   }
 
-  const handleStop = () => {
-    audioRef.current.pause()
-    setIsPlaying(false)
+  useEffect(() => {
+    if (isPlaying) togglePlay()
+  }, [currentTrack?.track_file])
+
+  const formatTime = (time) => {
+    if (time && !isNaN(time)) {
+      const minutes = Math.floor(time / 60)
+      const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
+      const seconds = Math.floor(time % 60)
+      const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
+      return `${formatMinutes}:${formatSeconds}`
+    }
+    return '00:00'
   }
 
-  const togglePlay = isPlaying ? handleStop : handleStart
+  // const handleStart = () => {
+  //   audioRef.current.play()
+  //   setIsPlaying(true)
+  // }
+
+  // const handleStop = () => {
+  //   audioRef.current.pause()
+  //   setIsPlaying(false)
+  // }
+
+  // const togglePlay = isPlaying ? handleStop : handleStart
 
   const [loop, setLoop] = useState(false)
   const toggleLoop = () => {
@@ -43,19 +81,67 @@ export const AudioPlayer = ({ loading, currentTrack }) => {
     setDuration(seconds)
     progressBarRef.current.max = seconds
   }
-  const formatTime = (time) => {
-    if (time && !isNaN(time)) {
-      const minutes = Math.floor(time / 60)
-      const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
-      const seconds = Math.floor(time % 60)
-      const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
-      return `${formatMinutes}:${formatSeconds}`
+  const handleNext = () => {
+    const trackList = shuffle ? [...isShuffle] : [...playlist]
+    let index = trackList.findIndex((track) => track.id === currentTrack.id)
+    if (+index === trackList.length - 1) return
+    index = +index + 1
+
+    dispatch(
+      setCurrentTrack({
+        id: trackList[index].id,
+        author: trackList[index].author,
+        name: trackList[index].name,
+        trackFile: trackList[index].track_file,
+        progress: 0,
+        length: trackList[index].duration_in_seconds,
+        staredUser: trackList[index].stared_user,
+      }),
+    )
+  }
+  const handlePrev = () => {
+    if (audioRef.current?.currentTime > 5) {
+      audioRef.current.currentTime = 0
+      return
     }
-    return '00:00'
+    const trackList = shuffle ? [...isShuffle] : [...playlist]
+    let index = trackList.findIndexOf((track) => track.id === currentTrack.id)
+    if (+index === 0) return
+    index = +index - 1
+
+    dispatch(
+      setCurrentTrack({
+        id: trackList[index].id,
+        author: trackList[index].author,
+        title: trackList[index].name,
+        trackFile: trackList[index].track_file,
+        progress: 0,
+        length: trackList[index].duration_in_seconds,
+        staredUser: trackList[index].stared_user,
+      }),
+    )
   }
-  const handleTemparary = () => {
-    alert('Временно не работает')
+  const handleShufflePlaylist = () => {
+    setShuffle(true)
+    const currentPlaylist = [...playlist]
+    for (let i = currentPlaylist.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[currentPlaylist[i], currentPlaylist[j]] = [
+        currentPlaylist[j],
+        currentPlaylist[i],
+      ]
+    }
+    dispatch(setShuffleTracks([...currentPlaylist]))
+    dispatch(setPlaylist(currentPlaylist))
   }
+
+  const stopShufflePlaylist = () => {
+    setShuffle(false)
+    dispatch(setShuffleTracks([]))
+    dispatch(setPlaylist([...playlist]))
+  }
+
+  const toggleShuffle = shuffle ? stopShufflePlaylist : handleShufflePlaylist
 
   return (
     <S.Bar>
@@ -81,7 +167,7 @@ export const AudioPlayer = ({ loading, currentTrack }) => {
         <S.BarPlayerBlock>
           <S.BarPlayer>
             <S.PlayerControls>
-              <S.PlayerBtnPrev onClick={handleTemparary}>
+              <S.PlayerBtnPrev onClick={handlePrev}>
                 <S.PlayerBtnPrevSvg alt="prev">
                   <use xlinkHref="img/icon/sprite.svg#icon-prev"></use>
                 </S.PlayerBtnPrevSvg>
@@ -89,31 +175,38 @@ export const AudioPlayer = ({ loading, currentTrack }) => {
 
               <S.PlayerBtnPlay onClick={togglePlay}>
                 <S.PlayerBtnPlaySvg alt="play">
-                  {isPlaying ? 
+                  {isPlaying ? (
                     <use xlinkHref="img/icon/sprite.svg#icon-pause" />
-                   : 
+                  ) : (
                     <use xlinkHref="img/icon/sprite.svg#icon-play"></use>
-                  }
+                  )}
                 </S.PlayerBtnPlaySvg>
               </S.PlayerBtnPlay>
 
-              <S.PlayerBtnNext>
+              <S.PlayerBtnNext onClick={handleNext}>
                 <S.PlayerBtnNextSvg alt="next">
                   <use xlinkHref="img/icon/sprite.svg#icon-next"></use>
                 </S.PlayerBtnNextSvg>
               </S.PlayerBtnNext>
               <S.PlayerBtnRepeat onClick={toggleLoop} className=" _btn-icon">
                 <S.PlayerBtnRepeatSvg alt="repeat">
-                  {loop ? 
+                  {loop ? (
                     <use xlinkHref="img/icon/sprite.svg#icon-tworepeat"></use>
-                   : 
+                  ) : (
                     <use xlinkHref="img/icon/sprite.svg#icon-repeat"></use>
-                  }
+                  )}
                 </S.PlayerBtnRepeatSvg>
               </S.PlayerBtnRepeat>
-              <S.PlayerBtnShuffle className="Player__btn-shuffle _btn-icon">
+              <S.PlayerBtnShuffle
+                onClick={toggleShuffle}
+                className="Player__btn-shuffle _btn-icon"
+              >
                 <S.PlayerBtnShuffleSvg alt="shuffle">
-                  <use xlinkHref="img/icon/sprite.svg#icon-shuffle"></use>
+                  {shuffle ? (
+                    <use xlinkHref="img/icon/sprite.svg#icon-twoshuffle"></use>
+                  ) : (
+                    <use xlinkHref="img/icon/sprite.svg#icon-shuffle"></use>
+                  )}
                 </S.PlayerBtnShuffleSvg>
               </S.PlayerBtnShuffle>
             </S.PlayerControls>
