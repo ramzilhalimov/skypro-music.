@@ -7,7 +7,7 @@ import { Signin } from './pages/signin/signin'
 import { Signup } from './pages/signup/signup'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { useUser } from './contex'
-// import { useEffect } from 'react'
+import PageLayout from './pages/PageLayot/PageLayout'
 
 export const AppRoutes = ({
   tracks,
@@ -26,16 +26,30 @@ export const AppRoutes = ({
         <Route
           path="/"
           element={
-            <MainPage
+            <PageLayout
               tracks={tracks}
               currentTrack={currentTrack}
               loading={loading}
-              addTracksError={addTracksError}
             />
           }
-        />
-        <Route path="/favorite" element={<Favorite />} />
-        <Route path="/category/:id" element={<Category />} />
+        >
+          <Route
+            index
+            element={
+              <MainPage
+                tracks={tracks}
+                currentTrack={currentTrack}
+                loading={loading}
+                addTracksError={addTracksError}
+              />
+            }
+          />
+          <Route
+            path="favorite"
+            element={<Favorite tracks={tracks} currentTrack={currentTrack} />}
+          />
+          <Route path="category/:id" element={<Category />} />
+        </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

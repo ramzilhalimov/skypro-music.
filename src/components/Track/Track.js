@@ -22,8 +22,12 @@ export const Track = (props) => {
       <S.PlaylistTrack>
         <S.TrackTitle>
           <S.TrackTitleImage>
-            {isPlaying && currentTrack?.id === props.track.id ? (
-              <S.TrackSvg alt="music"></S.TrackSvg>
+            {currentTrack?.id === props.track.id ? (
+              isPlaying ? (
+                <S.TrackSvg alt="music"></S.TrackSvg>
+              ) : (
+                <S.TrackSvg alt="music"></S.TrackSvg>
+              )
             ) : (
               <S.TrackTitleSvg alt="music">
                 <use xlinkHref="img/icon/sprite.svg#icon-note"></use>

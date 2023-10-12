@@ -43,6 +43,7 @@ export const Main = styled.div`
 
 export const MainCenterblock = styled.div`
   width: auto;
+  color: #ffffff;
   -webkit-box-flex: 3;
   -ms-flex-positive: 3;
   flex-grow: 3;
@@ -51,6 +52,7 @@ export const MainCenterblock = styled.div`
 
 export const CenterblockH2 = styled.h2`
   font-style: normal;
+
   font-weight: 400;
   font-size: 64px;
   line-height: 72px;

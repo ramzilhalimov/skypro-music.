@@ -5,7 +5,7 @@ export function TrackList({ tracks, addTracksError }) {
   return (
     <S.ContentPlaylist>
       <p>{addTracksError}</p>
-      {tracks.map((track) => {
+      {tracks?.map((track) => {
         return <Track key={track.id} track={track} />
       })}
     </S.ContentPlaylist>

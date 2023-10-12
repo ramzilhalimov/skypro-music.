@@ -1,12 +1,5 @@
-import { AudioPlayer } from '../../components/AudioPlayer/AudioPlayer'
-import { NavMenu } from '../../components/NavMenu/NavMenu'
-import { SideBar } from '../../components/SideBar/SideBar'
 import { TrackList } from '../../components/TrackList/TrackList'
-import { Filter } from '../../components/Filter/Filter'
-import { Search } from '../../components/Search/Search'
-import * as S from './AppStyle'
 import { createGlobalStyle } from 'styled-components'
-
 import SkeletonTrack from '../../components/SkeletonBar/SkeletonTrack'
 
 export const GlobalStyle = createGlobalStyle`
@@ -90,59 +83,18 @@ body {
   }
 `
 
-function MainPage({
-  user,
-  setUser,
-  tracks,
-  loading,
-  currentTrack,
-  addTracksError,
-}) {
+function MainPage({ tracks, loading, currentTrack, addTracksError }) {
   return (
-    <S.Wrapper>
-      <GlobalStyle />
-      <S.Container>
-        <S.Main>
-          <NavMenu setUser={setUser} />
-          <S.MainCenterblock>
-            <Search />
-            <S.CenterblockH2>Треки</S.CenterblockH2>
-            <Filter tracks={tracks} />
-            <S.CenterblockContent>
-              <S.ContentTitle>
-                <S.PlaylistTitleCol01>Трек</S.PlaylistTitleCol01>
-                <S.PlaylistTitleCol02>ИСПОЛНИТЕЛЬ</S.PlaylistTitleCol02>
-                <S.PlaylistTitleCol03>АЛЬБОМ</S.PlaylistTitleCol03>
-                <S.PlaylistTitleCol04>
-                  <S.PlaylistTitleSvg alt="time">
-                    <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
-                  </S.PlaylistTitleSvg>
-                </S.PlaylistTitleCol04>
-              </S.ContentTitle>
-              {loading && <SkeletonTrack />}
-              {!loading && (
-                <TrackList
-                  tracks={tracks}
-                  currentTrack={currentTrack}
-                  addTracksError={addTracksError}
-                />
-              )}
-            </S.CenterblockContent>
-          </S.MainCenterblock>
-          <SideBar user={user} setUser={setUser} />
-        </S.Main>
-
-        {currentTrack ? (
-          <AudioPlayer
-            tracks={tracks}
-            loading={loading}
-            currentTrack={currentTrack}
-          />
-        ) : null}
-
-        <S.Footer></S.Footer>
-      </S.Container>
-    </S.Wrapper>
+    <>
+      {loading && <SkeletonTrack />}
+      {!loading && (
+        <TrackList
+          tracks={tracks}
+          currentTrack={currentTrack}
+          addTracksError={addTracksError}
+        />
+      )}
+    </>
   )
 }
 

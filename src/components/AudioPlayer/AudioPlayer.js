@@ -3,7 +3,6 @@ import Skeleton from 'react-loading-skeleton'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   setCurrentTrack,
-  setPlaylist,
   setPlayTrack,
   setShuffleTracks,
 } from '../../store/slices/playlistSlice'
@@ -69,6 +68,7 @@ export const AudioPlayer = ({ loading }) => {
     setDuration(seconds)
     progressBarRef.current.max = seconds
   }
+
   const handleNext = () => {
     const trackList = shuffle ? [...isShuffle] : [...playlist]
     let index = trackList.findIndex((track) => track.id === currentTrack.id)
@@ -77,6 +77,7 @@ export const AudioPlayer = ({ loading }) => {
 
     dispatch(setCurrentTrack(trackList[index].id))
   }
+
   const handlePrev = () => {
     if (audioRef.current?.currentTime > 5) {
       audioRef.current.currentTime = 0
@@ -100,13 +101,11 @@ export const AudioPlayer = ({ loading }) => {
       ]
     }
     dispatch(setShuffleTracks([...currentPlaylist]))
-    dispatch(setPlaylist(currentPlaylist))
   }
 
   const stopShufflePlaylist = () => {
     setShuffle(false)
     dispatch(setShuffleTracks([]))
-    dispatch(setPlaylist([...playlist]))
   }
 
   const toggleShuffle = shuffle ? stopShufflePlaylist : handleShufflePlaylist
@@ -114,6 +113,8 @@ export const AudioPlayer = ({ loading }) => {
   const endTrack = () => {
     if (!loop) {
       handleNext()
+    } else {
+      setPlayTrack(!isPlaying)
     }
   }
   return (
@@ -134,7 +135,6 @@ export const AudioPlayer = ({ loading }) => {
             step={0.01}
             $color="#B672FF"
             ref={progressBarRef}
-            timeProgress={timeProgress}
             onChange={handleProgressChange}
           />
         </S.BarPlayerProgress>

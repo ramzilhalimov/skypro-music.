@@ -1,11 +1,12 @@
+import SkeletonTrack from '../../components/SkeletonBar/SkeletonTrack'
 import { TrackList } from '../../components/TrackList/TrackList'
-import { Tracks } from '../../components/Tracks/Tracks'
+// import * as S from '../../pages/main/AppStyle'
 
-export const Favorite = () => {
+export const Favorite = ({ loading, tracks, currentTrack }) => {
   return (
-    <div className='div'>
-      <h1 className='h1'> My favorite song</h1>
-      <TrackList tracks={Tracks} />
-    </div>
+    <>
+      {loading && <SkeletonTrack />}
+      {!loading && <TrackList tracks={tracks} currentTrack={currentTrack} />}
+    </>
   )
 }
