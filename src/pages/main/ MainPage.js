@@ -37,8 +37,8 @@ ul li {
   src:
     local('StratosSkyeng'),
     local('StratosSkyeng'),
-    url('/public/fonts/StratosSkyeng.woff2') format('woff2'),
-    url('/public/fonts/StratosSkyeng.woff') format('woff');
+    url('/public/fonts/StratosSkyeng.woff2') format('woff2'),/* Super Modern Browsers */
+    url('/public/fonts/StratosSkyeng.woff') format('woff'), /* Pretty Modern Browsers */
   font-weight: 400;
   font-style: normal;
 }

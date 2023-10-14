@@ -26,7 +26,7 @@ export const Track = (props) => {
               isPlaying ? (
                 <S.TrackSvg alt="music"></S.TrackSvg>
               ) : (
-                <S.TrackSvg alt="music"></S.TrackSvg>
+                <S.TrackNoneSvg alt="music"></S.TrackNoneSvg>
               )
             ) : (
               <S.TrackTitleSvg alt="music">

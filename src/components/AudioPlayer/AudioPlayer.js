@@ -113,8 +113,7 @@ export const AudioPlayer = ({ loading }) => {
   const endTrack = () => {
     if (!loop) {
       handleNext()
-    } else {
-      setPlayTrack(!isPlaying)
+      dispatch(setPlayTrack(!isPlaying))
     }
   }
   return (
