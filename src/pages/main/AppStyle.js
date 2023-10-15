@@ -52,7 +52,6 @@ export const MainCenterblock = styled.div`
 
 export const CenterblockH2 = styled.h2`
   font-style: normal;
-
   font-weight: 400;
   font-size: 64px;
   line-height: 72px;

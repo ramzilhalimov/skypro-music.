@@ -45,8 +45,8 @@ function App() {
           <AppRoutes
             tracks={tracks}
             addTracksError={addTracksError}
-            currentTrack={currentTrack}
             loading={loading}
+            currentTrack={currentTrack}
           />
         </S.App>
       </UserDispatchContext.Provider>

@@ -19,8 +19,9 @@ export const playlistSlice = createSlice({
     },
     setCurrentTrack: (state, action) => {
       const id = action.payload
-      const current = state.playlist.find((track) => id === track.id)
+      const current = state.playlist.find((track) => track.id === id)
       state.track = current
+      state.track = action.payload
     },
     setShuffleTracks: (state, action) => {
       state.shufflePlaylist = action.payload

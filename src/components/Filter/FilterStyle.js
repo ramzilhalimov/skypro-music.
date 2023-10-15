@@ -41,7 +41,7 @@ export const ButtonAuthor = styled.div`
   width: 248px;
   height: 305px;
   position: fixed;
-  top: 240px;
+  top: 279px;
   left: 450px;
   background-color: #313131;
   padding: 34px;
@@ -89,7 +89,7 @@ export const ButtonYear = styled.div`
   width: 248px;
   height: 305px;
   position: fixed;
-  top: 240px;
+  top: 279px;
   left: 600px;
   background-color: #313131;
   padding: 34px;
@@ -100,7 +100,7 @@ export const ButtonGenre = styled.div`
   width: 248px;
   height: 305px;
   position: fixed;
-  top: 240px;
+  top: 279px;
   left: 750px;
   background-color: #313131;
   padding: 34px;

@@ -2,7 +2,7 @@ import * as S from './signinStyle'
 import { createGlobalStyle } from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { LoginUser } from '../../components/api/api'
+import { LoginUser, setToken } from '../../components/api/api'
 import { useUserDispatch } from '../../contex'
 
 const GlobalStyle = createGlobalStyle`
@@ -88,6 +88,7 @@ export const Signin = ({ isLoginMode = false }) => {
       try {
         setIsUserLoading(true)
         const newUser = await LoginUser({ email, password })
+        await setToken({ email, password })
         setIsUserLoading(false)
         dispatch({ type: 'setUser', payload: newUser.username })
         localStorage.setItem('user', JSON.stringify(newUser.username))

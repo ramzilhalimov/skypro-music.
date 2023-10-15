@@ -25,22 +25,16 @@ export const AppRoutes = ({
       <Route element={<ProtectedRoute isAllowed={Boolean(name)} />}>
         <Route
           path="/"
-          element={
-            <PageLayout
-              tracks={tracks}
-              currentTrack={currentTrack}
-              loading={loading}
-            />
-          }
+          element={<PageLayout loading={loading} currentTrack={currentTrack} />}
         >
           <Route
             index
             element={
               <MainPage
                 tracks={tracks}
-                currentTrack={currentTrack}
                 loading={loading}
                 addTracksError={addTracksError}
+                currentTrack={currentTrack}
               />
             }
           />

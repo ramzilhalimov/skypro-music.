@@ -1,10 +1,43 @@
 import * as S from './TrackStyle'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCurrentTrack } from '../../store/slices/playlistSlice'
+import { useEffect, useState } from 'react'
+import {
+  useDislikeTrackFavoritesMutation,
+  useLikeTrackFavoritesMutation,
+} from '../api/api'
+
 export const Track = (props) => {
   const dispatch = useDispatch()
+  const [likeTrack] = useLikeTrackFavoritesMutation()
+  const [dislikeTrack] = useDislikeTrackFavoritesMutation()
   const isPlaying = useSelector((state) => state.isPlaying)
   const currentTrack = useSelector((state) => state.track)
+  const authUser = JSON.parse(sessionStorage.getItem('user'))
+
+  const isLike = Boolean(
+    currentTrack?.stared_user.find(({ id }) => id === authUser.id),
+  )
+  const [isLiked, setIsLiked] = useState(false)
+  useEffect(() => {
+    setIsLiked(isLike)
+  }, [currentTrack])
+
+  const handleLike = (id) => {
+    setIsLiked(true)
+    likeTrack({ id })
+    dispatch(setCurrentTrack({ id }))
+  }
+
+  const handleDislike = (id) => {
+    setIsLiked(false)
+    dislikeTrack({ id })
+    dispatch(setCurrentTrack({ id }))
+  }
+  const toogleLikeDislike = (id) => {
+    isLiked ? handleDislike(id) : handleLike(id)
+  }
+
   const formattedDuration = (durationInSeconds) => {
     const minutes = Math.floor(durationInSeconds / 60)
     const seconds = durationInSeconds % 60
@@ -17,6 +50,7 @@ export const Track = (props) => {
   const turnOnTrack = (id) => {
     dispatch(setCurrentTrack(id))
   }
+
   return (
     <S.PlaylistItem>
       <S.PlaylistTrack>
@@ -48,8 +82,20 @@ export const Track = (props) => {
           <S.TrackAlbumLink>{props.track.album}</S.TrackAlbumLink>
         </S.TrackAlbum>
         <S.TrackTime>
-          <S.TrackTimeSvg alt="time">
-            <use xlinkHref={props.track.like}></use>
+          <S.TrackTimeSvg
+            onClick={() => toogleLikeDislike(props.track.id)}
+            $width={'14px'}
+            $height={'12px'}
+            alt="like"
+          >
+            {isLiked ? (
+              <use
+                xlinkHref="/img/icon/sprite.svg#icon-like"
+                fill="#ad61ff"
+              ></use>
+            ) : (
+              <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
+            )}
           </S.TrackTimeSvg>
           <S.TrackTimeText>
             {formattedDuration(props.track.duration_in_seconds)}

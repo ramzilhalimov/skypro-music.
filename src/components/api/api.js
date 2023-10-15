@@ -1,3 +1,5 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
 export async function getTracklist() {
   const response = await fetch(
     'https://skypro-music-api.skyeng.tech/catalog/track/all/',
@@ -59,3 +61,85 @@ export async function LoginUser({ email, password }) {
   const newUser = await response.json()
   return newUser
 }
+export async function setToken({ email, password }) {
+  const response = await fetch(
+    'https://skypro-music-api.skyeng.tech/user/token/',
+    {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    },
+  )
+
+  const token = await response.json()
+  localStorage.setItem('token', JSON.stringify(token))
+}
+
+export const playlistApi = createApi({
+  reducerPath: 'getFavoritesTracksApi',
+  tagTypes: ['Tracks'],
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://skypro-music-api.skyeng.tech/catalog/track/',
+  }),
+  endpoints: (builder) => ({
+    getFavoritesTracks: builder.query({
+      query: () => ({
+        url: 'favorite/all/',
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem('token')).access
+          }`,
+        },
+      }),
+      providesTags: (result) =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Tracks', id })), 'Tracks']
+          : ['Tracks'],
+      transformResponse: (response) => {
+        const transformedResponse = response.map((item) => ({
+          ...item,
+          stared_user: [JSON.parse(sessionStorage.getItem('user'))],
+        }))
+
+        return transformedResponse
+      },
+    }),
+
+    likeTrackFavorites: builder.mutation({
+      query: ({ id }) => ({
+        url: `${id}/favorite/`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem('token')).access
+          }`,
+        },
+      }),
+      invalidatesTags: [{ type: 'Tracks', id: 'LIST' }],
+    }),
+
+    dislikeTrackFavorites: builder.mutation({
+      query: ({ id }) => ({
+        url: `${id}/favorite/`,
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem('token')).access
+          }`,
+        },
+      }),
+      invalidatesTags: [{ type: 'Tracks', id: 'LIST' }],
+    }),
+  }),
+})
+
+export const {
+  useGetFavoritesTracksQuery,
+  useLikeTrackFavoritesMutation,
+  useDislikeTrackFavoritesMutation,
+} = playlistApi

@@ -30,6 +30,7 @@ export const AudioPlayer = ({ loading }) => {
   }
 
   useEffect(() => {
+    console.log(isPlaying)
     if (!isPlaying) togglePlay()
   }, [currentTrack?.track_file])
 
@@ -116,6 +117,7 @@ export const AudioPlayer = ({ loading }) => {
       dispatch(setPlayTrack(!isPlaying))
     }
   }
+
   return (
     <S.Bar>
       <S.BarContent>

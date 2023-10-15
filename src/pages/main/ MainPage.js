@@ -1,6 +1,12 @@
 import { TrackList } from '../../components/TrackList/TrackList'
 import { createGlobalStyle } from 'styled-components'
 import SkeletonTrack from '../../components/SkeletonBar/SkeletonTrack'
+import { SideBar } from '../../components/SideBar/SideBar'
+import { AudioPlayer } from '../../components/AudioPlayer/AudioPlayer'
+import { Search } from '../../components/Search/Search'
+import { NavMenu } from '../../components/NavMenu/NavMenu'
+import { Filter } from '../../components/Filter/Filter'
+import * as S from '../../pages/main/AppStyle'
 
 export const GlobalStyle = createGlobalStyle`
 * {
@@ -33,14 +39,13 @@ ul li {
 }
 
 @font-face {
-  font-family: 'StratosSkyeng';
-  src:
-    local('StratosSkyeng'),
-    local('StratosSkyeng'),
-    url('/public/fonts/StratosSkyeng.woff2') format('woff2'),/* Super Modern Browsers */
-    url('/public/fonts/StratosSkyeng.woff') format('woff'), /* Pretty Modern Browsers */
+  font-family: "StratosSkyeng";
   font-weight: 400;
   font-style: normal;
+  src: local("StratosSkyeng"), local("StratosSkyeng"),
+    url("/fonts/StratosSkyeng.woff2") format("woff2"),
+    url("/fonts/StratosSkyeng.woff") format("woff");
+  
 }
 
 
@@ -86,14 +91,36 @@ body {
 function MainPage({ tracks, loading, currentTrack, addTracksError }) {
   return (
     <>
-      {loading && <SkeletonTrack />}
-      {!loading && (
-        <TrackList
-          tracks={tracks}
-          currentTrack={currentTrack}
-          addTracksError={addTracksError}
-        />
-      )}
+      <S.Main>
+        <NavMenu />
+        <S.MainCenterblock>
+          <Search />
+          <S.CenterblockH2>Треки</S.CenterblockH2>
+          <Filter />
+          <S.CenterblockContent>
+            <S.ContentTitle>
+              <S.PlaylistTitleCol01>Трек</S.PlaylistTitleCol01>
+              <S.PlaylistTitleCol02>ИСПОЛНИТЕЛЬ</S.PlaylistTitleCol02>
+              <S.PlaylistTitleCol03>АЛЬБОМ</S.PlaylistTitleCol03>
+              <S.PlaylistTitleCol04>
+                <S.PlaylistTitleSvg alt="time">
+                  <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
+                </S.PlaylistTitleSvg>
+              </S.PlaylistTitleCol04>
+            </S.ContentTitle>
+            {loading && <SkeletonTrack />}
+            {!loading && (
+              <TrackList
+                tracks={tracks}
+                currentTrack={currentTrack}
+                addTracksError={addTracksError}
+              />
+            )}
+          </S.CenterblockContent>
+        </S.MainCenterblock>
+        <SideBar />
+        {currentTrack ? <AudioPlayer loading={loading} /> : null}
+      </S.Main>
     </>
   )
 }
