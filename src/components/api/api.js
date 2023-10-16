@@ -79,6 +79,11 @@ export async function setToken({ email, password }) {
   const token = await response.json()
   localStorage.setItem('token', JSON.stringify(token))
 }
+// const retryResult = await baseQuery(args, api, extraOptions)
+
+// if (retryResult?.error?.status === 401) {
+//   return Signin()
+// }
 
 export const playlistApi = createApi({
   reducerPath: 'getFavoritesTracksApi',
@@ -96,10 +101,9 @@ export const playlistApi = createApi({
           }`,
         },
       }),
-      providesTags: (result) =>
-        result
-          ? [...result.map(({ id }) => ({ type: 'Tracks', id })), 'Tracks']
-          : ['Tracks'],
+
+      providesTags: ['Tracks'],
+
       transformResponse: (response) => {
         const transformedResponse = response.map((item) => ({
           ...item,
@@ -120,7 +124,7 @@ export const playlistApi = createApi({
           }`,
         },
       }),
-      invalidatesTags: [{ type: 'Tracks', id: 'LIST' }],
+      invalidatesTags: [{ type: 'Tracks' }],
     }),
 
     dislikeTrackFavorites: builder.mutation({
@@ -133,7 +137,7 @@ export const playlistApi = createApi({
           }`,
         },
       }),
-      invalidatesTags: [{ type: 'Tracks', id: 'LIST' }],
+      invalidatesTags: [{ type: 'Tracks' }],
     }),
   }),
 })

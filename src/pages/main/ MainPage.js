@@ -1,8 +1,8 @@
+import { useState } from 'react'
 import { TrackList } from '../../components/TrackList/TrackList'
 import { createGlobalStyle } from 'styled-components'
 import SkeletonTrack from '../../components/SkeletonBar/SkeletonTrack'
 import { SideBar } from '../../components/SideBar/SideBar'
-import { AudioPlayer } from '../../components/AudioPlayer/AudioPlayer'
 import { Search } from '../../components/Search/Search'
 import { NavMenu } from '../../components/NavMenu/NavMenu'
 import { Filter } from '../../components/Filter/Filter'
@@ -89,12 +89,18 @@ body {
 `
 
 function MainPage({ tracks, loading, currentTrack, addTracksError }) {
+  const [searchValue, setSearchValue] = useState('')
+
+  const searchMusic = (searchValue, list) =>
+    list.filter(({ name }) =>
+      name.toLowerCase().includes(searchValue.toLowerCase()),
+    )
   return (
     <>
       <S.Main>
         <NavMenu />
         <S.MainCenterblock>
-          <Search />
+          <Search setSearchValue={setSearchValue} />
           <S.CenterblockH2>Треки</S.CenterblockH2>
           <Filter />
           <S.CenterblockContent>
@@ -109,17 +115,25 @@ function MainPage({ tracks, loading, currentTrack, addTracksError }) {
               </S.PlaylistTitleCol04>
             </S.ContentTitle>
             {loading && <SkeletonTrack />}
-            {!loading && (
-              <TrackList
-                tracks={tracks}
-                currentTrack={currentTrack}
-                addTracksError={addTracksError}
-              />
+
+            {searchValue && searchMusic(searchValue, tracks).length === 0 ? (
+              <h2>Ничего не найдено</h2>
+            ) : (
+              <>
+                {!loading && (
+                  <TrackList
+                    tracks={
+                      searchValue ? searchMusic(searchValue, tracks) : tracks
+                    }
+                    currentTrack={currentTrack}
+                    addTracksError={addTracksError}
+                  />
+                )}
+              </>
             )}
           </S.CenterblockContent>
         </S.MainCenterblock>
         <SideBar />
-        {currentTrack ? <AudioPlayer loading={loading} /> : null}
       </S.Main>
     </>
   )

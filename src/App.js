@@ -11,7 +11,7 @@ import { setPlaylist } from './store/slices/playlistSlice'
 
 function App() {
   const dispatchStore = useDispatch()
-  const currentTrack = useSelector((state) => state.track)
+  const currentTrack = useSelector((state) => state.playlistSlice.track)
   const [loading, setLoading] = useState(true)
   const [tracks, setTracks] = useState([])
   const [addTracksError, setAddTracksError] = useState(null)

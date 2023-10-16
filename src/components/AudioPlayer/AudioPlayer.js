@@ -15,10 +15,10 @@ export const AudioPlayer = ({ loading }) => {
 
   // const [isPlaying, setIsPlaying] = useState(true)
   const [shuffle, setShuffle] = useState(false)
-  const playlist = useSelector((state) => state.playlist)
-  const currentTrack = useSelector((state) => state.track)
-  const isShuffle = useSelector((state) => state.shufflePlaylist)
-  const isPlaying = useSelector((state) => state.isPlaying)
+  const playlist = useSelector((state) => state.playlistSlice.playlist)
+  const currentTrack = useSelector((state) => state.playlistSlice.track)
+  const isShuffle = useSelector((state) => state.playlistSlice.shufflePlaylist)
+  const isPlaying = useSelector((state) => state.playlistSlice.isPlaying)
 
   const togglePlay = () => {
     if (!isPlaying) {
@@ -30,7 +30,6 @@ export const AudioPlayer = ({ loading }) => {
   }
 
   useEffect(() => {
-    console.log(isPlaying)
     if (!isPlaying) togglePlay()
   }, [currentTrack?.track_file])
 
@@ -236,9 +235,9 @@ export const AudioPlayer = ({ loading }) => {
               )}
               <S.TrackPlayLikeDis>
                 <S.TrackPlayLike className="Track-play__like _btn-icon">
-                  <S.TrackPlayLikeSvg alt="like">
+                  {/* <S.TrackPlayLikeSvg alt="like">
                     <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
-                  </S.TrackPlayLikeSvg>
+                  </S.TrackPlayLikeSvg> */}
                 </S.TrackPlayLike>
                 <S.TrackPlayDislike className="Track-play__dislike _btn-icon">
                   <S.TrackPlayDislikeSvg alt="dislike">
