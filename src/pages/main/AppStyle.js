@@ -43,6 +43,7 @@ export const Main = styled.div`
 
 export const MainCenterblock = styled.div`
   width: auto;
+  color: #ffffff;
   -webkit-box-flex: 3;
   -ms-flex-positive: 3;
   flex-grow: 3;

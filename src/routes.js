@@ -7,24 +7,16 @@ import { Signin } from './pages/signin/signin'
 import { Signup } from './pages/signup/signup'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { useUser } from './contex'
-// import { useEffect } from 'react'
+import PageLayout from './pages/PageLayot/PageLayout'
 
 export const AppRoutes = ({
   tracks,
-  turnOnTrack,
   currentTrack,
   loading,
   addTracksError,
 }) => {
-  // useEffect(() => {
-  //   const registeredUser = localStorage.getItem('user')
-  //   if (registeredUser) {
-  //     setUser(JSON.parse(JSON.stringify(registeredUser)))
-  //   }
-  // }, [])
   const name = useUser()
-  
-  console.log(name);
+
   return (
     <Routes>
       <Route path="/signin" element={<Signin />} />
@@ -33,18 +25,25 @@ export const AppRoutes = ({
       <Route element={<ProtectedRoute isAllowed={Boolean(name)} />}>
         <Route
           path="/"
-          element={
-            <MainPage
-              tracks={tracks}
-              turnOnTrack={turnOnTrack}
-              currentTrack={currentTrack}
-              loading={loading}
-              addTracksError={addTracksError}
-            />
-          }
-        />
-        <Route path="/favorite" element={<Favorite />} />
-        <Route path="/category/:id" element={<Category />} />
+          element={<PageLayout loading={loading} currentTrack={currentTrack} />}
+        >
+          <Route
+            index
+            element={
+              <MainPage
+                tracks={tracks}
+                loading={loading}
+                addTracksError={addTracksError}
+                currentTrack={currentTrack}
+              />
+            }
+          />
+          <Route
+            path="favorite"
+            element={<Favorite tracks={tracks} currentTrack={currentTrack} />}
+          />
+          <Route path="category/:id" element={<Category />} />
+        </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

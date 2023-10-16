@@ -1,13 +1,12 @@
-import { AudioPlayer } from '../../components/AudioPlayer/AudioPlayer'
-import { NavMenu } from '../../components/NavMenu/NavMenu'
-import { SideBar } from '../../components/SideBar/SideBar'
 import { TrackList } from '../../components/TrackList/TrackList'
-import { Filter } from '../../components/Filter/Filter'
-import { Search } from '../../components/Search/Search'
-import * as S from './AppStyle'
 import { createGlobalStyle } from 'styled-components'
-
 import SkeletonTrack from '../../components/SkeletonBar/SkeletonTrack'
+import { SideBar } from '../../components/SideBar/SideBar'
+import { AudioPlayer } from '../../components/AudioPlayer/AudioPlayer'
+import { Search } from '../../components/Search/Search'
+import { NavMenu } from '../../components/NavMenu/NavMenu'
+import { Filter } from '../../components/Filter/Filter'
+import * as S from '../../pages/main/AppStyle'
 
 export const GlobalStyle = createGlobalStyle`
 * {
@@ -40,14 +39,13 @@ ul li {
 }
 
 @font-face {
-  font-family: 'StratosSkyeng';
-  src:
-    local('StratosSkyeng'),
-    local('StratosSkyeng'),
-    url('/public/fonts/StratosSkyeng.woff2') format('woff2'),
-    url('/public/fonts/StratosSkyeng.woff') format('woff');
+  font-family: "StratosSkyeng";
   font-weight: 400;
   font-style: normal;
+  src: local("StratosSkyeng"), local("StratosSkyeng"),
+    url("/fonts/StratosSkyeng.woff2") format("woff2"),
+    url("/fonts/StratosSkyeng.woff") format("woff");
+  
 }
 
 
@@ -90,61 +88,40 @@ body {
   }
 `
 
-function MainPage({
-  user,
-  setUser,
-  tracks,
-  loading,
-  turnOnTrack,
-  currentTrack,
-  addTracksError,
-}) {
+function MainPage({ tracks, loading, currentTrack, addTracksError }) {
   return (
-    <S.Wrapper>
-      <GlobalStyle />
-      <S.Container>
-        <S.Main>
-          <NavMenu setUser={setUser} />
-          <S.MainCenterblock>
-            <Search />
-            <S.CenterblockH2>Треки</S.CenterblockH2>
-            <Filter tracks={tracks} />
-            <S.CenterblockContent>
-              <S.ContentTitle>
-                <S.PlaylistTitleCol01>Трек</S.PlaylistTitleCol01>
-                <S.PlaylistTitleCol02>ИСПОЛНИТЕЛЬ</S.PlaylistTitleCol02>
-                <S.PlaylistTitleCol03>АЛЬБОМ</S.PlaylistTitleCol03>
-                <S.PlaylistTitleCol04>
-                  <S.PlaylistTitleSvg alt="time">
-                    <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
-                  </S.PlaylistTitleSvg>
-                </S.PlaylistTitleCol04>
-              </S.ContentTitle>
-              {loading && <SkeletonTrack />}
-              {!loading && (
-                <TrackList
-                  tracks={tracks}
-                  turnOnTrack={turnOnTrack}
-                  currentTrack={currentTrack}
-                  addTracksError={addTracksError}
-                />
-              )}
-            </S.CenterblockContent>
-          </S.MainCenterblock>
-          <SideBar user={user} setUser={setUser} />
-        </S.Main>
-
-        {currentTrack ? (
-          <AudioPlayer
-            tracks={tracks}
-            loading={loading}
-            currentTrack={currentTrack}
-          />
-        ) : null}
-
-        <S.Footer></S.Footer>
-      </S.Container>
-    </S.Wrapper>
+    <>
+      <S.Main>
+        <NavMenu />
+        <S.MainCenterblock>
+          <Search />
+          <S.CenterblockH2>Треки</S.CenterblockH2>
+          <Filter />
+          <S.CenterblockContent>
+            <S.ContentTitle>
+              <S.PlaylistTitleCol01>Трек</S.PlaylistTitleCol01>
+              <S.PlaylistTitleCol02>ИСПОЛНИТЕЛЬ</S.PlaylistTitleCol02>
+              <S.PlaylistTitleCol03>АЛЬБОМ</S.PlaylistTitleCol03>
+              <S.PlaylistTitleCol04>
+                <S.PlaylistTitleSvg alt="time">
+                  <use xlinkHref="img/icon/sprite.svg#icon-watch"></use>
+                </S.PlaylistTitleSvg>
+              </S.PlaylistTitleCol04>
+            </S.ContentTitle>
+            {loading && <SkeletonTrack />}
+            {!loading && (
+              <TrackList
+                tracks={tracks}
+                currentTrack={currentTrack}
+                addTracksError={addTracksError}
+              />
+            )}
+          </S.CenterblockContent>
+        </S.MainCenterblock>
+        <SideBar />
+        {currentTrack ? <AudioPlayer loading={loading} /> : null}
+      </S.Main>
+    </>
   )
 }
 

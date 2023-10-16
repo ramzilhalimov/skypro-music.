@@ -58,7 +58,7 @@ export const MenuItem = styled.li`
   margin-bottom: 16px;
 `
 
-export const MenuLink = styled.a`
+export const MenuLink = styled.div`
   color: #ffffff;
   font-weight: 400;
   font-size: 16px;
