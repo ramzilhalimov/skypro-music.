@@ -47,7 +47,7 @@ export const AppRoutes = ({
           />
           <Route
             path="favorite"
-            element={<Favorite tracks={tracks} currentTrack={currentTrack} />}
+            element={<Favorite tracks={tracks}  />}
           />
           <Route path="category/:id" element={<Category />} />
         </Route>

@@ -79,6 +79,28 @@ export async function setToken({ email, password }) {
   const token = await response.json()
   localStorage.setItem('token', JSON.stringify(token))
 }
+
+export const refreshToken = async ({ refreshToken }) => {
+  const response = await fetch(
+    `https://skypro-music-api.skyeng.tech/user/token/refresh/`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        refresh: refreshToken,
+      }),
+      headers: {
+        'content-type': 'application/json',
+      },
+    },
+  )
+
+  if (!response.ok) {
+    throw new Error('ошибка сервера')
+  }
+
+  const data = await response.json()
+  return data
+}
 // const retryResult = await baseQuery(args, api, extraOptions)
 
 // if (retryResult?.error?.status === 401) {
@@ -107,7 +129,7 @@ export const playlistApi = createApi({
       transformResponse: (response) => {
         const transformedResponse = response.map((item) => ({
           ...item,
-          stared_user: [JSON.parse(sessionStorage.getItem('user'))],
+          stared_user: [JSON.parse(localStorage.getItem('user'))],
         }))
 
         return transformedResponse

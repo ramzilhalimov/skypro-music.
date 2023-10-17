@@ -34,7 +34,6 @@ export const FilterButton = styled.div`
   &:not(:last-child) {
     margin-right: 10px;
   }
-
 `
 
 export const ButtonAuthor = styled.div`
@@ -105,4 +104,49 @@ export const ButtonGenre = styled.div`
   background-color: #313131;
   padding: 34px;
   border-radius: 12px;
+`
+export const FilterItems = styled.ul`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  gap: 28px;
+  flex-direction: column;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(75, 73, 73, 1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #fff;
+    border-radius: 10px;
+  }
+`
+export const FilterItem = styled.li`
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  &:hover {
+    text-decoration: underline rgba(182, 114, 255, 1);
+    color: rgba(182, 114, 255, 1);
+    cursor: pointer;
+  }
+  &.active {
+    color: rgba(182, 114, 255, 1);
+  }
+`
+
+export const FilterSelector = styled.div`
+  position: absolute;
+  width: 248px;
+  height: ${(props) => (props.$height ? props.$height : '')};
+  top: 50px;
+  border-radius: 12px;
+  padding: 34px;
+  background-color: rgb(49, 49, 49);
+  ${(props) => (props.$right ? 'right:0' : 'left:0;')}
 `

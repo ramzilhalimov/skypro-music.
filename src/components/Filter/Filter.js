@@ -2,6 +2,34 @@ import { useState } from 'react'
 import { Tracks } from '../Tracks/Tracks'
 import * as S from './FilterStyle'
 
+// function FilterForYear({ activeSortYear, setAciveSortYear, $height }) {
+//   const yearList = ['По умолчанию', 'Сначала новые', 'Сначала старые']
+
+//   const toogleSort = (filter) => {
+//     setAciveSortYear(filter)
+//   }
+//   return (
+//     <S.FilterSelector $height={$height} $right={true}>
+//       <S.FilterItems>
+//         {yearList.map((item) =>
+//           activeSortYear === item ? (
+//             <S.FilterItem
+//               onClick={() => toogleSort(item)}
+//               className="active"
+//               key={item}
+//             >
+//               {item}
+//             </S.FilterItem>
+//           ) : (
+//             <S.FilterItem onClick={() => toogleSort(item)} key={item}>
+//               {item}
+//             </S.FilterItem>
+//           ),
+//         )}
+//       </S.FilterItems>
+//     </S.FilterSelector>
+//   )
+// }
 
 export const Filter = () => {
   const [isOpen, setOpen] = useState(false)
@@ -10,10 +38,10 @@ export const Filter = () => {
   const toggleOpen = () => setOpen(!isOpen)
 
   return (
-   
     <S.CenterblockFilter>
       <S.FilterTitle>Искать по:</S.FilterTitle>
-      <S.FilterButton className="Filter__button button-genre _btn-text"
+      <S.FilterButton
+        className="Filter__button button-genre _btn-text"
         onClick={() => {
           toggleOpen()
           setValue('author')
@@ -32,7 +60,8 @@ export const Filter = () => {
           </S.ButtonFilter>
         </S.ButtonAuthor>
       )}
-      <S.FilterButton className="Filter__button button-genre _btn-text"
+      <S.FilterButton
+        className="Filter__button button-genre _btn-text"
         onClick={() => {
           toggleOpen()
           setValue('year')
@@ -49,7 +78,7 @@ export const Filter = () => {
               </S.ButtonFilterTitle>
             ))}
           </S.ButtonFilter>
-        </S.ButtonYear >
+        </S.ButtonYear>
       )}
       <S.FilterButton
         className="Filter__button button-genre _btn-text"
@@ -72,6 +101,5 @@ export const Filter = () => {
         </S.ButtonGenre>
       )}
     </S.CenterblockFilter>
-    
   )
 }

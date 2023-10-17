@@ -233,17 +233,18 @@ export const AudioPlayer = ({ loading }) => {
                   </S.TrackPlayAlbum>
                 </S.TrackPlayContain>
               )}
+
               <S.TrackPlayLikeDis>
                 <S.TrackPlayLike className="Track-play__like _btn-icon">
-                  {/* <S.TrackPlayLikeSvg alt="like">
+                  <S.TrackPlayLikeSvg alt="like">
                     <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
-                  </S.TrackPlayLikeSvg> */}
+                  </S.TrackPlayLikeSvg>
                 </S.TrackPlayLike>
-                <S.TrackPlayDislike className="Track-play__dislike _btn-icon">
+                {/* <S.TrackPlayDislike className="Track-play__dislike _btn-icon">
                   <S.TrackPlayDislikeSvg alt="dislike">
                     <use xlinkHref="img/icon/sprite.svg#icon-dislike"></use>
                   </S.TrackPlayDislikeSvg>
-                </S.TrackPlayDislike>
+                </S.TrackPlayDislike> */}
               </S.TrackPlayLikeDis>
             </S.PlayerTrackPlay>
           </S.BarPlayer>

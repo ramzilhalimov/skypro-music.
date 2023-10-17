@@ -34,6 +34,7 @@ function App() {
 
   const userState = {
     userName: JSON.parse(localStorage.getItem('user')) || '',
+    access: JSON.parse(localStorage.getItem('token')).access,
   }
 
   const [state, dispatch] = useReducer(reducer, userState)

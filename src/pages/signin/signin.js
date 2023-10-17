@@ -89,6 +89,7 @@ export const Signin = ({ isLoginMode = false }) => {
         setIsUserLoading(true)
         const newUser = await LoginUser({ email, password })
         await setToken({ email, password })
+       
         setIsUserLoading(false)
         dispatch({ type: 'setUser', payload: newUser.username })
         localStorage.setItem('user', JSON.stringify(newUser.username))
