@@ -6,7 +6,7 @@ import { useUser, useUserDispatch } from '../../contex'
 
 export function SideBar() {
   const [loading, setLoading] = useState(false)
-  const name = useUser()
+  const { username } = useUser()
   const dispatch = useUserDispatch()
 
   useEffect(() => {
@@ -25,9 +25,7 @@ export function SideBar() {
   return (
     <S.MainSidebar>
       <S.SidebarPersonal>
-        <S.SidebarPersonalName>
-          {JSON.stringify(name.userName)}
-        </S.SidebarPersonalName>
+        <S.SidebarPersonalName>{username}</S.SidebarPersonalName>
         <S.SidebarIcon onClick={handleLogout}>
           <svg alt="logout">
             <use xlinkHref="img/icon/sprite.svg#logout"></use>

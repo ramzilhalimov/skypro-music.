@@ -5,22 +5,20 @@ import { useEffect, useState } from 'react'
 import {
   useDislikeTrackFavoritesMutation,
   useLikeTrackFavoritesMutation,
-} from '../api/api'
+} from '../../service/playlistApi'
 
 export const Track = (props) => {
   const dispatch = useDispatch()
-  const [likeTrack] = useLikeTrackFavoritesMutation()
-  const [dislikeTrack] = useDislikeTrackFavoritesMutation()
   const isPlaying = useSelector((state) => state.playlistSlice.isPlaying)
   const currentTrack = useSelector((state) => state.playlistSlice.track)
+  const [likeTrack] = useLikeTrackFavoritesMutation()
+  const [dislikeTrack] = useDislikeTrackFavoritesMutation()
   const dataFavoritesTracks = useSelector(
     (state) => state.playlistSlice.favoritesTracks,
   )
-
   const isLike = Boolean(
-    dataFavoritesTracks.find(({ id }) => id === props.track.id),
+    dataFavoritesTracks?.find(({ id }) => id === props.track.id),
   )
-
   const [isLiked, setIsLiked] = useState(false)
 
   useEffect(() => {
@@ -34,7 +32,7 @@ export const Track = (props) => {
 
   const handleDislike = (id) => {
     setIsLiked(false)
-    dislikeTrack({ id }).unwrap()
+    dislikeTrack({ id })
   }
 
   const toogleLikeDislike = (id) => {

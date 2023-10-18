@@ -2,8 +2,11 @@ import * as S from './signinStyle'
 import { createGlobalStyle } from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { LoginUser, setToken } from '../../components/api/api'
+import { getToken, refreshToken } from '../../components/api/api'
 import { useUserDispatch } from '../../contex'
+import { setAuthentication } from '../../store/slices/authenticationSlice'
+import { useDispatch } from 'react-redux'
+import { useLoginUserMutation } from '../../service/authApi'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -54,13 +57,13 @@ body {
 `
 
 export const Signin = ({ isLoginMode = false }) => {
-  // localStorage.clear()
+  const dispatch = useDispatch()
   const [error, setError] = useState(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const dispatch = useUserDispatch()
+  const userDispatch = useUserDispatch()
   const navigate = useNavigate()
-  const [isUserLoading, setIsUserLoading] = useState(false)
+  const [LoginUser, { isLoading }] = useLoginUserMutation()
 
   const isValidateFormLogin = async () => {
     if (email === '' || password === '') {
@@ -82,23 +85,33 @@ export const Signin = ({ isLoginMode = false }) => {
   }
   const handleLogin = async (e) => {
     e.preventDefault()
-
     const isValidLoginForm = await isValidateFormLogin()
     if (isValidLoginForm) {
-      try {
-        setIsUserLoading(true)
-        const newUser = await LoginUser({ email, password })
-        await setToken({ email, password })
-       
-        setIsUserLoading(false)
-        dispatch({ type: 'setUser', payload: newUser.username })
-        localStorage.setItem('user', JSON.stringify(newUser.username))
-        navigate('/')
-      } catch (error) {
-        isValidateFormLogin()
+      const response = await LoginUser({ email, password })
+      if (response?.error) {
+        setError(response.error?.data?.detail)
+        return
       }
+      const user = response.data
+      localStorage.setItem('user', JSON.stringify(user))
+
+      const token = await getToken({ email, password })
+      dispatch(
+        setAuthentication({
+          access: token.access,
+          refresh: token.refresh,
+          user: user.username,
+        }),
+      )
+
+      const sessionRefreshToken = sessionStorage.getItem('refresh')
+      await refreshToken(sessionRefreshToken)
+
+      userDispatch({ type: 'setUser', payload: user })
+
+      navigate('/')
     } else {
-      isValidateFormLogin({ email, password })
+      isValidateFormLogin()
     }
   }
 
@@ -135,8 +148,9 @@ export const Signin = ({ isLoginMode = false }) => {
               }}
             />
             {error && <S.Error>{error}</S.Error>}
-            <S.ModalBtnEnter disabled={isUserLoading} onClick={handleLogin}>
-              Войти
+            <S.ModalBtnEnter disabled={isLoading} onClick={handleLogin}>
+              {' '}
+              {isLoading ? 'Осуществляется вход' : 'Войти'}
             </S.ModalBtnEnter>
             <Link to="/signup">
               <S.ModalBtnSignup>Зарегистрироваться</S.ModalBtnSignup>

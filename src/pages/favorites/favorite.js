@@ -1,19 +1,16 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useGetFavoritesTracksQuery } from '../../components/api/api'
+
 import { NavMenu } from '../../components/NavMenu/NavMenu'
 import { Search } from '../../components/Search/Search'
 
 import { TrackList } from '../../components/TrackList/TrackList'
 import * as S from '../../pages/favorites/favoritesStyle'
-import { setPlaylist } from '../../store/slices/playlistSlice'
+import { useGetFavoritesTracksQuery } from '../../service/playlistApi'
 
-export const Favorite = ({ currentTrack }) => {
-  const dispatch = useDispatch()
+export const Favorite = () => {
   const [searchValue, setSearchValue] = useState('')
 
   const { data, isLoading, error } = useGetFavoritesTracksQuery()
-  dispatch(setPlaylist(data))
 
   const searchMusic = (searchValue, list) =>
     list.filter(({ name }) =>
@@ -46,9 +43,9 @@ export const Favorite = ({ currentTrack }) => {
                   <h2>Ничего не найдено</h2>
                 ) : (
                   <TrackList
+                    data={data}
                     loading={isLoading}
                     tracks={searchValue ? searchMusic(searchValue, data) : data}
-                    currentTrack={currentTrack}
                   />
                 )}
               </>

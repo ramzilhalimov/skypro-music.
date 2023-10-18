@@ -32,12 +32,12 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
-  const userState = {
-    userName: JSON.parse(localStorage.getItem('user')) || '',
-    access: JSON.parse(localStorage.getItem('token')).access,
+  function getInitialState() {
+    const user = JSON.parse(localStorage.getItem('user')) || ''
+    return { user }
   }
 
-  const [state, dispatch] = useReducer(reducer, userState)
+  const [state, dispatch] = useReducer(reducer, getInitialState)
   return (
     <UserContext.Provider value={state}>
       <UserDispatchContext.Provider value={dispatch}>

@@ -22,7 +22,7 @@ export const AppRoutes = ({
       <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
 
-      <Route element={<ProtectedRoute isAllowed={Boolean(name)} />}>
+      <Route element={<ProtectedRoute isAllowed={Boolean(name?.username)} />}>
         <Route
           path="/"
           element={
@@ -45,10 +45,7 @@ export const AppRoutes = ({
               />
             }
           />
-          <Route
-            path="favorite"
-            element={<Favorite tracks={tracks}  />}
-          />
+          <Route path="favorite" element={<Favorite tracks={tracks} />} />
           <Route path="category/:id" element={<Category />} />
         </Route>
       </Route>

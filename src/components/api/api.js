@@ -1,5 +1,3 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
 export async function getTracklist() {
   const response = await fetch(
     'https://skypro-music-api.skyeng.tech/catalog/track/all/',
@@ -44,128 +42,93 @@ export async function SignupUser({ email, password, username }) {
 }
 
 export async function LoginUser({ email, password }) {
-  const response = await fetch(
-    'https://skypro-music-api.skyeng.tech/user/login/',
-    {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
+  try {
+    const response = await fetch(
+      'https://skypro-music-api.skyeng.tech/user/login/',
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
       },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    },
-  )
+    )
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.message)
+    }
 
-  const newUser = await response.json()
-  return newUser
+    const newUser = await response.json()
+    return newUser
+  } catch (error) {
+    console.error('Ошибка входа:', error.message)
+    return { errorMessage: 'Ошибка входа' }
+  }
 }
-export async function setToken({ email, password }) {
+function saveToken(tokenObject) {
+  sessionStorage.setItem('access', tokenObject.access)
+  sessionStorage.setItem('refresh', tokenObject.refresh)
+}
+
+export async function getToken({ email, password }) {
   const response = await fetch(
     'https://skypro-music-api.skyeng.tech/user/token/',
     {
       method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
       body: JSON.stringify({
         email,
         password,
       }),
+      headers: {
+        'content-type': 'application/json',
+      },
     },
   )
-
-  const token = await response.json()
-  localStorage.setItem('token', JSON.stringify(token))
+    .then((response) => response.json())
+    .then((data) => {
+      saveToken(data)
+      console.log('Token saved successfully')
+      return data
+    })
+    .catch((error) => {
+      console.error('Error fetching token:', error)
+      throw error
+    })
+  return response
 }
 
-export const refreshToken = async ({ refreshToken }) => {
-  const response = await fetch(
+export const refreshToken = async ({ refresh }) => {
+  return await fetch(
     `https://skypro-music-api.skyeng.tech/user/token/refresh/`,
     {
       method: 'POST',
       body: JSON.stringify({
-        refresh: refreshToken,
+        refresh: `${refresh}`,
       }),
       headers: {
         'content-type': 'application/json',
       },
     },
   )
-
-  if (!response.ok) {
-    throw new Error('ошибка сервера')
-  }
-
-  const data = await response.json()
-  return data
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.error('Error refreshing token:', error)
+      throw error
+    })
 }
-// const retryResult = await baseQuery(args, api, extraOptions)
-
-// if (retryResult?.error?.status === 401) {
-//   return Signin()
-// }
-
-export const playlistApi = createApi({
-  reducerPath: 'getFavoritesTracksApi',
-  tagTypes: ['Tracks'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://skypro-music-api.skyeng.tech/catalog/track/',
-  }),
-  endpoints: (builder) => ({
-    getFavoritesTracks: builder.query({
-      query: () => ({
-        url: 'favorite/all/',
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem('token')).access
-          }`,
-        },
-      }),
-
-      providesTags: ['Tracks'],
-
-      transformResponse: (response) => {
-        const transformedResponse = response.map((item) => ({
-          ...item,
-          stared_user: [JSON.parse(localStorage.getItem('user'))],
-        }))
-
-        return transformedResponse
-      },
-    }),
-
-    likeTrackFavorites: builder.mutation({
-      query: ({ id }) => ({
-        url: `${id}/favorite/`,
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem('token')).access
-          }`,
-        },
-      }),
-      invalidatesTags: [{ type: 'Tracks' }],
-    }),
-
-    dislikeTrackFavorites: builder.mutation({
-      query: ({ id }) => ({
-        url: `${id}/favorite/`,
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem('token')).access
-          }`,
-        },
-      }),
-      invalidatesTags: [{ type: 'Tracks' }],
-    }),
-  }),
-})
-
-export const {
-  useGetFavoritesTracksQuery,
-  useLikeTrackFavoritesMutation,
-  useDislikeTrackFavoritesMutation,
-} = playlistApi
+export const tokenIsExpired = (token) => {
+  setTimeout(() => {
+    refreshToken(token)
+      .then(() => {
+        console.log('Token refreshed successfully')
+      })
+      .catch((error) => {
+        console.error('Error refreshing token:', error)
+      })
+  }, 200000)
+}
