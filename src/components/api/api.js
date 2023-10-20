@@ -73,20 +73,17 @@ function saveToken(tokenObject) {
   sessionStorage.setItem('refresh', tokenObject.refresh)
 }
 
-export async function getToken({ email, password }) {
-  const response = await fetch(
-    'https://skypro-music-api.skyeng.tech/user/token/',
-    {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-      headers: {
-        'content-type': 'application/json',
-      },
+export function getToken({ email, password }) {
+  return fetch('https://skypro-music-api.skyeng.tech/user/token/', {
+    method: 'POST',
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+    headers: {
+      'content-type': 'application/json',
     },
-  )
+  })
     .then((response) => response.json())
     .then((data) => {
       saveToken(data)
@@ -97,30 +94,49 @@ export async function getToken({ email, password }) {
       console.error('Error fetching token:', error)
       throw error
     })
-  return response
+}
+export async function refreshToken(tokenRefresh) {
+  try {
+    const response = await fetch(
+      'https://skypro-music-api.skyeng.tech/user/token/refresh/',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          refresh: tokenRefresh,
+        }),
+        headers: {
+          'content-type': 'application/json',
+        },
+      },
+    )
+    if (response.status === 400) {
+      throw new Error('Неккоректный запрос')
+    }
+
+    if (response.status === 401) {
+      const errorData = await response.json()
+      let errorMessage = ''
+
+      if (errorData.hasOwnProperty.call('detail')) {
+        errorMessage = errorData.detail
+      }
+
+      throw new Error(errorMessage)
+    }
+
+    if (response.status === 500) {
+      throw new Error('Сервер сломался')
+    }
+
+    const data = await response.json()
+    saveToken(JSON.stringify(data))
+
+    return data
+  } catch (error) {
+    return error
+  }
 }
 
-export const refreshToken = async ({ refresh }) => {
-  return await fetch(
-    `https://skypro-music-api.skyeng.tech/user/token/refresh/`,
-    {
-      method: 'POST',
-      body: JSON.stringify({
-        refresh: `${refresh}`,
-      }),
-      headers: {
-        'content-type': 'application/json',
-      },
-    },
-  )
-    .then((response) => {
-      return response.data
-    })
-    .catch((error) => {
-      console.error('Error refreshing token:', error)
-      throw error
-    })
-}
 export const tokenIsExpired = (token) => {
   setTimeout(() => {
     refreshToken(token)

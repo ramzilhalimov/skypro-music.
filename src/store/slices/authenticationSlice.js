@@ -6,11 +6,11 @@ const initialState = {
   user: '',
 }
 
-export const authenticationSlice = createSlice({
-  name: 'authentication',
+export const authorizationSlice = createSlice({
+  name: 'authorization',
   initialState,
   reducers: {
-    setAuthentication: (state, action) => {
+    setAuthorization: (state, action) => {
       const { access, refresh, user } = action.payload ?? initialState
       state.access = access
       state.refresh = refresh
@@ -19,6 +19,6 @@ export const authenticationSlice = createSlice({
   },
 })
 
-export const { setAuthentication } = authenticationSlice.actions
+export const { setAuthorization } = authorizationSlice.actions
 
-export default authenticationSlice.reducer
+export default authorizationSlice.reducer

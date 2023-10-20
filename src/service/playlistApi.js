@@ -6,13 +6,12 @@ export const playlistApi = createApi({
   tagTypes: ['Tracks'],
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://skypro-music-api.skyeng.tech/',
-    prepareHeaders: (headers, { getState }) => {
-      console.log(getState())
-      const token = getState().authentication?.access
+    prepareHeaders: (Headers, { getState }) => {
+      const token = getState().authorization?.access
       if (token) {
-        headers.set('authorization', `Bearer ${token}`)
+        Headers.set('authorization', `Bearer ${token}`)
       }
-      return headers
+      return Headers
     },
   }),
   endpoints: (builder) => ({

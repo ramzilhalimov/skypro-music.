@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getToken, refreshToken } from '../../components/api/api'
 import { useUserDispatch } from '../../contex'
-import { setAuthentication } from '../../store/slices/authenticationSlice'
+import { setAuthorization } from '../../store/slices/authenticationSlice'
 import { useDispatch } from 'react-redux'
 import { useLoginUserMutation } from '../../service/authApi'
 
@@ -97,7 +97,7 @@ export const Signin = ({ isLoginMode = false }) => {
 
       const token = await getToken({ email, password })
       dispatch(
-        setAuthentication({
+        setAuthorization({
           access: token.access,
           refresh: token.refresh,
           user: user.username,
