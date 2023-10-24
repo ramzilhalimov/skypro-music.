@@ -21,6 +21,18 @@ export const SidebarPersonal = styled.div`
   justify-content: flex-end;
   padding: 12px 0 15px 0;
 `
+export const SidebarList = styled.div`
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+`
 
 export const SidebarPersonalName = styled.p`
   font-style: normal;
@@ -38,5 +50,4 @@ export const SidebarIcon = styled.div`
   border-radius: 50%;
   cursor: pointer;
 `
-
 

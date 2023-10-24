@@ -5,9 +5,9 @@ import * as S from './SideBarStyle'
 import { useUser, useUserDispatch } from '../../contex'
 
 export function SideBar() {
+  const dispatch = useUserDispatch()
   const [loading, setLoading] = useState(false)
   const { username } = useUser()
-  const dispatch = useUserDispatch()
 
   useEffect(() => {
     setLoading(true)
@@ -33,7 +33,7 @@ export function SideBar() {
         </S.SidebarIcon>
       </S.SidebarPersonal>
       {loading && <SkeletonBar />}
-      {!loading && <SideBarBlock />}
+      {!loading && <SideBarBlock loading={loading} />}
     </S.MainSidebar>
   )
 }

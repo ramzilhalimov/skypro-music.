@@ -5,16 +5,21 @@ import * as S from '../../pages/main/AppStyle'
 import { AudioPlayer } from '../../components/AudioPlayer/AudioPlayer'
 import { useDispatch } from 'react-redux'
 import {
+  setCategoryTracks,
   setFavoritesTracks,
   setPlaylist,
 } from '../../store/slices/playlistSlice'
-import { useGetFavoritesTracksQuery } from '../../service/playlistApi'
+import {
+  useGetCatalogSectionQuery,
+  useGetFavoritesTracksQuery,
+} from '../../service/playlistApi'
 import { useEffect, useState } from 'react'
 import { getTracklist } from '../../components/api/api'
 
 export default function PageLayout({ loading, currentTrack }) {
   const dispatch = useDispatch()
   const { data } = useGetFavoritesTracksQuery()
+  const { dataTrack } = useGetCatalogSectionQuery()
   const [tracks, setTracks] = useState([])
 
   useEffect(() => {
@@ -32,6 +37,21 @@ export default function PageLayout({ loading, currentTrack }) {
 
     fetchData()
   }, [data, dispatch])
+
+  useEffect(() => {
+    dispatch(setCategoryTracks(dataTrack))
+    const fetchData = async () => {
+      try {
+        const a = await getTracklist()
+        setTracks(a)
+        dispatch(setPlaylist(a))
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+
+    fetchData()
+  }, [dataTrack, dispatch])
 
   return (
     <S.Wrapper>

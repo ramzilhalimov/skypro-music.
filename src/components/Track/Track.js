@@ -23,16 +23,18 @@ export const Track = (props) => {
 
   useEffect(() => {
     setIsLiked(isLike)
-  }, [currentTrack])
+  }, [isLike])
 
   const handleLike = (id) => {
     setIsLiked(true)
     likeTrack({ id })
+    dispatch(setCurrentTrack({ id }))
   }
 
   const handleDislike = (id) => {
     setIsLiked(false)
     dislikeTrack({ id })
+    dispatch(setCurrentTrack({ id }))
   }
 
   const toogleLikeDislike = (id) => {

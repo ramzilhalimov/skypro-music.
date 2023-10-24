@@ -9,12 +9,7 @@ import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { useUser } from './contex'
 import PageLayout from './pages/PageLayot/PageLayout'
 
-export const AppRoutes = ({
-  tracks,
-  currentTrack,
-  loading,
-  addTracksError,
-}) => {
+export const AppRoutes = ({ tracks, currentTrack, loading }) => {
   const name = useUser()
 
   return (
@@ -29,7 +24,6 @@ export const AppRoutes = ({
             <PageLayout
               tracks={tracks}
               loading={loading}
-              addTracksError={addTracksError}
               currentTrack={currentTrack}
             />
           }
@@ -40,13 +34,12 @@ export const AppRoutes = ({
               <MainPage
                 tracks={tracks}
                 loading={loading}
-                addTracksError={addTracksError}
                 currentTrack={currentTrack}
               />
             }
           />
-          <Route path="favorite" element={<Favorite tracks={tracks} />} />
-          <Route path="category/:id" element={<Category />} />
+          <Route path="/favorite" element={<Favorite tracks={tracks} />} />
+          <Route path="/catalog/selection/:id" element={<Category />} />
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />

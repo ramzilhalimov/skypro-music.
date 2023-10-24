@@ -1,6 +1,32 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
+const activeMixin = css`
+  border-color: #ad61ff;
+  color: #ad61ff;
+  cursor: pointer;
+`
 export const CenterblockFilter = styled.div`
+  // display: -webkit-box;
+  // display: -ms-flexbox;
+  // display: flex;
+  // -webkit-box-orient: horizontal;
+  // -webkit-box-direction: normal;
+  // -ms-flex-direction: row;
+  // flex-direction: row;
+  // -webkit-box-align: center;
+  // -ms-flex-align: center;
+  // align-items: center;
+  // margin-bottom: 51px;
+  // overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 51px;
+  margin-right: 610px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`
+export const Filter = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -11,8 +37,6 @@ export const CenterblockFilter = styled.div`
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-bottom: 51px;
-  overflow: hidden;
 `
 
 export const FilterTitle = styled.div`
@@ -31,6 +55,13 @@ export const FilterButton = styled.div`
   border: 1px solid #ffffff;
   border-radius: 60px;
   padding: 6px 20px;
+  ${(props) => (props.$active === 'active' ? activeMixin : '')}
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+`
+export const FilterWrapper = styled.div`
+  position: relative;
   &:not(:last-child) {
     margin-right: 10px;
   }
@@ -140,6 +171,19 @@ export const FilterItem = styled.li`
   }
 `
 
+export const FilterButtonActive = styled.span`
+  position: absolute;
+  width: 26px;
+  height: 25.5px;
+  background-color: #b672ff;
+  bottom: 21.5px;
+  right: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
 export const FilterSelector = styled.div`
   position: absolute;
   width: 248px;
@@ -149,4 +193,12 @@ export const FilterSelector = styled.div`
   padding: 34px;
   background-color: rgb(49, 49, 49);
   ${(props) => (props.$right ? 'right:0' : 'left:0;')}
+`
+export const SortYear = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  @media (max-width: 800px) {
+    margin-top: 10px;
+  }
 `

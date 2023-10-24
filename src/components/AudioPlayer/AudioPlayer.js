@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  useDislikeTrackFavoritesMutation,
+  useLikeTrackFavoritesMutation,
+} from '../../service/playlistApi'
+import {
   setCurrentTrack,
   setPlayTrack,
   setShuffleTracks,
@@ -12,13 +16,20 @@ import * as S from './AudioPlayerStyle'
 export const AudioPlayer = ({ loading }) => {
   const dispatch = useDispatch()
   const audioRef = useRef(null)
-
-  // const [isPlaying, setIsPlaying] = useState(true)
+  const [likeTrack] = useLikeTrackFavoritesMutation()
+  const [dislikeTrack] = useDislikeTrackFavoritesMutation()
   const [shuffle, setShuffle] = useState(false)
   const playlist = useSelector((state) => state.playlistSlice.playlist)
   const currentTrack = useSelector((state) => state.playlistSlice.track)
   const isShuffle = useSelector((state) => state.playlistSlice.shufflePlaylist)
   const isPlaying = useSelector((state) => state.playlistSlice.isPlaying)
+  const dataFavoritesTracks = useSelector(
+    (state) => state.playlistSlice.favoritesTracks,
+  )
+  const isUserLike = Boolean(
+    dataFavoritesTracks?.find(({ id }) => id === currentTrack.id),
+  )
+  const [isLiked, setIsLiked] = useState(false)
 
   const togglePlay = () => {
     if (!isPlaying) {
@@ -116,7 +127,23 @@ export const AudioPlayer = ({ loading }) => {
       dispatch(setPlayTrack(!isPlaying))
     }
   }
+  useEffect(() => {
+    setIsLiked(isUserLike)
+  }, [currentTrack])
 
+  const handleLike = (id) => {
+    setIsLiked(true)
+    likeTrack({ id })
+  }
+
+  const handleDislike = (id) => {
+    setIsLiked(false)
+    dislikeTrack({ id })
+  }
+
+  const toogleLikeDislike = (id) => {
+    isLiked ? handleDislike(id) : handleLike(id)
+  }
   return (
     <S.Bar>
       <S.BarContent>
@@ -236,15 +263,22 @@ export const AudioPlayer = ({ loading }) => {
 
               <S.TrackPlayLikeDis>
                 <S.TrackPlayLike className="Track-play__like _btn-icon">
-                  <S.TrackPlayLikeSvg alt="like">
-                    <use xlinkHref="img/icon/sprite.svg#icon-like"></use>
+                  <S.TrackPlayLikeSvg
+                    onClick={() => toogleLikeDislike(currentTrack.id)}
+                    $width={'14px'}
+                    $height={'12px'}
+                    alt="like"
+                  >
+                    {isLiked ? (
+                      <use
+                        xlinkHref="/img/icon/sprite.svg#icon-like"
+                        fill="#ad61ff"
+                      ></use>
+                    ) : (
+                      <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
+                    )}
                   </S.TrackPlayLikeSvg>
                 </S.TrackPlayLike>
-                {/* <S.TrackPlayDislike className="Track-play__dislike _btn-icon">
-                  <S.TrackPlayDislikeSvg alt="dislike">
-                    <use xlinkHref="img/icon/sprite.svg#icon-dislike"></use>
-                  </S.TrackPlayDislikeSvg>
-                </S.TrackPlayDislike> */}
               </S.TrackPlayLikeDis>
             </S.PlayerTrackPlay>
           </S.BarPlayer>
