@@ -5,20 +5,22 @@ import { useEffect, useState } from 'react'
 import {
   useDislikeTrackFavoritesMutation,
   useLikeTrackFavoritesMutation,
-} from '../api/api'
+} from '../../service/playlistApi'
 
 export const Track = (props) => {
   const dispatch = useDispatch()
+  const isPlaying = useSelector((state) => state.playlistSlice.isPlaying)
+  const currentTrack = useSelector((state) => state.playlistSlice.track)
   const [likeTrack] = useLikeTrackFavoritesMutation()
   const [dislikeTrack] = useDislikeTrackFavoritesMutation()
-  const isPlaying = useSelector((state) => state.isPlaying)
-  const currentTrack = useSelector((state) => state.track)
-  const authUser = JSON.parse(sessionStorage.getItem('user'))
-
+  const dataFavoritesTracks = useSelector(
+    (state) => state.playlistSlice.favoritesTracks,
+  )
   const isLike = Boolean(
-    currentTrack?.stared_user.find(({ id }) => id === authUser.id),
+    dataFavoritesTracks?.find(({ id }) => id === props.track.id),
   )
   const [isLiked, setIsLiked] = useState(false)
+
   useEffect(() => {
     setIsLiked(isLike)
   }, [currentTrack])
@@ -26,14 +28,13 @@ export const Track = (props) => {
   const handleLike = (id) => {
     setIsLiked(true)
     likeTrack({ id })
-    dispatch(setCurrentTrack({ id }))
   }
 
   const handleDislike = (id) => {
     setIsLiked(false)
     dislikeTrack({ id })
-    dispatch(setCurrentTrack({ id }))
   }
+
   const toogleLikeDislike = (id) => {
     isLiked ? handleDislike(id) : handleLike(id)
   }

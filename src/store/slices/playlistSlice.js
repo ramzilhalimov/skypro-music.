@@ -5,6 +5,7 @@ const initialState = {
   track: null,
   isPlaying: false,
   shufflePlaylist: [],
+  favoritesTracks: [],
 }
 
 export const playlistSlice = createSlice({
@@ -21,13 +22,20 @@ export const playlistSlice = createSlice({
       const id = action.payload
       const current = state.playlist.find((track) => track.id === id)
       state.track = current
-      state.track = action.payload
     },
     setShuffleTracks: (state, action) => {
       state.shufflePlaylist = action.payload
     },
+    setFavoritesTracks: (state, action) => {
+      state.favoritesTracks = action.payload
+    },
   },
 })
-export const { setPlaylist, setPlayTrack, setCurrentTrack, setShuffleTracks } =
-  playlistSlice.actions
+export const {
+  setPlaylist,
+  setPlayTrack,
+  setCurrentTrack,
+  setShuffleTracks,
+  setFavoritesTracks,
+} = playlistSlice.actions
 export default playlistSlice.reducer

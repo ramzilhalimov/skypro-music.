@@ -1,27 +1,29 @@
-import { useGetFavoritesTracksQuery } from '../../components/api/api'
-import { AudioPlayer } from '../../components/AudioPlayer/AudioPlayer'
-import { Filter } from '../../components/Filter/Filter'
+import { useState } from 'react'
+
 import { NavMenu } from '../../components/NavMenu/NavMenu'
 import { Search } from '../../components/Search/Search'
-import { SideBar } from '../../components/SideBar/SideBar'
-import SkeletonTrack from '../../components/SkeletonBar/SkeletonTrack'
+
 import { TrackList } from '../../components/TrackList/TrackList'
-// import SkeletonTrack from '../../components/SkeletonBar/SkeletonTrack'
-// import { TrackList } from '../../components/TrackList/TrackList'
-import * as S from '../../pages/main/AppStyle'
+import * as S from '../../pages/favorites/favoritesStyle'
+import { useGetFavoritesTracksQuery } from '../../service/playlistApi'
 
-export const Favorite = ({ loading, currentTrack, tracks, addTracksError }) => {
-  const { data } = useGetFavoritesTracksQuery()
+export const Favorite = () => {
+  const [searchValue, setSearchValue] = useState('')
 
-  console.log(data)
+  const { data, isLoading, error } = useGetFavoritesTracksQuery()
+
+  const searchMusic = (searchValue, list) =>
+    list.filter(({ name }) =>
+      name.toLowerCase().includes(searchValue.toLowerCase()),
+    )
+
   return (
     <>
       <S.Main>
         <NavMenu />
         <S.MainCenterblock>
-          <Search />
+          <Search setSearchValue={setSearchValue} />
           <S.CenterblockH2> Мои треки</S.CenterblockH2>
-          <Filter />
           <S.CenterblockContent>
             <S.ContentTitle>
               <S.PlaylistTitleCol01>Трек</S.PlaylistTitleCol01>
@@ -33,18 +35,24 @@ export const Favorite = ({ loading, currentTrack, tracks, addTracksError }) => {
                 </S.PlaylistTitleSvg>
               </S.PlaylistTitleCol04>
             </S.ContentTitle>
-            {loading && <SkeletonTrack />}
-            {!loading && (
-              <TrackList
-                tracks={tracks}
-                currentTrack={currentTrack}
-                addTracksError={addTracksError}
-              />
+            {error ? (
+              <h2>Не удалось загрузить мои треки</h2>
+            ) : (
+              <>
+                {searchValue && searchMusic(searchValue, data).length === 0 ? (
+                  <h2>Ничего не найдено</h2>
+                ) : (
+                  <TrackList
+                    data={data}
+                    loading={isLoading}
+                    tracks={searchValue ? searchMusic(searchValue, data) : data}
+                  />
+                )}
+              </>
             )}
           </S.CenterblockContent>
         </S.MainCenterblock>
-        <SideBar />
-        {currentTrack ? <AudioPlayer loading={loading} /> : null}
+        <S.MainSidebar></S.MainSidebar>
       </S.Main>
     </>
   )

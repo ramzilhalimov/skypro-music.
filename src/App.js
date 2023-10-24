@@ -11,7 +11,7 @@ import { setPlaylist } from './store/slices/playlistSlice'
 
 function App() {
   const dispatchStore = useDispatch()
-  const currentTrack = useSelector((state) => state.track)
+  const currentTrack = useSelector((state) => state.playlistSlice.track)
   const [loading, setLoading] = useState(true)
   const [tracks, setTracks] = useState([])
   const [addTracksError, setAddTracksError] = useState(null)
@@ -32,11 +32,12 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
-  const userState = {
-    userName: JSON.parse(localStorage.getItem('user')) || '',
+  function getInitialState() {
+    const user = JSON.parse(localStorage.getItem('user')) || ''
+    return { user }
   }
 
-  const [state, dispatch] = useReducer(reducer, userState)
+  const [state, dispatch] = useReducer(reducer, getInitialState)
   return (
     <UserContext.Provider value={state}>
       <UserDispatchContext.Provider value={dispatch}>

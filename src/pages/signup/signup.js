@@ -5,6 +5,7 @@ import { SignupUser } from '../../components/api/api'
 
 import { useNavigate } from 'react-router-dom'
 import { useUserDispatch } from '../../contex'
+import { useLoginUserMutation } from '../../service/authApi'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -59,6 +60,7 @@ export const Signup = ({ isLoginMode = false }) => {
   const [password, setPassword] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
   const [isNewUserLoading, setIsNewUserLoading] = useState(false)
+  const [{ isLoading }] = useLoginUserMutation()
 
   const dispatch = useUserDispatch()
   const navigate = useNavigate()
@@ -85,16 +87,12 @@ export const Signup = ({ isLoginMode = false }) => {
     e.preventDefault()
     const isValidForm = await isValidateFormSignup()
     if (isValidForm) {
-      try {
-        setIsNewUserLoading(true)
-        const user = await SignupUser({ email, password, username })
-        setIsNewUserLoading(false)
-        dispatch({ type: 'setUser', payload: user.username })
-        localStorage.setItem('user', JSON.stringify(user))
-        navigate('/')
-      } catch (error) {
-        isValidateFormSignup()
-      }
+      setIsNewUserLoading(true)
+      const user = await SignupUser({ email, password, username })
+      setIsNewUserLoading(false)
+      dispatch({ type: 'setUser', payload: user.username })
+      localStorage.setItem('user', JSON.stringify(user))
+      navigate('/')
     } else {
       isValidateFormSignup()
     }
@@ -160,7 +158,9 @@ export const Signup = ({ isLoginMode = false }) => {
                 disabled={isNewUserLoading}
                 onClick={handleRegister}
               >
-                Зарегистрироваться
+                {isLoading
+                  ? 'Осуществляется регистрация'
+                  : 'Зарегистрироваться'}
               </S.ModalBtnSignupEntA>
             </S.ModalBtnSignupEnt>
           </S.ModalFormLogin>
