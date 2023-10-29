@@ -98,6 +98,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   }
 
   const { authentication } = api.getState()
+console.log(authentication)
   if (!authentication.refresh) {
     return forceLogout()
   }

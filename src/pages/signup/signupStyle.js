@@ -115,7 +115,7 @@ export const ModalBtnSignupEnt = styled.button`
 `
 export const ModalBtnSignupEntA = styled.a`
   width: 100%;
-  height: 100%;
+  height: 44px;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;

@@ -18,19 +18,19 @@ export function SideBarBlock() {
     {
       id: 1,
       path: '/catalog/selection',
-      imgUrl: '/img/playlist01.png',
+      imgUrl: '../img/playlist01.png',
       name: 'Классическая музыка',
     },
     {
       id: 2,
       path: '/catalog/selection',
-      imgUrl: '/img/playlist02.png',
+      imgUrl: '../img/playlist02.png',
       name: 'Электронная музыка',
     },
     {
       id: 3,
       path: '/catalog/selection',
-      imgUrl: '/img/playlist03.png',
+      imgUrl: '../img/playlist03.png',
       name: 'Рок',
     },
   ]

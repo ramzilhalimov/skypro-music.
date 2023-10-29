@@ -8,9 +8,9 @@ import { NavMenu } from '../../components/NavMenu/NavMenu'
 import { Filter } from '../../components/Filter/Filter'
 import * as S from '../../pages/main/AppStyle'
 import { useGetAllTracksQuery } from '../../service/playlistApi'
-import { setPlaylist } from '../../store/slices/playlistSlice'
+// import { setPlaylist } from '../../store/slices/playlistSlice'
 import { compare, createArrayOfAuthors } from '../../components/utils/utils'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 export const GlobalStyle = createGlobalStyle`
 * {
   margin: 0;
@@ -92,7 +92,7 @@ body {
 `
 
 function MainPage({ loading, currentTrack }) {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const [searchValue, setSearchValue] = useState('')
   const [tracks, setTracks] = useState([])
   const [defaultPlaylist, setDefaultPlaylist] = useState([])
@@ -103,6 +103,7 @@ function MainPage({ loading, currentTrack }) {
     { id: 2, isActive: false },
     { id: 3, isActive: false },
   ])
+
   const [filterAuthor, setFilterAuthor] = useState([])
   const { data, isLoading, error } = useGetAllTracksQuery()
 
@@ -111,7 +112,7 @@ function MainPage({ loading, currentTrack }) {
       setTracks(data)
       setDefaultPlaylist(data)
       setFilterAuthor(createArrayOfAuthors(data))
-      dispatch(setPlaylist(data))
+      // dispatch(setPlaylist(data))
     }
   }, [data, isLoading, error])
 
@@ -141,7 +142,7 @@ function MainPage({ loading, currentTrack }) {
     }
 
     setTracks(newPlaylist)
-    dispatch(setPlaylist(newPlaylist))
+    // dispatch(setPlaylist(newPlaylist))
   }, [activeSortYear, activeFilterGenre, filterAuthor])
 
   const searchMusic = (searchValue, list) =>

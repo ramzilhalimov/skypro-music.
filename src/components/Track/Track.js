@@ -1,6 +1,6 @@
 import * as S from './TrackStyle'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentTrack } from '../../store/slices/playlistSlice'
+import { setCurrentTrack, setPlaylist } from '../../store/slices/playlistSlice'
 import { useEffect, useState } from 'react'
 import {
   useDislikeTrackFavoritesMutation,
@@ -28,13 +28,11 @@ export const Track = (props) => {
   const handleLike = (id) => {
     setIsLiked(true)
     likeTrack({ id })
-    dispatch(setCurrentTrack({ id }))
   }
 
   const handleDislike = (id) => {
     setIsLiked(false)
     dislikeTrack({ id })
-    dispatch(setCurrentTrack({ id }))
   }
 
   const toogleLikeDislike = (id) => {
@@ -52,6 +50,7 @@ export const Track = (props) => {
 
   const turnOnTrack = (id) => {
     dispatch(setCurrentTrack(id))
+    dispatch(setPlaylist(props.tracks))
   }
 
   return (

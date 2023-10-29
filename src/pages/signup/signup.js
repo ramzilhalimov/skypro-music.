@@ -59,7 +59,7 @@ export const Signup = ({ isLoginMode = false }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
-  const [isNewUserLoading, setIsNewUserLoading] = useState(false)
+
   const [{ isLoading }] = useLoginUserMutation()
 
   const dispatch = useUserDispatch()
@@ -74,25 +74,24 @@ export const Signup = ({ isLoginMode = false }) => {
       setError('Пароли не совпадают')
       return false
     }
-    try {
-      await SignupUser({ email, password })
-      return true
-    } catch (error) {
-      setError('Пользователь с таким именем уже существует')
-      return false
-    }
+    return true
+    // try {
+    //   await SignupUser({ email, password, username })
+    //   return true
+    // } catch (error) {
+    //   setError('Пользователь с таким именем уже существует')
+    //   return false
+    // }
   }
 
   const handleRegister = async (e) => {
+    console.log(email, password, username)
     e.preventDefault()
     const isValidForm = await isValidateFormSignup()
     if (isValidForm) {
-      setIsNewUserLoading(true)
       const user = await SignupUser({ email, password, username })
-      setIsNewUserLoading(false)
       dispatch({ type: 'setUser', payload: user.username })
-      localStorage.setItem('user', JSON.stringify(user))
-      navigate('/')
+      navigate('/signin')
     } else {
       isValidateFormSignup()
     }
@@ -154,10 +153,7 @@ export const Signup = ({ isLoginMode = false }) => {
             />
             {error && <S.Error>{error}</S.Error>}
             <S.ModalBtnSignupEnt className="modal__btn-signup-ent">
-              <S.ModalBtnSignupEntA
-                disabled={isNewUserLoading}
-                onClick={handleRegister}
-              >
+              <S.ModalBtnSignupEntA onClick={handleRegister}>
                 {isLoading
                   ? 'Осуществляется регистрация'
                   : 'Зарегистрироваться'}

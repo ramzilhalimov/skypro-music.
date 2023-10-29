@@ -21,6 +21,7 @@ export async function getTrackById(id) {
   const track = await response.json()
   return track
 }
+
 export async function SignupUser({ email, password, username }) {
   const response = await fetch(
     'https://skypro-music-api.skyeng.tech/user/signup/',
@@ -95,6 +96,7 @@ export function getToken({ email, password }) {
       throw error
     })
 }
+
 export async function refreshToken(tokenRefresh) {
   try {
     const response = await fetch(
@@ -129,7 +131,8 @@ export async function refreshToken(tokenRefresh) {
     }
 
     const data = await response.json()
-    saveToken(JSON.stringify(data))
+
+    sessionStorage.setItem('access', data.access)
 
     return data
   } catch (error) {

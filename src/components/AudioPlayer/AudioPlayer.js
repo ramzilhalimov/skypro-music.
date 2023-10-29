@@ -170,31 +170,31 @@ export const AudioPlayer = ({ loading }) => {
             <S.PlayerControls>
               <S.PlayerBtnPrev onClick={handlePrev}>
                 <S.PlayerBtnPrevSvg alt="prev">
-                  <use xlinkHref="img/icon/sprite.svg#icon-prev"></use>
+                  <use xlinkHref="../img/icon/sprite.svg#icon-prev"></use>
                 </S.PlayerBtnPrevSvg>
               </S.PlayerBtnPrev>
 
               <S.PlayerBtnPlay onClick={togglePlay}>
                 <S.PlayerBtnPlaySvg alt="play">
                   {isPlaying ? (
-                    <use xlinkHref="img/icon/sprite.svg#icon-pause" />
+                    <use xlinkHref="../../img/icon/sprite.svg#icon-pause" />
                   ) : (
-                    <use xlinkHref="img/icon/sprite.svg#icon-play"></use>
+                    <use xlinkHref="../../img/icon/sprite.svg#icon-play"></use>
                   )}
                 </S.PlayerBtnPlaySvg>
               </S.PlayerBtnPlay>
 
               <S.PlayerBtnNext onClick={handleNext}>
                 <S.PlayerBtnNextSvg alt="next">
-                  <use xlinkHref="img/icon/sprite.svg#icon-next"></use>
+                  <use xlinkHref="../img/icon/sprite.svg#icon-next"></use>
                 </S.PlayerBtnNextSvg>
               </S.PlayerBtnNext>
               <S.PlayerBtnRepeat onClick={toggleLoop} className=" _btn-icon">
                 <S.PlayerBtnRepeatSvg alt="repeat">
                   {loop ? (
-                    <use xlinkHref="img/icon/sprite.svg#icon-tworepeat"></use>
+                    <use xlinkHref="../img/icon/sprite.svg#icon-tworepeat"></use>
                   ) : (
-                    <use xlinkHref="img/icon/sprite.svg#icon-repeat"></use>
+                    <use xlinkHref="../img/icon/sprite.svg#icon-repeat"></use>
                   )}
                 </S.PlayerBtnRepeatSvg>
               </S.PlayerBtnRepeat>
@@ -204,9 +204,9 @@ export const AudioPlayer = ({ loading }) => {
               >
                 <S.PlayerBtnShuffleSvg alt="shuffle">
                   {shuffle ? (
-                    <use xlinkHref="img/icon/sprite.svg#icon-twoshuffle"></use>
+                    <use xlinkHref="../img/icon/sprite.svg#icon-twoshuffle"></use>
                   ) : (
-                    <use xlinkHref="img/icon/sprite.svg#icon-shuffle"></use>
+                    <use xlinkHref="../img/icon/sprite.svg#icon-shuffle"></use>
                   )}
                 </S.PlayerBtnShuffleSvg>
               </S.PlayerBtnShuffle>
@@ -217,7 +217,7 @@ export const AudioPlayer = ({ loading }) => {
                 <S.TrackPlayContain>
                   <S.TrackPlayImage>
                     <S.TrackPlaySvg alt="music">
-                      <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
+                      <use xlinkHref="../img/icon/sprite.svg#icon-note"></use>
                     </S.TrackPlaySvg>
                   </S.TrackPlayImage>
                   <S.TrackPlayAuthor className="skeleton-style">
@@ -243,7 +243,7 @@ export const AudioPlayer = ({ loading }) => {
                   ></audio>
                   <S.TrackPlayImage>
                     <S.TrackPlaySvg alt="music">
-                      <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
+                      <use xlinkHref="../img/icon/sprite.svg#icon-note"></use>
                     </S.TrackPlaySvg>
                   </S.TrackPlayImage>
 
@@ -271,11 +271,11 @@ export const AudioPlayer = ({ loading }) => {
                   >
                     {isLiked ? (
                       <use
-                        xlinkHref="/img/icon/sprite.svg#icon-like"
+                        xlinkHref="../img/icon/sprite.svg#icon-like"
                         fill="#ad61ff"
                       ></use>
                     ) : (
-                      <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
+                      <use xlinkHref="../img/icon/sprite.svg#icon-like"></use>
                     )}
                   </S.TrackPlayLikeSvg>
                 </S.TrackPlayLike>
@@ -286,7 +286,7 @@ export const AudioPlayer = ({ loading }) => {
             <S.VolumeContent>
               <S.VolumeImage>
                 <S.VolumeSvg alt="volume">
-                  <use xlinkHref="img/icon/sprite.svg#icon-volume"></use>
+                  <use xlinkHref="../img/icon/sprite.svg#icon-volume"></use>
                 </S.VolumeSvg>
               </S.VolumeImage>
               <S.VolumeProgress className="Volume__progress _btn">
