@@ -66,12 +66,29 @@ export const Signup = ({ isLoginMode = false }) => {
   const navigate = useNavigate()
 
   const isValidateFormSignup = async () => {
+    const recExp = /^(?=.*[a-zA-Z])(?=.*\d).+/
     if (email === '' || password === '') {
       setError('Укажите почту/пароль')
       return false
     }
+    if (email.length < 5) {
+      setError('Слишком короткая почта или имя')
+      return false
+    }
     if (password != repeatPassword) {
       setError('Пароли не совпадают')
+      return false
+    }
+    if (password.length < 8 || repeatPassword.length < 8) {
+      setError('Пароль должен содержать более 4 символов')
+      return false
+    }
+    if (password.includes('123456')) {
+      setError('Пароль слишком распространен')
+      return false
+    }
+    if (!recExp.test(password)) {
+      setError('Пароль должен состоять не только из цифр')
       return false
     }
     return true

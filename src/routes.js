@@ -6,11 +6,11 @@ import { NotFound } from './pages/not-found/NotFound'
 import { Signin } from './pages/signin/signin'
 import { Signup } from './pages/signup/signup'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
-import { useUser } from './contex'
+// import { useUser } from './contex'
 import PageLayout from './pages/PageLayot/PageLayout'
 
 export const AppRoutes = ({ tracks, currentTrack, loading }) => {
-  const name = useUser()
+  const name = JSON.parse(localStorage.getItem('user'))
 
   return (
     <Routes>

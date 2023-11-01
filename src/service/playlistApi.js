@@ -97,8 +97,9 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     window.location.href = '/login'
   }
 
-  const { authentication } = api.getState()
-console.log(authentication)
+  const authentication =
+    api.getState().authentication ?? sessionStorage.getItem('refresh')
+  console.log(authentication)
   if (!authentication.refresh) {
     return forceLogout()
   }
@@ -109,7 +110,7 @@ console.log(authentication)
       url: '/user/token/refresh/',
       method: 'POST',
       body: {
-        refresh: authentication.refresh,
+        refresh: sessionStorage.getItem('refresh'),
       },
     },
     api,
@@ -133,6 +134,10 @@ console.log(authentication)
 
   return retryResult
 }
+const getToken = () => {
+  const token = sessionStorage.getItem('access')
+  return `Bearer ${token}`
+}
 
 export const playlistApi = createApi({
   reducerPath: 'tracksListApi',
@@ -149,18 +154,18 @@ export const playlistApi = createApi({
     }),
 
     getCatalogSection: builder.query({
-      query: (token) => ({
+      query: () => ({
         url: '/catalog/selection/',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: getToken(),
         },
       }),
     }),
     getCatalogSectionTracks: builder.query({
-      query: (id, token) => ({
+      query: (id) => ({
         url: `/catalog/selection/${id}`,
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: getToken(),
         },
       }),
       providesTags: (result = []) => [
@@ -172,10 +177,10 @@ export const playlistApi = createApi({
     }),
 
     getFavoritesTracks: builder.query({
-      query: (token) => ({
+      query: () => ({
         url: '/catalog/track/favorite/all/',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: getToken(),
         },
       }),
       providesTags: (result = []) => [
@@ -193,13 +198,13 @@ export const playlistApi = createApi({
     }),
 
     likeTrackFavorites: builder.mutation({
-      query(data, token) {
+      query(data) {
         const { id } = data
         return {
           url: `/catalog/track/${id}/favorite/`,
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: getToken(),
           },
         }
       },
@@ -207,13 +212,13 @@ export const playlistApi = createApi({
     }),
 
     dislikeTrackFavorites: builder.mutation({
-      query(data, token) {
+      query(data) {
         const { id } = data
         return {
           url: `/catalog/track/${id}/favorite/`,
           method: 'DELETE',
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: getToken(),
           },
         }
       },

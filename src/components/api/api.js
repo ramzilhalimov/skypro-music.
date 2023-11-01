@@ -23,7 +23,7 @@ export async function getTrackById(id) {
 }
 
 export async function SignupUser({ email, password, username }) {
-  try {
+  // try {
     const response = await fetch(
       'https://skypro-music-api.skyeng.tech/user/signup/',
       {
@@ -38,33 +38,33 @@ export async function SignupUser({ email, password, username }) {
         }),
       },
     )
-    if (response.status === 500) {
-      throw new Error('Сервер сломался')
-    }
+  //   if (response.status === 500) {
+  //     throw new Error('Сервер сломался')
+  //   }
 
-    if (response.status === 400) {
-      const errorData = await response.json()
-      let errorMessage = ''
+  //   if (response.status === 400) {
+  //     const errorData = await response.json()
+  //     let errorMessage = ''
 
-      if (errorData.hasOwnProperty.call('username')) {
-        errorMessage = errorData.username[0]
-      } else if (errorData.hasOwnProperty.call('email')) {
-        errorMessage = errorData.email[0]
-      } else if (errorData.hasOwnProperty.call('password')) {
-        errorMessage = errorData.password[0]
-      }
+  //     if (errorData.hasOwnProperty.call('username')) {
+  //       errorMessage = errorData.username[0]
+  //     } else if (errorData.hasOwnProperty.call('email')) {
+  //       errorMessage = errorData.email[0]
+  //     } else if (errorData.hasOwnProperty.call('password')) {
+  //       errorMessage = errorData.password[0]
+  //     }
 
-      throw new Error(errorMessage)
-    }
+  //     throw new Error(errorMessage)
+  //   }
 
-    const data = await response.json()
+  //   const data = await response.json()
 
-    return data
-  } catch (error) {
-    return error
-  }
-  // const user = await response.json()
-  // return user
+  //   return data
+  // } catch (error) {
+  //   return error
+  // }
+  const user = await response.json()
+  return user
 }
 
 export async function LoginUser({ email, password }) {
