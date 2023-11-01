@@ -92,13 +92,6 @@ export const Signup = ({ isLoginMode = false }) => {
       return false
     }
     return true
-    // try {
-    //   await SignupUser({ email, password, username })
-    //   return true
-    // } catch (error) {
-    //   setError('Пользователь с таким именем уже существует')
-    //   return false
-    // }
   }
 
   const handleRegister = async (e) => {
