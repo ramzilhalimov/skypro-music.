@@ -34,7 +34,7 @@ export const ModalFormLogin = styled.form`
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 43px 44px 47px 40px;
+  padding: 10px 44px 47px 40px;
 `
 
 export const ModalLogo = styled.div`
@@ -137,6 +137,6 @@ export const Error = styled.div`
   font-weight: 400;
   font-size: 18px;
   line-height: 24px;
-  margin-top: 20px;
+  margin-top: -35px;
   text-align: left;
 `

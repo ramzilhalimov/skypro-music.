@@ -7,12 +7,11 @@ import { GlobalStyle } from './pages/main/ MainPage'
 import { AppRoutes } from './routes'
 import * as S from './pages/main/AppStyle'
 
+function getInitialState() {
+  const user = JSON.parse(localStorage.getItem('user')) || ''
+  return { user }
+}
 function App() {
-  function getInitialState() {
-    const user = JSON.parse(localStorage.getItem('user')) || ''
-    return { user }
-  }
-
   const [state, dispatch] = useReducer(reducer, getInitialState)
   return (
     <UserContext.Provider value={state}>
