@@ -63,7 +63,7 @@ export default function AuthPage({ isLoginMode = false }) {
   const dispatch = useDispatch()
   const userDispatch = useUserDispatch()
   const navigate = useNavigate()
-  const [loginUser, { isLoading }] = useLoginUserMutation()
+  const [LoginUser, { isLoading }] = useLoginUserMutation()
 
   const isValidateForm = async () => {
     const recExp = /^(?=.*[a-zA-Z])(?=.*\d).+/
@@ -95,7 +95,7 @@ export default function AuthPage({ isLoginMode = false }) {
     return true
   }
 
-  const isValidateFormLogin = async () => {
+  const isValidateFormLogin = () => {
     if (email === '' || password === '') {
       setError('Укажите почту/пароль')
       return false
@@ -110,7 +110,7 @@ export default function AuthPage({ isLoginMode = false }) {
   const handleLogin = async () => {
     const isValidLoginForm = await isValidateFormLogin()
     if (isValidLoginForm) {
-      const response = await loginUser({ email, password })
+      const response = await LoginUser({ email, password })
       if (response?.error) {
         setError(response.error?.data?.detail)
         return

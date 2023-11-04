@@ -37,8 +37,11 @@ export async function SignupUser({ email, password, username }) {
       }),
     },
   )
-
-  return await response.json()
+  const jsonData = await response.json
+  if (!response.ok) {
+    throw new Error('Пользователь с таким именем уже существует')
+  }
+  return jsonData
 }
 
 export async function LoginUser({ email, password }) {
