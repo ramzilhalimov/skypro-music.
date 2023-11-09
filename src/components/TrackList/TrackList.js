@@ -6,7 +6,7 @@ export function TrackList({ tracks, addTracksError }) {
     <S.ContentPlaylist>
       <p>{addTracksError}</p>
       {tracks?.map((track) => {
-        return <Track key={track.id} track={track} />
+        return <Track key={track.id} track={track} tracks={tracks} />
       })}
     </S.ContentPlaylist>
   )

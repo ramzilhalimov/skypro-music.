@@ -2,13 +2,12 @@ import { useState, useEffect } from 'react'
 import SkeletonBar from '../SkeletonBar/SkeletonBar'
 import { SideBarBlock } from '../SideBarBlock/SideBarBlock'
 import * as S from './SideBarStyle'
-import { useUser, useUserDispatch } from '../../contex'
+import { useUserDispatch } from '../../contex'
 
 export function SideBar() {
-  const [loading, setLoading] = useState(false)
-  const { username } = useUser()
   const dispatch = useUserDispatch()
-
+  const [loading, setLoading] = useState(false)
+  const name = JSON.parse(localStorage.getItem('user'))
   useEffect(() => {
     setLoading(true)
     const timer = setTimeout(() => {
@@ -25,7 +24,7 @@ export function SideBar() {
   return (
     <S.MainSidebar>
       <S.SidebarPersonal>
-        <S.SidebarPersonalName>{username}</S.SidebarPersonalName>
+        <S.SidebarPersonalName>{name?.username}</S.SidebarPersonalName>
         <S.SidebarIcon onClick={handleLogout}>
           <svg alt="logout">
             <use xlinkHref="img/icon/sprite.svg#logout"></use>
@@ -33,7 +32,7 @@ export function SideBar() {
         </S.SidebarIcon>
       </S.SidebarPersonal>
       {loading && <SkeletonBar />}
-      {!loading && <SideBarBlock />}
+      {!loading && <SideBarBlock loading={loading} />}
     </S.MainSidebar>
   )
 }

@@ -45,3 +45,18 @@ export const SidebarImg = styled.img`
   width: 100%;
   height: auto;
 `
+export const PlaylistsItem = styled.div`
+  width: 250px;
+  height: 150px;
+  &:not(:last-child) {
+    margin-bottom: 30px;
+  }
+`
+export const PlaylistsItemLink = styled.div`
+  width: 100%;
+  height: 100%;
+`
+export const PlaylistsItemImage = styled.img`
+  width: 100%;
+  height: auto;
+`

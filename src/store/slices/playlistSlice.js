@@ -6,6 +6,7 @@ const initialState = {
   isPlaying: false,
   shufflePlaylist: [],
   favoritesTracks: [],
+  categoryTracks: [],
 }
 
 export const playlistSlice = createSlice({
@@ -29,6 +30,9 @@ export const playlistSlice = createSlice({
     setFavoritesTracks: (state, action) => {
       state.favoritesTracks = action.payload
     },
+    setCategoryTracks: (state, action) => {
+      state.categoryTracks = action.payload
+    },
   },
 })
 export const {
@@ -37,5 +41,6 @@ export const {
   setCurrentTrack,
   setShuffleTracks,
   setFavoritesTracks,
+  setCategoryTracks,
 } = playlistSlice.actions
 export default playlistSlice.reducer

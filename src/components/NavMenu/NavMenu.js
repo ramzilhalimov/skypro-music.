@@ -15,7 +15,7 @@ export function NavMenu() {
   return (
     <S.MainNav>
       <S.NavLogo>
-        <S.LogImage src="img/logo.png" alt="logo"></S.LogImage>
+        <S.LogImage src="../../img/logo.png" alt="logo"></S.LogImage>
       </S.NavLogo>
       <S.NavBurger onClick={() => setOpen(!open)}>
         <S.BurgerLine></S.BurgerLine>

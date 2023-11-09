@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TrackList } from '../../components/TrackList/TrackList'
 import { createGlobalStyle } from 'styled-components'
 import SkeletonTrack from '../../components/SkeletonBar/SkeletonTrack'
@@ -7,7 +7,10 @@ import { Search } from '../../components/Search/Search'
 import { NavMenu } from '../../components/NavMenu/NavMenu'
 import { Filter } from '../../components/Filter/Filter'
 import * as S from '../../pages/main/AppStyle'
-
+import { useGetAllTracksQuery } from '../../service/playlistApi'
+// import { setPlaylist } from '../../store/slices/playlistSlice'
+import { compare, createArrayOfAuthors } from '../../components/utils/utils'
+// import { useDispatch } from 'react-redux'
 export const GlobalStyle = createGlobalStyle`
 * {
   margin: 0;
@@ -88,8 +91,59 @@ body {
   }
 `
 
-function MainPage({ tracks, loading, currentTrack, addTracksError }) {
+function MainPage({ loading, currentTrack }) {
+  // const dispatch = useDispatch()
   const [searchValue, setSearchValue] = useState('')
+  const [tracks, setTracks] = useState([])
+  const [defaultPlaylist, setDefaultPlaylist] = useState([])
+  const [activeSortYear, setAciveSortYear] = useState('По умолчанию')
+  const [activeFilterGenre, setAciveFilterGenre] = useState([])
+  const [isActiveFiltersGenre, setIsActiveFiltersGenre] = useState([
+    { id: 1, isActive: false },
+    { id: 2, isActive: false },
+    { id: 3, isActive: false },
+  ])
+
+  const [filterAuthor, setFilterAuthor] = useState([])
+  const { data, isLoading, error } = useGetAllTracksQuery()
+
+  useEffect(() => {
+    if (!isLoading && !error) {
+      setTracks(data)
+      setDefaultPlaylist(data)
+      setFilterAuthor(createArrayOfAuthors(data))
+      // dispatch(setPlaylist(data))
+    }
+  }, [data, isLoading, error])
+
+  useEffect(() => {
+    let newPlaylist = defaultPlaylist.slice(0)
+
+    if (activeSortYear === 'Сначала новые') {
+      newPlaylist = newPlaylist?.sort(compare).slice(0)
+    } else if (activeSortYear === 'Сначала старые') {
+      newPlaylist = newPlaylist?.sort(compare).reverse().slice(0)
+    }
+
+    if (activeFilterGenre.length !== 0) {
+      let resultFilter = []
+      activeFilterGenre.forEach((genre) => resultFilter.push(...genre.items))
+      resultFilter = [...new Set(resultFilter)]
+      newPlaylist = newPlaylist.filter((music) =>
+        resultFilter.find(({ id }) => music.id === id),
+      )
+    }
+
+    const activeFilterAuthorList = filterAuthor.filter((item) => item.isActive)
+    if (activeFilterAuthorList.length !== 0) {
+      newPlaylist = newPlaylist.filter((music) =>
+        activeFilterAuthorList.find(({ author }) => music.author === author),
+      )
+    }
+
+    setTracks(newPlaylist)
+    // dispatch(setPlaylist(newPlaylist))
+  }, [activeSortYear, activeFilterGenre, filterAuthor])
 
   const searchMusic = (searchValue, list) =>
     list.filter(({ name }) =>
@@ -102,7 +156,16 @@ function MainPage({ tracks, loading, currentTrack, addTracksError }) {
         <S.MainCenterblock>
           <Search setSearchValue={setSearchValue} />
           <S.CenterblockH2>Треки</S.CenterblockH2>
-          <Filter />
+          <Filter
+            activeSortYear={activeSortYear}
+            setAciveSortYear={setAciveSortYear}
+            activeFilterGenre={activeFilterGenre}
+            setAciveFilterGenre={setAciveFilterGenre}
+            isActiveFiltersGenre={isActiveFiltersGenre}
+            setIsActiveFiltersGenre={setIsActiveFiltersGenre}
+            filterAuthor={filterAuthor}
+            setFilterAuthor={setFilterAuthor}
+          />
           <S.CenterblockContent>
             <S.ContentTitle>
               <S.PlaylistTitleCol01>Трек</S.PlaylistTitleCol01>
@@ -126,7 +189,6 @@ function MainPage({ tracks, loading, currentTrack, addTracksError }) {
                       searchValue ? searchMusic(searchValue, tracks) : tracks
                     }
                     currentTrack={currentTrack}
-                    addTracksError={addTracksError}
                   />
                 )}
               </>

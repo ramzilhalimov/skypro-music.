@@ -21,6 +21,7 @@ export async function getTrackById(id) {
   const track = await response.json()
   return track
 }
+
 export async function SignupUser({ email, password, username }) {
   const response = await fetch(
     'https://skypro-music-api.skyeng.tech/user/signup/',
@@ -36,9 +37,11 @@ export async function SignupUser({ email, password, username }) {
       }),
     },
   )
-
-  const user = await response.json()
-  return user
+  const jsonData = await response.json
+  if (!response.ok) {
+    throw new Error('Пользователь с таким именем уже существует')
+  }
+  return jsonData
 }
 
 export async function LoginUser({ email, password }) {
@@ -95,6 +98,7 @@ export function getToken({ email, password }) {
       throw error
     })
 }
+
 export async function refreshToken(tokenRefresh) {
   try {
     const response = await fetch(
@@ -129,7 +133,8 @@ export async function refreshToken(tokenRefresh) {
     }
 
     const data = await response.json()
-    saveToken(JSON.stringify(data))
+
+    sessionStorage.setItem('access', data.access)
 
     return data
   } catch (error) {

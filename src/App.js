@@ -1,54 +1,24 @@
 // import { user } from './components/handleLogin'
-import { useEffect, useReducer, useState } from 'react'
+import { useReducer } from 'react'
 
-import { getTracklist } from './components/api/api'
+// import { getTracklist } from './components/api/api'
 import { reducer, UserContext, UserDispatchContext } from './contex'
 import { GlobalStyle } from './pages/main/ MainPage'
 import { AppRoutes } from './routes'
 import * as S from './pages/main/AppStyle'
-import { useDispatch, useSelector } from 'react-redux'
-import { setPlaylist } from './store/slices/playlistSlice'
 
+function getInitialState() {
+  const user = JSON.parse(localStorage.getItem('user')) || ''
+  return { user }
+}
 function App() {
-  const dispatchStore = useDispatch()
-  const currentTrack = useSelector((state) => state.playlistSlice.track)
-  const [loading, setLoading] = useState(true)
-  const [tracks, setTracks] = useState([])
-  const [addTracksError, setAddTracksError] = useState(null)
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false)
-
-      try {
-        getTracklist().then((list) => {
-          setTracks(list)
-          dispatchStore(setPlaylist(list))
-        })
-      } catch (error) {
-        setAddTracksError(error.message)
-      }
-    }, 3000)
-    return () => clearTimeout(timer)
-  }, [])
-
-  function getInitialState() {
-    const user = JSON.parse(localStorage.getItem('user')) || ''
-    return { user }
-  }
-
   const [state, dispatch] = useReducer(reducer, getInitialState)
   return (
     <UserContext.Provider value={state}>
       <UserDispatchContext.Provider value={dispatch}>
         <S.App>
           <GlobalStyle />
-          <AppRoutes
-            tracks={tracks}
-            addTracksError={addTracksError}
-            loading={loading}
-            currentTrack={currentTrack}
-          />
+          <AppRoutes />
         </S.App>
       </UserDispatchContext.Provider>
     </UserContext.Provider>

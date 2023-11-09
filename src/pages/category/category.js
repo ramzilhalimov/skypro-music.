@@ -1,47 +1,62 @@
-import * as S from '../../components/TrackList/TrackListStyle'
-// import { useParams } from 'react-router-dom'
-// import { Tracks } from '../../components/Tracks/Tracks'
-// import { TrackList } from '../../components/TrackList/TrackList'
+import * as S from '../../pages/category/categoryStyle'
+import { TrackList } from '../../components/TrackList/TrackList'
+import { NavMenu } from '../../components/NavMenu/NavMenu'
+import { Search } from '../../components/Search/Search'
+import { useState } from 'react'
+import { useGetCatalogSectionTracksQuery } from '../../service/playlistApi'
+import { useParams } from 'react-router-dom'
 
+export const Category = () => {
+  const { id } = useParams()
+  const [searchValue, setSearchValue] = useState('')
+  const { data, isLoading, error } = useGetCatalogSectionTracksQuery(id)
 
-export const Category = ({tracks}) => {
-  // const params = useParams()
-  // const tracks = Tracks.find((track) => track.id === Number(params.id))
+  const searchMusic = (searchValue, list) =>
+    list.filter(({ name }) =>
+      name.toLowerCase().includes(searchValue.toLowerCase()),
+    )
 
   return (
-    <S.ContentPlaylist>
-      <h1>CategoryOne</h1>
-      {tracks && tracks.map((track) => {
-       <li key={track.id}/> 
-       })}
-    </S.ContentPlaylist>
-    // <S.PlaylistItem>
-    //   <S.PlaylistTrack>
-    //     <S.TrackTitle>
-    //       <S.TrackTitleImage>
-    //         <S.TrackTitleSvg alt="music">
-    //           <use xlinkHref="img/icon/sprite.svg#icon-note"></use>
-    //         </S.TrackTitleSvg>
-    //       </S.TrackTitleImage>
-    //       <S.TrackTitleText>
-    //         <S.TrackTitleLink href="http://">
-    //           {tracks.track} <S.TrackTitleSpan>{tracks.feat}</S.TrackTitleSpan>
-    //         </S.TrackTitleLink>
-    //       </S.TrackTitleText>
-    //     </S.TrackTitle>
-    //     <S.TrackAuthor>
-    //       <S.TrackAuthorLink href="http://">{tracks.author}</S.TrackAuthorLink>
-    //     </S.TrackAuthor>
-    //     <S.TrackAlbum>
-    //       <S.TrackAlbumLink href="http://">{tracks.album}</S.TrackAlbumLink>
-    //     </S.TrackAlbum>
-    //     <S.TrackTime>
-    //       <S.TrackTimeSvg alt="time">
-    //         <use xlinkHref={tracks.like}></use>
-    //       </S.TrackTimeSvg>
-    //       <S.TrackTimeText>{TrackList .time}</S.TrackTimeText>
-    //     </S.TrackTime>
-    //   </S.PlaylistTrack>
-    // </S.PlaylistItem>
+    <>
+      <S.Main>
+        <NavMenu />
+        <S.MainCenterblock>
+          <Search setSearchValue={setSearchValue} />
+          <S.CenterblockH2>{data?.name}</S.CenterblockH2>
+          <S.CenterblockContent>
+            <S.ContentTitle>
+              <S.PlaylistTitleCol01>Трек</S.PlaylistTitleCol01>
+              <S.PlaylistTitleCol02>ИСПОЛНИТЕЛЬ</S.PlaylistTitleCol02>
+              <S.PlaylistTitleCol03>АЛЬБОМ</S.PlaylistTitleCol03>
+              <S.PlaylistTitleCol04>
+                <S.PlaylistTitleSvg alt="time">
+                  <use xlinkHref="../../img/icon/sprite.svg#icon-watch"></use>
+                </S.PlaylistTitleSvg>
+              </S.PlaylistTitleCol04>
+            </S.ContentTitle>
+            {error ? (
+              <h2>Не удалось загрузить мои треки</h2>
+            ) : (
+              <>
+                {searchValue &&
+                searchMusic(searchValue, data?.items).length === 0 ? (
+                  <h2>Ничего не найдено</h2>
+                ) : (
+                  <TrackList
+                    loading={isLoading}
+                    tracks={
+                      searchValue
+                        ? searchMusic(searchValue, data?.items)
+                        : data?.items
+                    }
+                  />
+                )}
+              </>
+            )}
+          </S.CenterblockContent>
+        </S.MainCenterblock>
+        <S.MainSidebar></S.MainSidebar>
+      </S.Main>
+    </>
   )
 }
